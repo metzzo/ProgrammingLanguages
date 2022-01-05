@@ -1,0 +1,28 @@
+function program()
+	var anonym = {
+		Alter = 10,
+		Toll = 100,
+		Wtf = 200,
+		test123 = {
+			methode = function:void()
+				
+			end
+		},
+		EineMethode = function:void(this:self)
+			print "Ich bin in " + this.toString() + " !"
+		end
+	} 
+	
+	var neu = anonym.new()
+	neu.alter = 200
+	neu.einemethode
+	
+	alterAusgeben neu
+	alterAusgaben { alter = 20 }
+	
+end
+
+
+function alterAusgeben:void(obj: automatic) //der datentyp wird automatisch je nach verwendung ausgewählt
+	print "alter: " + obj.alter
+end

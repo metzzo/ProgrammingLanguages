@@ -1,0 +1,24 @@
+local class1 as blubb
+class1->new()
+class1->x=10
+print (class1->x)
+
+class1->update()
+
+
+
+type blubb
+   field x
+   field y
+   field other AS Othertype
+   method update()
+        print("Hallo Welt")
+	self->other->new()
+	print((self->other)->feld)
+   endmethod
+endtype
+
+type othertype
+   field feld
+endtype
+

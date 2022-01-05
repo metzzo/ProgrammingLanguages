@@ -1,0 +1,231 @@
+Lumpy - Automatisch typisierte Sprache, case insensitiv, OOP, Zielplatformen: C, Java und JavaScript
+
+Der Name Lumpy: Lumpy ist oft ein "Nickname" in vielen Filmen. So, soll Lumpy lediglich ein Nickname sein, 
+für die verschiedenen Sprachen als Output.
+
+
+Lum personal you
+
+Typableitung:
+Es gibt zwei Möglichkeiten wie sich der Datentyp automatisch vorhersagen lässt:
+Set:
+	a = 1 + 2 //a ist sicher int, weil 1
+
+	und 2 ints sind
+	b = 2.3 + 1 //Syntax Fehler => 2.3 und 1 sind nicht verwandt
+Get
+	a = b + 3 // durch die 3 weiß man, dass b und a ints sind
+	a = b + 4 + 5.6 // durch b + 4, weiß man, dass b int ist jedoch kommt durch 5.6 ein syntaxfehler
+
+	
+Das "do" am Beginn eines Scopes ist in jedem Fall freiwillig
+
+Klassen:
+Da sich Klassen durch deren Attribute und Methoden definieren, wird anhand dieser der typ bestimmt
+hund.schwanzWedeln() //nur hunde haben diese methode
+katze.laut() //hund und katze haben eine "laut()" methode => fehlermeldung
+katze.laut(3) //nur katzen haben den parameter, wie laut es sein soll => katze
+
+funktionen:
+Hier wird anhand der Parameter entschieden welchen Parameter die Funktion nun hat.
+function a(x,y,z) do end //x,y,z ints
+a(10,20,30)
+
+function a(x,y,z = 2.5)
+
+a(30,40) //x,y int
+
+Syntax:
+
+extern do
+	function print(text:string) = printf //Hier gibt es keine automatische typableitung, da es eine als extern definierte funktion ist
+end
+
+if expression do
+	block
+end 
+elseif expression 
+	block
+end 
+else 
+	block
+end
+select expression do
+	case 0
+		block
+	case 1
+		block
+	default
+		block
+end
+
+loop expression do
+	block
+end
+
+
+loop var i = 0, i<10, i=i+1 do
+	
+end
+//alternativ:
+loop var i = 0 to 10 step 2 do
+	
+end
+
+
+loop var c in "Hallo Welt"
+	//loop in schleife
+end
+
+//alternativ:
+each([10,20,30,40],function:void(value:int)
+	print "hallo: "+string(value)
+end)
+
+//alternativ
+loop i = each([10,20,30,40]) do
+	print "lolo"
+end
+
+//each schaut so aus:
+class Array
+	generator each:int(arr:int[])
+		for var i = 0,i<array.length(arr),i++ do
+			yield return arr[i]
+		end
+		yield break
+	end
+end
+
+
+var meineVariable = 300 //Automatisch als Int
+var meineVariable2:string = "Hallo Welt" //String
+
+
+//solche funktionen können natürlich nicht überladen werden:
+var testFunktion = func(hallo, wallo, kallo:int) //Die Funktionen versuchen falls nicht angegeben den datentyp der parameter selber zu bestimmen, falls nicht möglich => Fehlermeldung
+	hallo = 200 //hallo ist int
+	print "Ich werde ausgegeben"
+end
+
+function test(lol:void(hallo:int, wau:float))
+	lol(10,20)
+end
+
+test(func:void(h:int, w:float) 
+	print "lloooll"
+end)
+
+class<datatype> list
+	private var entry:datatype
+	
+	public function set:void(v:datatype)
+		this.entry = v
+	end
+	
+	public function get:datatype()
+		return this.entry
+	end
+end
+
+var liste = new list<int>
+
+liste.set(100)
+
+var liste = new list
+liste.set(new list) // fehler, datentyp von list nicht eindeutig identifizierbar
+
+
+function test2() do //andere möglichkeit eine funktion zu definieren
+end
+
+function test2(haha:int) do //überladen
+end
+
+function test2(haha:int,haha2:int = 300) do  //überladen + optionale parameter
+end
+
+class klasse
+	function fahren()
+		print "brumm"
+	end
+end
+
+TestKlasse.statischFahren() //ruft die statische methode auf
+
+
+class TestKlasse extends klasse do
+	public var statisch = 300
+	public var statischFahren = function() do
+		
+	end
+	
+	private att1:int
+	private att2 //versucht selber zu bestimmen
+	private att3
+	
+	function new(haha,daaaa) do
+		//Konstruktor
+		att1 = 300
+		att2 = 400
+	end
+	
+	function fahren() do
+		print "ratatatatatata"
+	end
+end
+
+function get(wtf)
+	wtf()
+end
+
+
+//anonyme klassen
+var klasse = {
+	public var xyz
+	
+	public function test123()
+		print "test123"
+	end
+	//hat keinen konstrukor
+	//public function new()
+	//end
+	
+}
+klasse.xyz = 10
+klasse.test123()
+
+function<Datentyp> duckTyping(var:datentyp)
+	var.test123()
+end
+
+
+duckTyping klasse //geht, da klasse test123 implementiert
+duckTyping<int> klasse //geht nicht, da klasse kein int ist, das <int> ist optional
+duckTyping {public function test123() end} //geht auch, da die anonyme klasse test123 implementiert
+duckTyping 10 //geht nicht, da "int" kein test123() implementiert.
+
+
+if 2+3*5-8 do
+	print "1"
+else if 3
+	print "2"
+else
+	print "3"
+end
+select expression
+	expr,expr,... :
+		print "4"
+	expr,expr,... :
+		print "5"
+	default:
+		print "6"
+end
+
+loop expression do 
+	print "7"
+end
+
+var meineVariable = 300 //Automatisch als Int
+var meineVariable2:string = "Hallo Welt" //String
+var:float jallo = 200 //alle variablen bekommen "float"

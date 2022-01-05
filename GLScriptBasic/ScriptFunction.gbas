@@ -1,0 +1,98 @@
+// --------------------------------- //
+// Project: GLScriptBasic
+// Start: Wednesday, May 05, 2010
+// IDE Version: 7.322
+
+//Grafik
+SUB SCRIPT_SHOWSCREEN:
+	SHOWSCREEN
+ENDSUB
+
+SUB SCRIPT_DRAWRECT:
+	LOCAL A,b,C,D,E
+	E=StackPopNumber(CurrentVM)
+	D=StackPopNumber(CurrentVM)
+	C=StackPopNumber(CurrentVM)
+	b=StackPopNumber(CurrentVM)
+	A=StackPopNumber(CurrentVM)
+	DRAWRECT A,b,C,D,E
+ENDSUB
+
+SUB SCRIPT_RGB:
+	LOCAL R,G,b
+	b=StackPopNumber(CurrentVM)
+	G=StackPopNumber(CurrentVM)
+	R=StackPopNumber(CurrentVM)
+	StackPushNumber(CurrentVM,RGB(R,G,b))
+ENDSUB
+
+SUB SCRIPT_PRINT:
+	LOCAL A$,b,C
+	C=StackPopNumber(CurrentVM)
+	b=StackPopNumber(CurrentVM)
+	A$=StackPopString$(CurrentVM)
+	PRINT A$,b,C
+ENDSUB
+
+SUB SCRIPT_KEY:
+	StackPushNumber(CurrentVM,KEY(StackPopNumber(CurrentVM)))
+ENDSUB
+
+SUB SCRIPT_BOXCOLL:
+	LOCAL A,b,C,D,E,F,G,H
+	H=StackPopNumber(CurrentVM)
+	G=StackPopNumber(CurrentVM)
+	F=StackPopNumber(CurrentVM)
+	E=StackPopNumber(CurrentVM)
+	D=StackPopNumber(CurrentVM)
+	C=StackPopNumber(CurrentVM)
+	b=StackPopNumber(CurrentVM)
+	A=StackPopNumber(CurrentVM)
+	StackPushNumber(CurrentVM,BOXCOLL(A,b,C,D,E,F,G,H))
+ENDSUB
+
+//Mathe
+SUB SCRIPT_SIN:
+	StackPushNumber(CurrentVM,SIN(StackPopNumber(CurrentVM)))
+ENDSUB
+
+SUB SCRIPT_COS:
+	StackPushNumber(CurrentVM,COS(StackPopNumber(CurrentVM)))
+ENDSUB
+
+SUB SCRIPT_RND:
+	StackPushNumber(CurrentVM,RND(StackPopNumber(CurrentVM)))
+ENDSUB
+
+//Konsolenanwendung
+SUB SCRIPT_STDOUT:
+	LOCAL Str$
+	Str$=StackPopString$(CurrentVM)
+	STDOUT Str$+"\n"
+ENDSUB
+
+SUB SCRIPT_KEYWAIT:
+	?IFNDEF HTML5
+	KEYWAIT
+	?ENDIF
+ENDSUB
+
+SUB SCRIPT_END:
+	END
+ENDSUB
+
+//Array
+SUB SCRIPT_DIMPUSH:
+	LOCAL Val$=StackPopString$(CurrentVM)
+	LOCAL ID=StackPopNumber(CurrentVM)
+	IF CurrentVM.Var[ID].Typ=0
+		DIMPUSH CurrentVM.Var[ID].Arr[], Val$
+	ELSEIF CurrentVM.Var[ID].Typ=1
+		DIMPUSH CurrentVM.Var[ID].Arr$[], Val$
+	ENDIF
+ENDSUB
+
+//Debug
+SUB SCRIPT_STACKINFO:
+	Debug_OutputStack(CurrentVM)
+ENDSUB

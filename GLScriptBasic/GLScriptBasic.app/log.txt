@@ -1,0 +1,53 @@
+var 0 //___STARTVARIABLE___
+pushnum 
+
+pushnum 
+
+pushnum LOCAL
+pushnum Array
+pushnum [
+pushnum ]
+pushnum 
+
+pushnum DIM
+pushnum Array
+pushnum [
+pushnum 5
+pushnum ]
+pushnum 
+
+pushnum Array
+pushnum [
+pushnum 0
+pushnum ]
+pushnum 100
+cmp
+pushnum 
+
+pushnum 
+
+pushnum funk
+pushnum (
+pushnum Array
+pushnum [
+pushnum ]
+pushnum )
+pushnum 
+
+pushnum 
+
+pushnum FUNCTION
+pushnum funk
+pushnum :
+pushnum Arr
+pushnum [
+pushnum ]
+pushnum 
+
+pushnum Arr
+call SCRIPT_STDOUT
+pushnum [
+pushnum 0
+pushnum ]
+pushnum 
+

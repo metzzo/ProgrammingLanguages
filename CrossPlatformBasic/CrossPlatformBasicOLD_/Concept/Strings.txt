@@ -1,0 +1,10 @@
+
+Print Asc("t")
+Print Chr(112)
+Print InStr("Hallo Welt","Welt2")
+Print Mid("Hallo Welt",3,7)
+
+Print Upper("hallo klein geschrieben")
+Print Lower("HALLO GROß GESCHRIEBEN")
+Print "-"+Trim("Hallo Mit Trim      ")+"-"
+Print Replace("Hallo in Welt","in","nicht",20)

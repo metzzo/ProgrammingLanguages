@@ -1,0 +1,44 @@
+
+GLOBAL SpielerX=320, BallX=320, BallY=240,Angle=RND(360), Life
+
+Life=4
+
+
+WHILE TRUE
+	DRAWRECT SpielerX,50,80,20,RGB(255,0,0)
+	IF KEY(205)
+		SpielerX=SpielerX+4
+	ENDIF
+	IF KEY(203)
+		SpielerX=SpielerX-4
+	ENDIF
+	BallX=BallX+COS(Angle)*8
+	BallY=BallY+SIN(Angle)*8
+	IF BOXCOLL(SpielerX,50,80,20,BallX,BallY,32,32)
+		BallX=BallX-COS(Angle)*8
+		BallY=BallY-SIN(Angle)*8
+		Angle=360-Angle
+	ENDIF
+	
+	IF BallX>640-32 OR BallX<0
+		Angle=180-Angle
+	ENDIF
+	IF BallY>480-32
+		Angle=360-Angle
+	ENDIF
+	
+	IF BallY<0
+		Life=Life-1
+		BallX=320
+		BallY=240
+		Angle=RND(360)
+	ENDIF
+	
+	DRAWRECT BallX,BallY,32,32,RGB(0,255,0)
+	
+	PRINT "Leben: "+Life,10,450
+	IF Life<1
+		END
+	ENDIF
+	SHOWSCREEN
+WEND

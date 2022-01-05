@@ -1,0 +1,1115 @@
+// --------------------------------- //
+// Project: GLScriptBasic
+// Start: Friday, April 30, 2010
+// IDE Version: 7.322
+
+GLOBAL Script$ //Das Script
+GLOBAL CurrentToken$ //Aktuelles Token
+GLOBAL CurrentTokenID% //Wo sich der Parser befindet
+GLOBAL CurrentLine%
+GLOBAL Tokens$[] //Alle Tokens
+GLOBAL Declaration$ //Die Declarationen von Variablen im Scope
+GLOBAL GlbVar$ //Die Globale Variablen
+GLOBAL OpCode$ //Die OpCodes, fertig kompiliert
+GLOBAL CurrentJmpLabel% //Die aktuelle Jmp ID (wird fuer if und schleifen verwendet)
+GLOBAL Var[] AS TVar //Alle Variablen
+GLOBAL GlobalVar[] AS TVar //Alle Globale Variablen
+GLOBAL InFunc%=FALSE //Ist der Parser gerade in einer Funktion/Sub?
+GLOBAL FuncVarSize=0 //Wie groß das Variablen Array war beim betreten der Funktion
+GLOBAL FuncVarCount=0 //Wie viele Variablen in der Funktion deklariert wurden (lokale)
+GLOBAL GlbVarID% //Die aktuelle ID der globalen Variablen
+GLOBAL Par[] AS TVar //Alle Parameter (werden von Block(True) entgegenegenommen)
+
+TYPE TFunction
+	Name$ // Name
+	isKey% // Ist es eine KeyFunction (Function ohne Klammer und Rückgabewert)
+	ParCount% // Wie viele Paramteter
+	IsSub% //Ist es eine Sub Funktion
+	IsUserFunc% //Ist es eine User funktion?
+	IsOptionalFunction% //Ist es eine Funktion um optionale Parameter zu implementieren?
+	OpParCount //Wenn optionale funktion, dann ist es die anzahl an optionalen Parameter
+	Optionals$[] //Womit die Variablen gesetzt werden, wenn sie optional sind
+	id% // Die id
+ENDTYPE
+TYPE TVar
+	Name$ //Name
+	Typ% //Datentyp
+	id //Die id nummer
+	IsArray% //Ist es ein Array?
+	IsGlobal% //Ist es eine globale?
+ENDTYPE
+GLOBAL Funcs[] AS TFunction
+TYPE TUnknownFunction
+	Name$
+	Par%
+	Line%
+ENDTYPE
+GLOBAL UFuncs[] AS TUnknownFunction
+InitStdFunction()
+
+Lexer()
+LOCAL Op$=Parser$()
+Output(Op$)
+IF DOESFILEEXIST("log.txt") THEN KILLFILE "log.txt"
+OPENFILE(0,"log.txt",0)
+WRITESTR 0,Op$
+LOCAL vm AS TVM
+
+vm=CreateVM(Op$)
+ExecuteVM(vm)
+
+?IFNDEF HTML5
+KEYWAIT
+?ENDIF
+
+
+FUNCTION InitStdFunction:
+	//Konsolenanwendung
+	CreateFunction("STDOUT",1,TRUE)
+	CreateFunction("KEYWAIT",0,TRUE)
+	CreateFunction("END",0,TRUE)
+
+	//Grafik
+	CreateFunction("SHOWSCREEN",0,TRUE)
+	CreateFunction("DRAWRECT",5,TRUE)
+	CreateFunction("RGB",3,FALSE)
+	CreateFunction("PRINT",3,TRUE)
+	CreateFunction("KEY",1,FALSE)
+	CreateFunction("BOXCOLL",8,FALSE)
+
+	//Mathe
+	CreateFunction("SIN",1,FALSE)
+	CreateFunction("COS",1,FALSE)
+	CreateFunction("RND",1,FALSE)
+
+	//Array
+	CreateFunction("DIMPUSH",2,TRUE)
+
+	//Debug
+	CreateFunction("STACKINFO",0,TRUE)
+ENDFUNCTION
+
+FUNCTION CreateFunction: Name$, Count%, _Key%=FALSE
+	LOCAL Func AS TFunction
+	Func.Name$=Name$
+	Func.ParCount=Count
+	Func.isKey=_Key
+	Func.id=LEN(Funcs[])
+
+	DIMPUSH Funcs[], Func
+	RETURN LEN(Funcs[])-1
+ENDFUNCTION
+
+
+FUNCTION Lexer:
+	Script$=LoadFile$("Script1.txt")
+	IF LEN(Script$)>0
+		LOCAL Word$
+		FOR i=0 TO LEN(Script$)
+			LOCAL Char$=MID$(Script$,i,1)
+			Output(Char$)
+			SELECT Char$
+				CASE " "
+					AddToken(Word$)
+					Word$=""
+				CASE "	"
+					AddToken(Word$)
+					Word$=""
+				CASE CHR$(34)
+					LOCAL Text$
+					LOCAL j
+					FOR j=i+1 TO LEN(Script$)-1
+						IF MID$(Script$,j,1)=CHR$(34)
+							Text$=MID$(Script$,i,j-i+1)
+							i=j
+							BREAK
+						ENDIF
+					NEXT
+					AddToken(Word$)
+					AddToken(Text$)
+					Word$=""
+				CASE ";"
+					AddToken(Word$)
+					AddToken("\n")
+					Word$=""
+				CASE ":"
+					AddToken(Word$)
+					AddToken(":")
+					Word$=""
+				CASE "("
+					AddToken(Word$)
+					AddToken("(")
+					Word$=""
+				CASE ")"
+					AddToken(Word$)
+					AddToken(")")
+					Word$=""
+				CASE "["
+					AddToken(Word$)
+					AddToken("[")
+					Word$=""
+				CASE "]"
+					AddToken(Word$)
+					AddToken("]")
+					Word$=""
+				CASE "+"
+					AddToken(Word$)
+					AddToken("+")
+					Word$=""
+				CASE "-"
+					AddToken(Word$)
+					AddToken("-")
+					Word$=""
+				CASE "<"
+					AddToken(Word$)
+					AddToken("<")
+					Word$=""
+				CASE ">"
+					AddToken(Word$)
+					AddToken(">")
+					Word$=""
+				CASE "*"
+					AddToken(Word$)
+					AddToken("*")
+					Word$=""
+				CASE "/"
+					IF MID$(Script$,i+1,1)="/"
+						AddToken(Word$)
+						WHILE MID$(Script$,i,1)<>"\n" AND i<LEN(Script$)
+							i=i+1
+						WEND
+						i=i-1
+						Word$="\n"
+					ELSE
+						AddToken(Word$)
+						AddToken("/")
+						Word$=""
+					ENDIF
+				CASE "="
+					AddToken(Word$)
+					AddToken("=")
+					Word$=""
+				CASE ","
+					AddToken(Word$)
+					AddToken(",")
+					Word$=""
+				CASE "\n"
+					AddToken(Word$)
+					AddToken("\n")
+					Word$=""
+				DEFAULT
+//					IF MID$(Script$,i,3)="FOR"
+//						AddToken(Word$)
+//						AddToken("FOR")
+//						Word$=""
+//						i=i+3
+//					ELSEIF MID$(Script$,i,8)="FUNCTION"
+//						AddToken(Word$)
+//						AddToken("FUNCTION")
+//						Word$=""
+//						i=i+8
+//					ELSEIF MID$(Script$,i,11)="ENDFUNCTION"
+//						AddToken(Word$)
+//						AddToken("ENDFUNCTION")
+//						Word$=""
+//						i=i+11
+//					ELSEIF MID$(Script$,i,5)="GOSUB"
+//						AddToken(Word$)
+//						AddToken("GOSUB")
+//						Word$=""
+//						i=i+5
+//					ELSEIF MID$(Script$,i,3)="SUB"
+//						AddToken(Word$)
+//						AddToken("SUB")
+//						Word$=""
+//						i=i+3
+//					ELSEIF MID$(Script$,i,6)="ENDSUB"
+//						AddToken(Word$)
+//						AddToken("ENDSUB")
+//						Word$=""
+//						i=i+6
+//					ELSEIF MID$(Script$,i,6)="SELECT"
+//						AddToken(Word$)
+//						AddToken("SELECT")
+//						Word$=""
+//						i=i+6
+//					ELSEIF MID$(Script$,i,4)="CASE"
+//						AddToken(Word$)
+//						AddToken("CASE")
+//						Word$=""
+//						i=i+4
+//					ELSEIF MID$(Script$,i,3)="DIM"
+//						AddToken(Word$)
+//						AddToken("DIM")
+//						Word$=""
+//						i=i+3
+//					ELSEIF MID$(Script$,i,5)="REDIM"
+//						AddToken(Word$)
+//						AddToken("REDIM")
+//						Word$=""
+//						i=i+5
+//					ELSEIF MID$(Script$,i,7)="DEFAULT"
+//						AddToken(Word$)
+//						AddToken("DEFAULT")
+//						Word$=""
+//						i=i+7
+//					ELSEIF MID$(Script$,i,9)="ENDSELECT"
+//						AddToken(Word$)
+//						AddToken("ENDSELECT")
+//						Word$=""
+//						i=i+9
+//					ELSEIF MID$(Script$,i,5)="ENDIF"
+//						AddToken(Word$)
+//						AddToken("ENDIF")
+//						Word$=""
+//						i=i+5
+//					ELSEIF MID$(Script$,i,2)="IF"
+//						AddToken(Word$)
+//						AddToken("IF")
+//						Word$=""
+//						i=i+2
+//					ELSEIF MID$(Script$,i,6)="ELSEIF"
+//						AddToken(Word$)
+//						AddToken("ELSEIF")
+//						Word$=""
+//						i=i+6
+//					ELSEIF MID$(Script$,i,4)="ELSE"
+//						AddToken(Word$)
+//						AddToken("ELSE")
+//						Word$=""
+//						i=i+4
+//					ELSEIF MID$(Script$,i,2)="OR"
+//						AddToken(Word$)
+//						AddToken("OR")
+//						Word$=""
+//						i=i+2
+//					ELSEIF MID$(Script$,i,3)="AND"
+//						AddToken(Word$)
+//						AddToken("AND")
+//						Word$=""
+//						i=i+3
+					//ELSE
+					IF MID$(Script$,i,6)="INLINE"
+						AddToken(Word$)
+						AddToken("INLINE")
+						Word$=""
+						i=i+6
+						LOCAL j=i
+						FOR i=i TO LEN(Script$)-9
+							IF MID$(Script$,i,9)="ENDINLINE"
+								AddToken(MID$(Script$,j,i-j))
+								BREAK
+							ENDIF
+						NEXT
+						AddToken("ENDINLINE")
+						i=i+9
+					ELSE
+						Word$=Word$+Char$
+					ENDIF
+			ENDSELECT
+		NEXT
+	ELSE
+		Error("Cannot find file")
+	ENDIF
+	AddToken("___ENDFILE")
+	FOR i=0 TO LEN(Tokens$[])-1
+		IF Tokens$[i]="\n" THEN CONTINUE
+		Output("Tokens: "+Tokens$[i])
+	NEXT
+ENDFUNCTION
+
+
+FUNCTION AddToken: Token$
+	IF LEN(Token$)=0 OR Token$=" " OR Token$=CHR$(9) THEN RETURN	DIMPUSH Tokens$[], Token$ENDFUNCTION
+
+FUNCTION LoadFile$: Pfad$
+	LOCAL Text$
+	IF OPENFILE(0,Pfad$,1)
+		WHILE ENDOFFILE(0)=FALSE
+			LOCAL Line$
+			READLINE 0,Line$
+			Text$=Text$+Line$+"\n"
+		WEND
+	ELSE
+		Error("Cannot find file")
+	ENDIF
+	RETURN Text$
+ENDFUNCTION
+
+
+FUNCTION Parser$:
+	RegisterVariable("___STARTVARIABLE___",TRUE) //Nur damit kein "-0" Zugriff entsteht
+	CurrentTokenID=0
+	CurrentToken$=Tokens$[0]
+	InFunc=FALSE
+	Block()
+	OpCode$=GlbVar$+OpCode$
+
+	//Alle Userfuncs definieren
+	FOREACH F IN Funcs[]
+		IF F.IsUserFunc
+			OpCode$="def SCRIPT_"+F.Name$+"@"+F.ParCount+" "+F.id+" "+F.ParCount+"\n"+OpCode$
+		ENDIF
+		IF F.IsOptionalFunction
+			LOCAL Name$
+			LOCAL RealCount
+			FOREACH FF IN Funcs[]
+				IF FF.Name$=F.Name$ AND FF.IsOptionalFunction=FALSE
+					RealCount=FF.ParCount
+				ENDIF
+			NEXT
+			LOCAL ID
+			ID=GetLabel()
+			AddUnknown("jmp "+ID)
+			AddUnknown("lbl "+F.id)
+			FOR i=F.OpParCount-1 TO 0 STEP -1
+				AddUnknown(F.Optionals$[i])
+			NEXT
+			AddUnknown("call SCRIPT_"+F.Name$+"@"+RealCount)
+			AddUnknown("ret "+RealCount)
+			AddUnknown("lbl "+ID)
+		ENDIF
+	NEXT
+	//Nun alle Funktionsaufrufe kontrollieren
+	FOREACH UF IN UFuncs[]
+		LOCAL Find=FALSE
+		FOREACH F IN Funcs[]
+			IF UF.Name$=F.Name$ AND UF.Par=F.ParCount
+				Find=TRUE
+				BREAK
+			ENDIF
+		NEXT
+		IF Find=FALSE
+			CurrentLine=UF.Line
+			CurrentToken$=UF.Name$
+			Error("Unknown Function: "+UF.Name$+" called with "+UF.Par+" args")
+		ELSE
+			DELETE UF
+		ENDIF
+	NEXT
+
+	RETURN OpCode$
+ENDFUNCTION
+
+
+FUNCTION Block: FuncBlock=FALSE
+	LOCAL TmpDeclaration$=Declaration$
+	Declaration$=""
+	LOCAL TmpOp$=OpCode$
+	OpCode$=""
+	LOCAL Var2[] AS TVar
+	Var2[]=Var[] //Var2 zwischenspeichern
+	IF FuncBlock
+		RegisterVariable("___FUNCBLOCKVAR___")
+		LOCAL Dec$=Declaration$
+		Declaration$=""
+		Var[-1].id=0
+		//LOCAL Def$, Tmp$, VarDef$
+		//Tmp$=OpCode$
+		//OpCode$=""
+		//Def$=Def$+Declaration$
+		FOREACH V IN Par[]
+			LOCAL VV AS TVar
+			//Declaration$=""
+			VV=RegisterVariable(V.Name$,FALSE,V.IsArray)
+			//Def$=Def$+Declaration$
+			//OpCode$=""
+			AddUnknown("ref "+GetVarID(VV))
+			AddUnknown("set")
+			//VarDef$=OpCode$+VarDef$
+		NEXT
+		Declaration$=Dec$+Declaration$
+		//Declaration$=Def$
+		//OpCode$=Tmp$+VarDef$
+	ENDIF
+	FOR CurrentTokenID=CurrentTokenID TO LEN(Tokens$[])-1 STEP 0
+		IF CurrentToken$="ENDIF" OR CurrentToken$="ELSE" OR CurrentToken$="ELSEIF" OR CurrentToken$="WEND" OR CurrentToken$="WEND" OR CurrentToken$="NEXT" OR CurrentToken$="ENDFUNCTION" OR CurrentToken$="ENDSUB" OR CurrentToken$="ENDTYPE" OR CurrentToken$="ENDSELECT" OR CurrentToken$="CASE" OR CurrentToken$="DEFAULT" OR CurrentToken$="___ENDFILE"
+			BREAK
+		ELSE
+			Expression()
+		ENDIF
+	NEXT
+	Var[]=Var2[] //Nun wiederherstellen
+	FOREACH V IN GlobalVar[]
+		DIMPUSH Var[],V
+		GlbVar$="var "+V.Typ+" //"+V.Name$+"\n"+GlbVar$
+		DELETE V
+	NEXT
+	OpCode$=TmpOp$+Declaration$+OpCode$ //Nun alles wieder zueinander fügen
+	Declaration$=TmpDeclaration$
+ENDFUNCTION
+
+FUNCTION Expression:
+	KeyFunk()
+	LowerGreater()
+	WHILE CurrentToken$="AND" OR CurrentToken$="OR"
+		LOCAL Current$=CurrentToken$
+		GetToken()
+		LowerGreater()
+		IF Current$="and"
+			AddUnknown("and")
+		ELSE
+			AddUnknown("or")
+		ENDIF
+	WEND
+ENDFUNCTION
+
+
+FUNCTION LowerGreater:
+	AddSub()
+	WHILE CurrentToken$="<" OR CurrentToken$=">" OR CurrentToken$="=" OR CurrentToken$="<=" OR CurrentToken$=">="
+		LOCAL Current$=CurrentToken$
+		GetToken()
+		AddSub()
+		IF Current$="<"
+			AddUnknown("less")
+		ELSEIF Current$="="
+			AddUnknown("cmp")
+		ELSEIF Current$="<="
+			AddUnknown("lessequ")
+		ELSEIF Current$=">="
+			AddUnknown("greaterequ")
+		ELSE
+			AddUnknown("greater")
+		ENDIF
+	WEND
+ENDFUNCTION
+
+FUNCTION AddSub:
+	Term()
+	WHILE CurrentToken$="+" OR CurrentToken$="-"
+		LOCAL Current$=CurrentToken$
+		GetToken()
+		Term()
+		IF Current$="+"
+			AddUnknown("add")
+		ELSE
+			AddUnknown("sub")
+		ENDIF
+	WEND
+ENDFUNCTION
+
+FUNCTION Term:
+	Factor()
+	WHILE CurrentToken$="*" OR CurrentToken$="/"
+		LOCAL Current$=CurrentToken$
+		GetToken()
+		Factor()
+		IF Current$="*"
+			AddUnknown("mul")
+		ELSE
+			AddUnknown("div")
+		ENDIF
+	WEND
+ENDFUNCTION
+
+FUNCTION Factor:
+	IF INTEGER(CurrentToken$) = CurrentToken$
+		CurrentToken$="pushnum "+CurrentToken$
+		Add()
+	ELSEIF CurrentToken$="("
+		Match("(")
+		Expression()
+		Match(")")
+	ELSEIF CurrentToken$=" " OR CurrentToken$="\n"
+		IF CurrentToken$="\n"
+			GetToken()
+			IF Variable(TRUE) THEN RETURN
+			IF INTEGER(CurrentToken$) = CurrentToken$ OR IsString() OR Variable()
+				Error("Unexpected Number/String")
+			ENDIF
+			IF Funk()
+				AddUnknown("pop")
+			ENDIF
+		ELSE
+			GetToken()
+		ENDIF
+	ELSEIF IsString()
+		CurrentToken$="pushstr "+CurrentToken$
+		Add()
+	ELSEIF CurrentToken$="-"
+		GetToken()
+		Expression()
+		AddUnknown("pushnum -1")
+		AddUnknown("mul")
+	ELSEIF CurrentToken$="TRUE"
+		AddUnknown("pushnum 1")
+		GetToken()
+	ELSEIF CurrentToken$="FALSE"
+		AddUnknown("pushnum 0")
+		GetToken()
+	ELSEIF Variable() OR Keyword() OR Funk()
+		RETURN
+	ELSE
+		Error("Unknown Token")
+	ENDIF
+ENDFUNCTION
+
+FUNCTION Keyword:
+	IF CurrentToken$="IF"
+		GetToken()
+		Expression()
+		LOCAL Lbl%=GetLabel()
+		AddUnknown("notcheck "+Lbl)
+		LOCAL IsThen=FALSE
+		IF CurrentToken$="THEN"
+			GetToken()
+			Expression()
+			IsThen=TRUE
+		ELSE
+			Block()
+		ENDIF
+		WHILE CurrentToken$="ELSEIF" AND IsThen=FALSE
+			LOCAL Lbl2%=GetLabel()
+			GetToken()
+			AddUnknown("jmp "+Lbl2)
+			AddUnknown("lbl "+Lbl)
+			Expression()
+			AddUnknown("notcheck "+Lbl2)
+			Block()
+			AddUnknown("lbl "+Lbl2)
+		WEND
+		IF CurrentToken$="ELSE" AND IsThen=FALSE
+			LOCAL Lbl2%=GetLabel()
+			GetToken()
+			AddUnknown("jmp "+Lbl2)
+			AddUnknown("lbl "+Lbl)
+			Block()
+			AddUnknown("lbl "+Lbl2)
+		ELSE
+			AddUnknown("lbl "+Lbl)
+		ENDIF
+		Match("ENDIF")
+		RETURN TRUE
+	ELSEIF CurrentToken$="REPEAT"
+		GetToken()
+		LOCAL Lbl%=GetLabel()
+		AddUnknown("lbl "+Lbl)
+		Block()
+		Match("UNTIL")
+		Expression()
+		AddUnknown("check "+Lbl)
+	ELSEIF CurrentToken$="WHILE"
+		GetToken()
+		LOCAL Lbl%=GetLabel()
+		LOCAL Lbl2%=GetLabel()
+		AddUnknown("lbl "+Lbl)
+		Expression()
+		AddUnknown("notcheck "+Lbl2)
+		Block()
+		AddUnknown("jmp "+Lbl)
+		AddUnknown("lbl "+Lbl2)
+		Match("WEND")
+		RETURN TRUE
+	ELSEIF CurrentToken$="FOR"
+		LOCAL i
+		GetToken()
+		LOCAL Lbl,Lbl2
+		Lbl=GetLabel()
+		Lbl2=GetLabel()
+
+		LOCAL Var AS TVar
+		Var=GetVariable()
+		Match("TO")
+		LOCAL Pos=CurrentToken$
+		LOCAL GoStep=1
+		GetToken()
+		IF CurrentToken$="STEP"
+			Match("STEP")
+			GoStep=CurrentToken$
+			GetToken()
+		ENDIF
+		AddUnknown("lbl "+Lbl)
+		AddUnknown("ref "+GetVarID(Var))
+		AddUnknown("pushvar")
+		AddUnknown("pushnum "+Pos)
+		IF GoStep>0
+			AddUnknown("greater")
+		ELSEIF GoStep<0
+			AddUnknown("less")
+		ELSE
+			Error("Step must be >0 or <0")
+		ENDIF
+		AddUnknown("check "+Lbl2)
+		Block()
+		AddUnknown("ref "+GetVarID(Var))
+		AddUnknown("pushvar")
+		AddUnknown("pushnum "+GoStep)
+		AddUnknown("add")
+		AddUnknown("ref "+GetVarID(Var))
+		AddUnknown("set")
+		AddUnknown("jmp "+Lbl)
+		AddUnknown("lbl "+Lbl2)
+
+		Match("NEXT")
+		RETURN TRUE
+	ELSEIF CurrentToken$="LOCAL" OR CurrentToken$="GLOBAL"
+		LOCAL Visible, Array=FALSE
+		IF CurrentToken$="LOCAL"
+			Visible=FALSE
+		ELSE
+			Visible=TRUE
+		ENDIF
+		REPEAT
+			GetToken()
+			LOCAL Name$=CurrentToken$
+			LOCAL Var AS TVar
+			GetToken()
+			IF CurrentToken$="["
+				Match("[")
+				Match("]")
+				Array=TRUE
+			ENDIF
+			Var=RegisterVariable(Name$, Visible, Array)
+			IF CurrentToken$="=" AND Var.IsArray=FALSE
+				GetToken()
+				Expression()
+			ELSEIF Var.IsArray=FALSE
+				IF Var.Typ=0
+					AddUnknown("pushnum 0") //auf 0 setzen
+				ELSE
+					AddUnknown("pushstr "+CHR$(34)+CHR$(34))
+				ENDIF
+			ENDIF
+			IF Var.IsArray=FALSE
+				AddUnknown("ref "+GetVarID(Var))
+				AddUnknown("set")
+			ENDIF
+		UNTIL CurrentToken$<>","
+		RETURN TRUE
+	ELSEIF CurrentToken$="DIM" OR CurrentToken$="REDIM"
+		LOCAL IsDim=TRUE
+		IF CurrentToken$="REDIM" THEN IsDim=FALSE
+		GetToken()
+		LOCAL Vari AS TVar
+		FOREACH V IN Var[]
+			IF V.Name$=CurrentToken$ AND V.IsArray
+				Vari=V
+				BREAK
+			ENDIF
+		NEXT
+		GetToken()
+		LOCAL DimCount=-1
+		REPEAT
+			Match("[")
+			Expression()
+			Match("]")
+			DimCount=DimCount+1
+		UNTIL CurrentToken$<>"["
+		Output(".")
+		AddUnknown("ref "+GetVarID(Vari))
+		AddUnknown("pusharray")
+		IF IsDim
+			AddUnknown("dimarray "+DimCount)
+		ELSE
+			AddUnknown("redimarray "+DimCount)
+		ENDIF
+		RETURN TRUE
+	ELSEIF CurrentToken$="SELECT"
+		GetToken()
+		LOCAL TmpOp$=OpCode$
+		OpCode$=""
+		Expression()
+		LOCAL Op$=OpCode$
+		OpCode$=TmpOp$
+		Match("\n")
+		LOCAL lbl=GetLabel()
+		WHILE CurrentToken$="CASE"
+			LOCAL Sym$="cmp"
+			LOCAL lbl2=GetLabel()
+			GetToken()
+			IF CurrentToken$="<"
+				Sym$="less\ninv"
+				GetToken()
+			ELSEIF CurrentToken$=">"
+				Sym$="greater\ninv"
+				GetToken()
+			ELSEIF CurrentToken$="<="
+				Sym$="lessequ\ninv"
+				GetToken()
+			ELSEIF CurrentToken$=">="
+				Sym$="greaterequ\ninv"
+				GetToken()
+			ENDIF
+			Expression()
+			OpCode$=OpCode$+Op$
+			IF CurrentToken$="TO"
+				AddUnknown("greaterequ")
+				AddUnknown("check "+lbl2)
+				Match("TO")
+				Expression()
+				OpCode$=OpCode$+Op$
+				AddUnknown("lessequ")
+				AddUnknown("check "+lbl2)
+			ELSE
+				AddUnknown(Sym$)
+				AddUnknown("notcheck "+lbl2)
+			ENDIF
+			Match("\n")
+			Block()
+			AddUnknown("jmp "+lbl)
+			AddUnknown("lbl "+lbl2)
+		WEND
+		IF CurrentToken$="DEFAULT"
+			GetToken()
+			Block()
+		ENDIF
+		AddUnknown("lbl "+lbl)
+		Match("ENDSELECT")
+		RETURN TRUE
+	ELSEIF CurrentToken$="GOSUB"
+		GetToken()
+		LOCAL UFunc AS TUnknownFunction
+		UFunc.Name$=CurrentToken$
+		UFunc.Par=0
+		UFunc.Line=CurrentLine
+		DIMPUSH UFuncs[], UFunc
+		AddUnknown("call SCRIPT_"+CurrentToken$+"@0")
+		AddUnknown("pop")
+		GetToken()
+		RETURN TRUE
+	ELSEIF CurrentToken$="FUNCTION" OR CurrentToken$="SUB"
+		LOCAL InSub=FALSE
+		IF CurrentToken$="SUB" THEN InSub=TRUE
+		GetToken()
+		LOCAL Name$=CurrentToken$
+		GetToken()
+		Match(":")
+		InFunc=TRUE
+		FuncVarCount=0
+		//Variablen Array zwischenspeichern
+		LOCAL TmpVar[] AS TVar
+		TmpVar[]=Var[]
+		FOREACH V IN Var[]
+			IF V.IsGlobal
+			ELSE
+				V.Name$=""
+			ENDIF
+		NEXT
+		LOCAL TmpDec$=Declaration$
+		Declaration$=""
+		LOCAL ParamCount=0
+		LOCAL Param$
+		LOCAL OpParamCount=0
+		LOCAL Optionals$[]
+		FuncVarSize=0//-LEN(Var[])
+		DIM Par[-1]
+		IF CurrentToken$<>"\n" AND InSub=FALSE
+			LOCAL T=FALSE
+			REPEAT
+				IF T THEN Match(",")
+				T=TRUE
+				LOCAL Name$, IsArray=FALSE
+				Name$=CurrentToken$
+				GetToken()
+				IF CurrentToken$="["
+					Match("[")
+					Match("]")
+					IsArray=TRUE
+				ENDIF
+				IF CurrentToken$="="
+					Match("=")
+					LOCAL TmpOp$=OpCode$
+					OpCode$=""
+					Expression()
+					LOCAL Tmp$[]
+					DIMPUSH Tmp$[], OpCode$
+					FOREACH S IN Optionals$[]
+						DIMPUSH Tmp$[], S
+					NEXT
+					Optionals$[]=Tmp$[]
+					OpCode$=TmpOp$
+					OpParamCount=OpParamCount+1
+				ENDIF
+				LOCAL Var AS TVar
+				Var.Name$=Name$
+				Var.IsArray=IsArray
+
+				LOCAL TmpPar[] AS TVar
+				DIMPUSH TmpPar[], Var
+				FOREACH V IN Par[]
+					DIMPUSH TmpPar[], V
+				NEXT
+				Par[]=TmpPar[]
+				ParamCount=ParamCount+1
+			UNTIL CurrentToken$<>","
+			Out:
+			IF CurrentToken$<>"\n" THEN GetToken()
+		ENDIF
+		LOCAL ID, RealID
+		LOCAL ID2=GetLabel()
+		AddUnknown("jmp "+ID2)
+		FOR i=OpParamCount TO 0 STEP -1
+			ID=GetLabel()
+			LOCAL FID%=CreateFunction(Name$,ParamCount-i,FALSE)
+			Funcs[FID].IsUserFunc=TRUE
+			Funcs[FID].IsSub=InSub
+			Funcs[FID].id=ID
+			//Funcs[FID].ParCount=ParamCount
+			IF i>0
+				Funcs[FID].IsOptionalFunction=TRUE
+				Funcs[FID].OpParCount=i
+				Funcs[FID].ParCount=ParamCount-i
+				Funcs[FID].Optionals$[]=Optionals$[]
+			ELSE
+				RealID=ID
+			ENDIF
+		NEXT
+		ID=RealID
+		AddUnknown("lbl "+ID)
+		Block(TRUE)
+		OpCode$=Declaration$+OpCode$
+		Declaration$=TmpDec$
+		Var[]=TmpVar[]
+		AddUnknown("pushnum 0")
+		AddUnknown("ret "+FuncVarCount)
+		FuncVarCount=0
+		AddUnknown("lbl "+ID2)
+		InFunc=FALSE
+		FuncVarSize=0
+		IF InSub
+			Match("ENDSUB")
+		ELSE
+			Match("ENDFUNCTION")
+		ENDIF
+		RETURN TRUE
+	ELSEIF CurrentToken$="RETURN"
+		IF InFunc=FALSE
+			Error("Cannot call return in main program")
+		ELSE
+			GetToken()
+			IF CurrentToken$="\n"
+				AddUnknown("pushnum 0")
+			ELSE
+				Expression()
+			ENDIF
+			AddUnknown("ret "+FuncVarCount)
+			FuncVarCount=0
+		ENDIF
+		RETURN TRUE
+	ELSEIF CurrentToken$="INLINE"
+		GetToken()
+		Add()
+		GetToken()
+		RETURN TRUE
+	ENDIF
+	RETURN FALSE
+ENDFUNCTION
+
+FUNCTION Funk:
+	LOCAL Name$=CurrentToken$
+	IF Name$="___ENDFILE" THEN RETURN FALSE
+	GetToken()
+	IF Name$="___ENDFILE" THEN RETURN FALSE
+	IF CurrentToken$="(" AND Name$<>""
+		LOCAL b=TRUE
+		LOCAL Count
+		WHILE (CurrentToken$="," OR b)
+			GetToken()
+			IF CurrentToken$=")" THEN BREAK
+			Expression()
+			b=FALSE
+			Count=Count+1
+		WEND
+		Match(")")
+		AddUnknown("call SCRIPT_"+Name$+"@"+Count)
+		LOCAL UFunc AS TUnknownFunction
+		UFunc.Name$=Name$
+		UFunc.Par=Count
+		UFunc.Line=CurrentLine
+		DIMPUSH UFuncs[], UFunc
+		RETURN TRUE
+	ELSE
+		LooseToken()
+	ENDIF
+	RETURN FALSE
+ENDFUNCTION
+
+FUNCTION KeyFunk:
+	FOREACH Func IN Funcs[]
+		IF Func.isKey
+			IF CurrentToken$=Func.Name$
+				GetToken()
+				FOR i=0 TO Func.ParCount-1
+					Expression()
+					IF i<Func.ParCount-1
+						Match(",")
+					ENDIF
+				NEXT
+				AddUnknown("call SCRIPT_"+Func.Name$)
+			ENDIF
+		ENDIF
+	NEXT
+ENDFUNCTION
+
+FUNCTION Variable: Set=FALSE
+	FOREACH Vari IN Var[]
+		IF Vari.Name$=CurrentToken$
+			GetToken()
+			IF Vari.IsArray
+				REPEAT
+					Match("[")
+					IF CurrentToken$<>"]"
+						Expression()
+						Match("]")
+						AddUnknown("")
+					ELSE
+
+						Match("]")
+						AddUnknown("ref "+GetVarID(Vari))
+						AddUnknown("getarray")
+						IF CurrentToken$<>"=" OR Set=0 THEN RETURN TRUE
+						BREAK
+					ENDIF
+				UNTIL CurrentToken$<>"["
+			ENDIF
+			IF CurrentToken$="=" AND Set
+				GetToken()
+				Expression()
+				AddUnknown("ref "+GetVarID(Vari))
+				AddUnknown("set")
+			ELSE
+				AddUnknown("ref "+GetVarID(Vari))
+				AddUnknown("pushvar")
+			ENDIF
+			RETURN TRUE
+		ENDIF
+	NEXT
+	RETURN FALSE
+ENDFUNCTION
+
+
+FUNCTION GetVariable AS TVar:
+	FOREACH Vari IN Var[]
+		IF Vari.Name$=CurrentToken$
+			Variable(TRUE)
+			RETURN Vari
+		ENDIF
+	NEXT
+	Error("Unknown Variable")
+ENDFUNCTION
+
+FUNCTION RegisterVariable AS TVar: Name$, Visible%=FALSE, Array%=FALSE
+	LOCAL Vari AS TVar
+	IF Name$=""
+		Error("Cannot register an empty variable")
+		RETURN Vari
+	ENDIF
+	IF LEN(Var[])>0 AND Visible=FALSE
+		//DEBUG "Regiser: "+Name$+"\n"
+		LOCAL TmpVar AS TVar
+		FOREACH V IN Var[]
+			IF V.Name$="___FUNCBLOCKVAR___"
+				TmpVar.id=0
+			ENDIF
+			IF V.IsGlobal=FALSE
+				IF GetVarID(V)<GetVarID(TmpVar) THEN TmpVar=V
+		//		DEBUG "Var: "+V.Name$+" id: "+V.id+"\n"
+			ENDIF
+		NEXT
+		Vari.id=TmpVar.id+1
+		//DEBUG "-------------------------------------"+Vari.id+"\n"
+	ENDIF
+	IF InFunc THEN FuncVarCount=FuncVarCount+1
+	Vari.Name$=Name$
+	Vari.IsArray%=Array%
+	Vari.IsGlobal=Visible
+	SELECT MID$(Vari.Name$,LEN(Vari.Name$)-1,1)
+		CASE "$"
+			Vari.Typ=1
+		CASE "#"
+			Vari.Typ=0
+			Vari.Name$=MID$(Vari.Name$,0,LEN(Vari.Name$)-1)
+		DEFAULT
+			Vari.Typ=0
+	ENDSELECT
+
+	IF Visible=FALSE
+		DIMPUSH Var[], Vari
+		Declaration$="var "+Vari.Typ+"//"+Vari.Name$+"\n"+Declaration$
+	ELSE
+		Vari.id=GlbVarID
+		GlbVarID=GlbVarID+1
+		DIMPUSH Var[], Vari
+		DIMPUSH GlobalVar[], Vari
+	ENDIF
+	Output("Register Variable: "+Vari.Name$+" realid: "+Vari.id+" id: "+GetVarID(Vari))
+	RETURN Vari
+ENDFUNCTION
+
+FUNCTION GetVarID: V AS TVar
+	LOCAL Mul=1, FuncAdd=FuncVarSize
+	IF V.IsGlobal=0
+		Mul=-1
+	ELSE
+		FuncAdd=0
+	ENDIF
+	RETURN V.id*Mul-FuncAdd
+ENDFUNCTION
+
+FUNCTION IsNumber:
+	FOR i=0 TO LEN(CurrentToken$)-1
+		LOCAL a=ASC(MID$(CurrentToken$,i,1))
+		IF a>=48 AND a<=57 OR a=46 OR (a=45 AND (LEN(CurrentToken$)-1)>0)
+		ELSE
+			RETURN FALSE
+		ENDIF
+	NEXT
+	RETURN TRUE
+ENDFUNCTION
+FUNCTION IsString:
+	IF MID$(CurrentToken$,0,1)=CHR$(34) AND MID$(CurrentToken$,LEN(CurrentToken$)-1,1)=CHR$(34)
+		RETURN TRUE
+	ELSE
+		RETURN FALSE
+	ENDIF
+ENDFUNCTION
+FUNCTION GetToken:
+	CurrentTokenID=CurrentTokenID+1
+	IF CurrentTokenID=LEN(Tokens$[])
+		Error("Unexpected end of file")
+	ENDIF
+	CurrentToken$=Tokens$[CurrentTokenID]
+	IF CurrentToken$="\n"
+		CurrentLine=CurrentLine+1
+	ENDIF
+//	Output(CurrentToken$)
+ENDFUNCTION
+FUNCTION LooseToken:
+	CurrentTokenID=CurrentTokenID-1
+	CurrentToken$=Tokens$[CurrentTokenID]
+	IF CurrentToken$="\n"
+		CurrentLine=CurrentLine-1
+	ENDIF
+ENDFUNCTION
+FUNCTION Match: Text$
+	IF CurrentToken$<>Text$
+		Error("Unexpected symbol, expecting '"+Text$+"'")
+	ENDIF
+	GetToken()
+ENDFUNCTION
+FUNCTION Add:
+	AddUnknown(CurrentToken$)
+	GetToken()
+ENDFUNCTION
+
+FUNCTION AddUnknown: Text$
+	OpCode$=OpCode$+Text$+"\n"
+ENDFUNCTION
+
+
+FUNCTION GetLabel%:
+	CurrentJmpLabel=CurrentJmpLabel+1
+	RETURN CurrentJmpLabel-1
+ENDFUNCTION
+
+FUNCTION Output: Text$
+	STDOUT Text$+"\n"
+ENDFUNCTION
+FUNCTION Error: Text$
+	STDERR "Error: "+REPLACE$(Text$,"\n","NEWLINE")+" in line "+(CurrentLine+1)+" at character '"+REPLACE$(CurrentToken$,"\n","NEWLINE")+"'"
+	?IFNDEF HTML5
+	KEYWAIT
+	?ENDIF
+	END
+ENDFUNCTION

@@ -1,0 +1,147 @@
+import lumpy
+
+namespace std
+	function IchBinEineFunktionAusStd:void()
+	end
+end
+
+
+
+class object
+	public function toString()
+		return ""
+	end
+	
+	public function equals(other)
+		return this == other
+	end
+end
+
+class player <object
+	public static var test = 200
+	public static funktion:void()
+		//statisch
+	end
+	
+	public function compareto:int(other:object)
+		return 0
+	end
+	
+	private var myx,myy
+	
+	public property y:int
+		set
+			this.myx = value
+		end
+		get
+			return x
+		end
+	end
+	
+	public property x:int
+		set
+			this.myy = value
+		end
+		get
+			return y
+		end
+	end
+	
+	public function toString()
+		return ""
+	end
+	
+	public function update()
+		
+	end
+	
+	public function render()
+		
+	end
+	
+	public function new(x:int, y:int)
+		this.x = x
+		this.y = y
+	end
+end
+
+
+class Text < object
+	private String val
+	
+	public operator =(value:string)
+		this.val = value
+	end
+	
+	public operator +(value:Text)
+		this.val = this.val + value.val
+		return this
+	end
+	
+	public operator +(value:String)
+		this.val = this.val + value
+		return this
+	end
+	
+	public operator cast string()
+		return this.val
+	end
+end
+
+
+/*
+	lokale variablen in einem "generator" werden automatisch in ein attribut umgewandelt. 
+*/
+generator quadrat:int(start:int)
+	var i = start
+	loop i<5
+		i = i*i
+		yield return i
+	end
+	yield break
+end
+
+//wird zu:
+/*
+wird zu
+int generator_quadrat(GCNode* _this_, int param0) {
+	switch (((GeneratorObj*) _this_->data)->status) {
+		case 0:
+			
+			((GeneratorObj*) _this_->data) -> i = param0;
+			while (i<5) {
+				((GeneratorObj*) _this_->data) -> i = ((GeneratorObj*) _this_->data) ->i + 1;
+				
+				((GeneratorObj*) _this_->data)->status=0;
+				return ((GeneratorObj*) _this_->data) ->i;
+		case 1:
+			}
+			
+			((GeneratorObj*) _this_->data)->status = -1;
+			return;
+	}
+}
+*/
+
+
+function program()
+	var routine = new quadrat()
+	
+	routine.start()
+	loop routine.isFinished()
+		print(routine.resume())
+	end
+	
+	var test:Text = "Lol"
+	var x,y
+
+	std.ichbineinefunktionausstd()
+	
+	
+	
+	test = test + " looool"
+	print(string(test))
+	
+	lol()
+end
+

@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Function[]\ createFunction()
+comment1.params=func
+comment1.target=void\ registerExternalFunction(FunctionUser)
+comment2.params=name
+comment2.target=void\ init(String)
+comment3.params=type
+comment3.target=void\ setDatatype(String)
+comment4.params=param
+comment4.target=void\ addParameter(String)
+comment5.target=String\ getDatatype()
+comment6.target=String\ getName()
+comment7.target=LinkedList<String>\ getParameter()
+comment8.params=vm
+comment8.target=void\ execute(VM)
+numComments=9

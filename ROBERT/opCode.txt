@@ -1,0 +1,127 @@
+definition begin
+	var float blub
+	var int i
+	func int blub
+	begin
+		print("hallo welt")
+	end
+	class Tube begin
+		var int tmp	
+	end
+	type of tube test
+end
+test=new Tube
+test.tmp=100
+print("OOP: "+test.tmp)
+
+i=i+1
+print("i: "+i)
+
+if (1) begin
+	print("hallo")
+end else begin
+	print("tschuess")
+end
+
+while (1) begin
+	print("111")
+end
+
+blub()
+
+Befehle für OOP:
+classcount
+class
+attribut
+new
+pushattribut
+pushvarref
+instanceget
+refstack
+vartoval
+
+------------------------------------------
+In Assembler:
+
+classcount 1
+class 0
+attribut int 0
+
+
+flbl 0 //Funktions label 0, gehört zur Funktion mit ID 0
+pushstring "hallo welt"
+call 0
+retjmp 0 //return jump, 0 Rückgabewerte
+
+funccount 3
+
+funcdef 0 print //Eine Funktion mit der ID 0
+funcdef 1 toString //Eine FUnktion mit der ID 1
+funcdef 2 blub // Die blub funktion
+
+varcount 4
+
+vardef int 0 //Variable hat die ID 0 (relativ zum LocalVar Register
+vardef int 1 //Variable hat die ID 1
+vardef int 2 //Array
+vardef ref 3 //Die Referenz auf die Klasse
+
+new 0 //Erzeugt die Klasse mit ID 0
+ref 3 //Die Variable 3
+set //Setzte die Referenz
+
+push 100
+
+ref 3
+pushvarref //Pushe die 3. Variable auf den Stack
+pushattribut 0//Pushe das 0. Attribut
+instanceget //Pushe die Variable welche da ist
+refstack //Der aktuelle Stack Eintrag muss referenziert werden
+set  //Attribut bekommt Wert 100
+
+
+ref 3
+pushvarref
+pushattribut 0
+instanceget
+vartoval //Die oberste Variable in eine Value umwandeln
+
+pushvar 1 //Pusht die Variable mit der ID 1 (rel zum LocalVar Register)
+pushint 1 //Pusht die Int 1
+add //Popt die beiden oberen Einträge und setzt den Wert oben auf den Stack
+set 1 // Variable mit ID 1 bekommt den Wert am Stack (popt den obersten Eintrag)
+
+pushstring "i: " //Pusht den String mit dieser ID
+pushvar 1 //Pusht die Variable mit der ID 1 (rel zum LocalVar Register)
+add //kann auch 2 Strings miteinander addieren
+
+call 0 // Ruft die Funktion mit der ID 0 auf
+
+//Abfrage
+pushint 1
+inv //Invertiert den obersten Eintrag (0=>1, 1=>0)
+check  //Überprüft ob oberster Stack Eintrag Wahr ist, wenn ja führe nächsten OpCode aus
+jmp 0
+pushstring "hallo" // Pusht einen String
+call 0
+jmp 1 //Springt zum einser label (raus aus der Abfrage)
+lbl 0
+pushstring "tschuess"
+call 0
+lbl 1
+
+//While Schleife
+lbl 3 //Start der While Schleife
+pushint 1 //BEdingung
+inv //Muss Invertiert werden
+check //Wenn oberster Stack !=0 dann führe nächsten OpCode aus
+jmp 2 //Springt raus
+pushstring "111" //EIn String
+call 0 //ruft Print auf
+pushint 1 //Damit Check immer anspringt
+jmp 3 //Springt zurück
+lbl 2 //Markierung
+
+
+
+

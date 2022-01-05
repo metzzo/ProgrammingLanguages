@@ -1,0 +1,55 @@
+import lumpy
+
+class klasse
+	private var a:Testklasse
+end
+
+class Testklasse
+	public var test1:int
+	public var test2:int
+	public var huren:Testklasse
+	
+	public function privateMethode:void()
+		this.test1 = 200
+	end
+	
+	public function testMethode:Testklasse(test)
+		this.privateMethode()
+		return new Testklasse()
+	end
+	
+	public function new()
+	end
+end
+
+
+
+function program:void()
+	var hure:Testklasse = new Testklasse()
+	hure.test1 = 200
+	hure.huren = new Testklasse()
+	hure.huren.test2 = 42
+	hure.testMethode(10).test1 = 200
+	
+
+	
+	var test = 30.4, lol, rofl
+	test = test + 0.5
+
+
+	test = 4.6
+
+	
+	testParam 20,30,"lol"
+	gccollect
+	
+	
+end
+
+
+function testParam:void(p1,p2,p3) = "testParameter"
+	p1 = 300
+	p2 = 400
+	p3 = " Hallo "
+end
+

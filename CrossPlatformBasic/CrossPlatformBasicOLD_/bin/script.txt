@@ -1,0 +1,112 @@
+//NDSBasic
+//Variablen Test
+LOCAL MeineInt:INT=100
+LOCAL MeineFloat:FLOAT=100.5
+GLOBAL GlobalVar:INT=100
+LOCAL I:INT=0
+
+//Geht auch ohne Klammern
+PRINT "HALLO WELT\n"
+
+//FOR Schleife
+FOR i=0 to 5
+	Print("Hallo Welt %d\n",I)
+NEXT
+i=0
+//WHILE Schleife
+WHILE i<5
+	i++
+	LOCAL Var:INT=i*i
+	PRINT("Ich bin dumm %d\n",Var)
+WEND
+i=0
+//REPEAT Schleife
+REPEAT
+	i++
+	PRINT("Hallo Welt %d\n",i)
+	IF i>20
+		EXIT
+	ENDIF
+UNTIL i>100
+
+//IF Abfragen
+IF 1=0
+	Print ("Eins ist Null!\n")
+ELSEIF 1=1
+	IF 4=5
+		Print("4==5\n")
+	ELSEIF 8=10
+		PRINT("ouhdf")
+	ELSE
+		Print("Eins ist Eins\n")
+	ENDIF
+ELSE
+	Print("Eins ist nicht Null!\n")
+ENDIF
+
+//SELECT CASE
+SELECT 5
+	CASE 1
+		PRINT("1\n")
+	CASE 3
+		PRINT("3\n")
+	CASE 5
+		PRINT("In Case ist 5\n")
+ENDSELECT
+
+//String Test
+GLOBAL Text:STRING
+Text="Hallo Welt in String\n"
+PRINT(Text)
+//GOTO Test
+GOTO label1
+PRINT("ICH WERDE NIE ANGEZEIGT!!!")
+LABEL label1
+
+REM
+TYPE TType
+	FIELD X:INT
+	FIELD Y:INT
+	FIELD Z:INT
+	METHOD GetPosition
+
+	FUNCTION GetPosition
+		PRINT "POSITION!!!"
+	ENDFUNCTIOn
+ENDTYPE
+
+LOCAL TT:TTYPE
+NEW TTYPE TT //Nur benötigt wenn es als Klasse verwendet wird (um den Konstruktor aufzurufen)
+
+
+TT->X=20
+PRINT("%d\n",TT.X)
+
+TT->GetPosition()
+ENDREM
+
+//Sub
+GOSUB Sub1
+
+//Funktion
+PRINT "Rueckgabe: %d.\n",Func1(100,19)
+
+//RefTest
+RefTest(Func1)
+
+SUB Sub1
+	PRINT("Ich bin eine Subfunktion!\n")
+	LOCAL VarTest:INT=100
+	PRINT("Variablen Test: %d\n",VarTest)
+	PRINT(Text)
+ENDSUB
+
+FUNCTION Func1:INT (MeineVar:INT, Hallo:INT)
+	PRINT("In Funktion %d\n",MeineVar)
+	
+	RETURN Hallo
+ENDFUNCTION
+
+FUNCTION RefTest (MeineRef:REF_Func1)
+	MeineRef(510,40)
+ENDFUNCTION

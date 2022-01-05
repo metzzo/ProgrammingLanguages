@@ -1,0 +1,37 @@
+import lumpy
+
+
+
+
+function program()
+	var i = new int[10]
+	loop var j = 0 to 9
+		i[j] = j*j + j
+	end
+	
+	loop var arr in i
+		print "In Array: " + string(arr)
+	end
+	
+	var f = i.floatArray
+	loop var arr in f
+		print "In Float Array: " + string(arr)
+	end
+
+	var eindim = [10,20,30,40] 
+	
+	print eindim[2]
+	
+	var mehrdim = new int[10][10]
+	mehrdim = [[10,20,30],[10,20,30],[10,20,30]]
+	print mehrdim[0][0]
+
+	
+	
+	loop var arr in range(40)
+		print "range: " + string(arr)
+	end
+	var a = "LOL ICH KACKE"
+	a = a[2..6]
+	print a
+end

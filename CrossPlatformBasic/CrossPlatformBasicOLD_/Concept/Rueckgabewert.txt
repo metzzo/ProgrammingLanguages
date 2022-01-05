@@ -1,0 +1,18 @@
+Print Rueckgabewert()+100
+
+<line number="42">
+	<call name="print">
+		<cast from="int" to="float">
+			<add>
+				<left>
+					<param>
+						<call name="Rueckabewert" />
+					</param>
+				</left>
+				<right>
+					<int value="100">
+				</right>
+			</add>
+		</cast>
+	</call>
+</line>

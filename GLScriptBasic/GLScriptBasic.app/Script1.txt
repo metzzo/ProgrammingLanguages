@@ -1,0 +1,12 @@
+
+
+LOCAL Array[]
+DIM Array[5]
+Array[0] = 100
+
+funk(Array[])
+
+FUNCTION funk: Arr[]
+	STDOUT Arr[0]
+ENDFUNCTION
+

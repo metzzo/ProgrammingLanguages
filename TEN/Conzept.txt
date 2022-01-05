@@ -1,0 +1,118 @@
+SIX
+SIX ist eine Programmiersprache, welche nur SECHS Keywords enthält. Alles andere ist entweder im container "func" oder eine Variable. Sie ist dynamisch typisiert. Und Objekt Orientiert.
+Keywords:
+if, func, loop, class, else, return, break, implements
+
+
+class wtf --erzeugt automatisch eine globale table, die die attribute und methoadne hat
+	x,y,z
+	func new()
+		func.print ("constructor")
+	
+	func test123()
+		func.print ("hahah")
+	func +( left, right) -- operator + überladet
+		return left.x + left.y
+-- erzeugt:
+func.wtf = {
+	x=0
+	y=0
+	z=0
+	
+	wtf=func()
+		func.print("constructor")
+	
+	test123 = func() 
+		func.print("hahaha")
+	
+	__add = func(left,right)
+		return left.x + left.y
+
+
+haha = {
+	implement wtf
+	
+}
+
+class lol: wtf
+	func test123()
+		func.print ("ueberladen!!!"
+		this.x = 100
+
+--if mit elseif:
+if 1+1==2
+	func.print ("hallo")
+else if 4
+	func.print ("tschuess")
+--if ohne elseif aber else
+if 1+1==2
+	func.print ("hallo")
+else
+	if 8
+		func.print ("haha")
+
+--variable:
+i=10
+
+--1dim array:
+j = {
+	alter=10 
+	bauer=100
+	hallo="wtf"
+}
+
+j[1]=100
+j["hallo"]=200
+
+testtable={}
+testable.wtf="hallo"
+
+loop key = func.iterate(wtf)
+	func.print ("hallo")
+
+
+
+--func
+func xyz(wtf, haha)
+	func.print ("ein baum")
+
+--entspricht: func.xyz = func(wtf, haha)
+--	func.print ("ein baum")
+
+--aufrufen davon:
+func.xyz(10,200)
+	
+if --wenn keine expression, dann ist es try
+	blub.blib.bla = 0
+catch "NullAccess"
+	func.print("error")
+	
+
+IMPLEMENTATION:
+Datentypen: In SIX gibt es folgende Datentypen:
+	Int (Ganzzahl), Float(Kommazahl), String(Zeichenkette), Boolean (Zustandswert), Table (Tabelle), Function (Funktion)
+Wobei jeder Datentyp dynamisch aus dem Kontext heraus verwendet wird.
+
+Jede Funktion ist für SIX eine globale Variable.
+
+(Globale) Variablen werden alle in der Table "__global" gespeichert. Lokale wierderum werden in der lokalen table __local (welche jede funktion hat) gespeichert.
+Parameter werden in __parameter gespeichert.
+Funktionen werden in func gespeichert.
+
+Der Zugriff auf die lokale variable wird von "lokaleVariable" in "__local.lokaleVariable" umkompiliert.
+
+In SIX gibt es EINE datenstruktur. Die "Table". Diese beinhaltet beliebig viele "Keys" mit je einer "Value". Dies kann natürlich verschachtelt werden.
+
+Die VM von SIX ist Stack basiert. Es gibt EINEN Register, den PC(Program Counter), der auf den aktuellen OpCode verweist
+
+
+
+OpCodes:
+pushint/pushfloat/pushstring -- pusht datentypen
+
+getstack identifier -- holt vom stack die variable "identifier" und pusht sie auf den stack
+callstack identifier -- ruft vom stack die funktion "identifier" und pusht sie auf den stack
+
+gettable identifier -- holt von der obersten table den identifier und pusht dies auf den stack
+calltable identifier --ruft identifier und pusht auf stack
+

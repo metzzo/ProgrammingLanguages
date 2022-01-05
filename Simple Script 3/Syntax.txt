@@ -1,0 +1,197 @@
+// If Abfragen:
+
+if (1==1 || 1=0 ^^ 1>3 % 1<4 && 4>=1)
+{
+	TBasic.print("Hallo Welt")
+}
+elseif (1==Tmath.rand(1,2)) //Statt elseif geht auch otherwise
+{
+	TBasic.print("Ansonstenif")
+} 
+else
+{
+	TBasic.print("Falsch!")
+}
+TBasic.Waitkey()
+
+//Until Schleife
+local index:int
+
+{
+	index:+1
+	TBasic.print("Bei Index" & index)
+} until(index>4)
+
+//For Schleife
+for (index=0 TO 10)
+{
+	TBasic.print("For Schleife: " & index)
+}
+
+//While Schleife
+index=0
+while (index<5)
+{
+	TBasic.print("While Schleife: " & index)
+}
+/*
+	Ein Kommentar ¸ber mehrere Zeilen!
+*/
+
+//String example
+local MeinString:String
+MeinString="Hallo Welt!" & Tstring.mid("gluck",2,1)
+Tbasic.print (MeinString)
+Tbasic.print (Tstring.len(Meinstring))
+
+//Float Example
+local meinfloat:Float=5.4
+Tbasic.print(meinfloat)
+
+//Goto example
+goto ("Sinnloser Sprung!")
+Tbasic.print("Ich werde nie angezeigt!!111")
+label("Sinnloser Sprung!")
+
+//inline Bytecode Example
+Inlinebytecode 
+{
+	//Hier kˆnnte bereits vorkompilierter Mist stehen
+}
+
+//rechen example
+local meinint:int=5*4-2+(5-1*1)^3+Tmath.rand(4,5)-Tmath.cos(20)
+print (meinint)
+
+//Konstanten example
+const MeineConst:int=100 'Constanten sind immer Local
+print (MeineConst)
+
+//Function example
+print(Outputtext())
+Outputnothing()
+
+function outputtext:int(text:String)
+{
+	print(text)
+	return (5)
+}
+
+function Outputnothing:Void()
+{
+	print("Hallo Welt")
+}
+
+//Klassen example
+global Carlist:Tlist=New(TList)
+Type TAuto
+{
+	//Felder
+	Field x:int
+	Field y:int
+
+	PRIVATE
+	{
+		Field Image:TImage	
+	}
+	
+	//Methoden
+	method Draw ()
+	{
+		self.Image.Drawimage(self.x,self.y) //This geht auch
+	}
+	method New()
+	{
+		Basic.Print("Auto wurde erstellt")
+		Carlist.Listaddlast(self)
+	}
+	method Delete()
+	{
+		Basic.Print("Auto wurde gelˆscht")
+		Carlist.RemoveList(Self)
+	}
+}
+Type Lastwagen Extends TAuto
+{
+	PRIVATE
+	{
+		field Movespeed:int
+	}
+	method Draw()
+	{
+		TBasic.Print("Ein Lastwagen wird gezeichnet")
+		Super.Draw()
+	}
+}
+Tgraphic.Init(640,480)
+local car:TAuto=new (TAuto)
+car.x=10
+car.y=10
+car.Draw()
+Tgraphic.Flip()
+
+TBasic.Waitkey()
+
+if (1==1 && //Befehle ¸ber mehrere Zeilen (ist Optional)
+    2==2 &&
+    3==3)
+{
+	TBasic.Print("BLubb")
+}
+//Pointer Example
+local meinint:Int=10
+local MeinPointer:TPointer=meinint.Adress() //Meinint ist ja auch ein Objekt
+print (MeinPointer[0]) //Es arbeitet genau wie ein Array
+
+//Arrays
+local meinArray:int[10]=[[1,2,3,4,5,6,7,8,9]] //Erzeugt ein 9 DImensionales Array
+meinarray[1]=10
+print(meinarray[1])
+
+//TMaps
+Local MeinMap:TMap 'In TMaps sind alle Inhalte Strings
+Meinmap->"HALLO 123"="Ein BEsen"
+Meinmap->halloblubb="Zwei BEsen" //Auch ohne ""
+Meinmap->gaga=12
+MapFree(meinmap->gaga)
+
+//Try Catch
+try {
+	EineUndeklarierteVariable=1000000000000000000000 //Das ergibt nen  ehler
+} 
+catch 
+{
+	TBasic.Print("EIn Fehler")
+}
+
+//Script Example, also vom Script aus neue Scripts starten
+Local MeinScript:TScript=New(TScript)
+MeinScript.Load("script.ss3")
+meinscript.compile()
+if (meinscript.execute())
+{
+	print ("script zuenede")
+}
+
+//Präprozessor GEdöhns
+##define Def,1
+
+##if Def=1
+include "meinedatei2.ss3" // Diese Datei wird dynamisch includet, also beim ausführen
+##endif
+
+//Makro Gedöhs
+##macro if[blubb]then / IF ([blubb]) { //Alles was in eckigen Klammern steht ist eine kleine Variable sie kann beliebig lang sein
+##macro endif / Endif
+if 1==1 //Ist korrekt
+print("Hallo Welt")
+endif
+##macro function [blubb] ([daba]) / function [blubb]:void ([daba]) {
+##macro endfunction / }
+
+MacroFunc()
+
+function MacroFunc() //Dank Makro korrekt
+end()
+endfunction
+ 

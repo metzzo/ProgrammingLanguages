@@ -1,0 +1,45 @@
+// Melange GUI
+REM
+	Needed Language Features:
+	 - Real classes (no structs)
+	 - Automatic Array init.
+	 - Creating of Types temp
+
+	Definition von TPage zum Beispiel:
+NATIVE CLASS TPage
+	NATIVE FUNCTION AddNavigation: Name$
+ENDCLASS
+FUNCTION TPage AS TPage: Parent AS TPage
+	LOCAL P AS TPage
+	P.
+	RETURN P
+ENDFUNCTION
+	
+ENDREM
+
+
+
+TYPE TButtonDelegate
+	FUNCTION Click: Button AS TButton, Event AS TEvent
+		Button.SetText "Thank You"
+	ENDFUNCTION
+ENDTYPE
+
+TYPE TNavigationDelegate
+	FUNCTION Navigate: Nav AS TNavigation, Event AS TPressEvent
+		SELECT Event.Item$()
+			CASE 0
+				// do stuff
+			CASE 1
+				
+			CASE 2
+				
+		ENDSELECT
+	ENDTYPE
+ENDTYPE
+
+LOCAL Page AS TPage = TPage(DESKTOP(), "My awesome Header")
+Page.AddNavigation TNavigationDelegate(), ["One", "Two", "Three"]
+
+
+STARTGUI Page

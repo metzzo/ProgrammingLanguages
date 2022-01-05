@@ -1,0 +1,11 @@
+local map%
+map%=mapcreate ("map")
+mapadd(map%,"keyone1",210)
+mapadd(map%,"keyone2",220)
+
+
+
+map->keyone1=1
+
+print (map->keyone1)
+print (map->keyone2)

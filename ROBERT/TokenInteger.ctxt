@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=val
+comment0.target=TokenInteger(int)
+comment1.target=String\ toString()
+comment2.target=int\ getVal()
+comment3.target=int\ getId()
+numComments=4

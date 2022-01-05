@@ -1,0 +1,26 @@
+import lumpy
+
+function program()
+	print "Hallo " * 4
+	print 2*2
+	var left = "Rechts", right = "Links"
+	print left mod right
+	
+	print left
+	print right
+end
+
+operator *:string(left:string, right:int)
+	var str = ""
+	loop var i = 0 to right-1
+		str = str + left
+	end
+	return str
+end
+
+operator mod:string(ref left:string,ref right:string)
+	var tmp = left
+	left = right
+	right = tmp
+	return ""
+end

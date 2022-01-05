@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=vm
+comment0.target=void\ execute(VM)
+comment1.params=pos\ name
+comment1.target=OpCodeFuncDef(int,\ String)
+numComments=2

@@ -1,0 +1,17 @@
+import("key")
+print("Muh")
+print (hallo(5))
+print("MAH")
+
+function hallo(say%)
+print("hallo1")
+print("hallo2")
+print("hallo3")
+print(say%)
+hallo2()
+return("Hallo")
+endfunction
+
+function hallo2()
+print("Hallo4")
+endfunction

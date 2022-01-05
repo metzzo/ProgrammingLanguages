@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Compiler()
+comment1.params=input
+comment1.target=Compiler(String)
+comment2.target=void\ compile()
+comment3.params=file
+comment3.target=String\ readFile(String)
+numComments=4

@@ -1,0 +1,7 @@
+int test;
+void print(string text);
+void main() {
+	int hallo=0;
+	hallo=5*10+100;
+	print("Text: ");
+}

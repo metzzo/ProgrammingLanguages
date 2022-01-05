@@ -1,0 +1,38 @@
+Header "CPL Abstract Graphics Driver"
+	Type CPLDriver
+		Const SHAPERECT:Int  = 1
+		Const SHAPEOVAL:Int  = 2
+		Const SHAPEPOINT:Int = 3
+		Const SHAPEPOLY:Int  = 4
+		Global Current:CPLDriver
+		
+		Function New()
+		Function DrawShape:Void(ShapeID:Int, Poly:Float[])
+		Function DrawImage:Void(Image:TImage)
+		Function LoadImage:Void(Image:TImage, Mask:Int)
+		Function SetTransform:Void(ScaleX:Float, ScaleY:Float)
+		Function SetColor:Void(RGB:Int)
+		Function SetAlpha:Void(Alpha:Float)
+		Function SetBlend:Void(Blend:Int)
+		Function SetPosition:Void(X:Float, Y:Float)
+		Function GetImageData:Int[](Image:TImage)
+		Function Viewport(Width:Int, Height:Int)
+		Function Graphics:Void(Width:Int, Height:Int, FullScreen:Byte)
+		Function Flip:Void()
+		Function SetBlackScreen:Void(RGB:Int)
+		Function SetImageData:Void(Data:Int[], Image:TImage)
+		Function GrabImageData:Int[](Width:Float, Height:Float)
+		Function Reset:Void()
+	EndType
+	Type CPLImage
+		Function New()
+		Function LoadPNG:Void(Bytes:Byte[])
+		Function LoadBMP:Void(Bytes:Byte[])
+		Function LoadJPG:Void(Bytes:Byte[])
+		Function LoadTGA:Void(Bytes:Byte[])
+		
+		Function Draw:Void(Driver:CPLDriver)
+		Function SetData:Void(Data:Int[])
+		Function GetData:Int[]()
+	EndType
+EndHeader

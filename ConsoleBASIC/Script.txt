@@ -1,0 +1,15 @@
+INT MeineVariable=100
+FLOAT MeineFloat=10.86
+
+
+PRINT("Blub " + MeineVariable + "Hallo"+MeineFloat)
+
+IF (1+1==99)
+	PRINT("Hallo Welt")
+END
+
+INT i=0
+WHILE (i<10)
+	PRINT("Ich bin in einer Endlosschleife!\n")
+	i+=1
+END

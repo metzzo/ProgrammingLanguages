@@ -1,0 +1,38 @@
+import lumpy
+
+class lol
+	public var a = 10
+	public var testMem
+	
+	public function test:void()
+		print "in test"
+	end
+	
+	public function new()
+	end
+end
+
+
+function program:void()
+	var array:int[] = new int[20]
+	array[10] = 100
+	print array[10]
+	
+	
+	var test = new lol()
+	test.a = 100
+	test.testMem = new lol()
+	test.testMem.a = 200
+	
+	
+	test.test
+	
+	print test.a
+	
+	print "hallo welt"
+	
+	
+	
+	
+	
+end

@@ -1,0 +1,5 @@
+local map%
+map%=mapcreate(name$)
+mapadd(35575464,map%,othertype)
+mapadd(map%,"feld",0)
+return(map%)

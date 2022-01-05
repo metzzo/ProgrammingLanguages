@@ -1,0 +1,60 @@
+import lumpy
+
+
+function program()
+	var s = new stack<int>
+	
+end
+
+
+class<Datatype> Stack
+	private var size = 0, pos = 0
+	private var elements
+	public function new()
+		elements = new Datatype[1]
+		size = 1
+		pos = -1
+		
+		this.bigger
+	end
+	
+	public function element(pos = 0)
+		
+	end
+	
+	public function pop:datatype()
+		decrement pos
+		if pos < size/2
+			this.smaller
+		end
+		return elements[pos + 1]
+	end
+	
+	public function push(obj:datatype)
+		if obj == null
+			throw new nullpointerexception()
+		end
+		
+		increment pos
+		
+		if pos >= size
+			this.bigger
+		end
+		
+		elements[pos] = obj
+	end
+	
+	private function bigger()
+		var tmp = elements
+		elements = new datatype[size*2]
+		
+		loop var i:int = 0 to pos
+			//elements[i] = tmp[i]
+		end
+		
+	end
+	
+	private function smaller()
+		
+	end
+end

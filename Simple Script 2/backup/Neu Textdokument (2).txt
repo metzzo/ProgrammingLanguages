@@ -1,0 +1,122 @@
+;			For i=1 To func\intpars
+;				If Right(func\par[i2],1)="%"
+;					script\varint[i]=Paras(i3)
+;					i3=i3+1
+;				EndIf
+;				i2=i2+1
+;			Next
+;			i3=0
+;			For i=1 To func\floatpars
+;				
+;				If Right(func\par[i2],1)="#"
+;					script\varfloat[i]=Paras(i3)
+;					i3=i3+1
+;				EndIf
+;				i2=i2+1
+;			Next
+;			i3=0
+;			For i=1 To func\stringpars
+;				If Right(func\par[i2],1)="$"
+;					script\varstring[i]=Paras(i3)
+;					i3=i3+1
+;				EndIf
+;				i2=i2+1
+;			Next
+
+				
+				
+				
+				
+				
+;				For i=0 To ParameterCount
+;					func\par[i]=Parameter(i+2)
+;				Next
+;				
+;				;und jetzt ordnen
+;				For i=2 To ParameterCount
+;					If Right(Parameter(i),1)="%" Then
+;						Intcount=Intcount+1
+;						paramorder(Intcount,0)=i
+;						
+;					EndIf
+;				Next
+;				For i=2 To ParameterCount
+;					If Right(Parameter(i),1)="#" Then
+;						floatcount=floatcount+1
+;						paramorder(floatcount,1)=i
+;						
+;					EndIf
+;				Next
+;				For i=2 To ParameterCount
+;					If Right(Parameter(i),1)="$" Then
+;						stringcount=stringcount+1
+;						paramorder(stringcount,2)=i
+;					EndIf
+;				Next
+;				For i2=0 To Intcunt
+;					i=paramorder(i2,0)
+;					If Instr(Parameter(i),"=")
+;						par$=Mid(Parameter(i),Instr(Parameter(i),"=")+1)
+;						Parameter(i)=Mid(Parameter(i),1,Instr(Parameter(i),"=")-1)
+;						WriteLine stream2,"if ("+Parameter(i)+"==0)"
+;						WriteLine stream2,Parameter(i)+"="+par$
+;						WriteLine stream2,"endif"
+;					Else
+;						par=0
+;					EndIf
+;					
+;					Select Right(Parameter(i),1)
+;						Case "%"
+;							func\intpars=func\intpars+1
+;							script\varintc=script\varintc+1
+;							script\varint[script\varintc]=Int(par$)
+;							script\varintn[script\varintc]=Parameter(i)
+;						Default
+;							End
+;					End Select
+;				Next
+;				For i2=0 To floatcount
+;					i=paramorder(i2,1)
+;					If Instr(Parameter(i),"=")
+;						par$=Mid(Parameter(i),Instr(Parameter(i),"=")+1)
+;						Parameter(i)=Mid(Parameter(i),1,Instr(Parameter(i),"=")-1)
+;						WriteLine stream2,"if ("+Parameter(i)+"==0)"
+;						WriteLine stream2,Parameter(i)+"="+par$
+;						WriteLine stream2,"endif"
+;					Else
+;						par=0
+;					EndIf
+;					
+;					Select Right(Parameter(i),1)
+;						Case "#"
+;							func\floatpars=func\floatpars+1
+;							script\varfloatc=script\varfloatc+1
+;							script\varfloat[script\varfloatc]=Float(par)
+;							script\varfloatn[script\varfloatc]=Parameter(i)
+;						Default
+;							End
+;					End Select
+;				Next
+;				For i2=0 To stringcount
+;					i=paramorder(i2,2)
+;					If Instr(Parameter(i),"=")
+;						par$=Mid(Parameter(i),Instr(Parameter(i),"=")+1)
+;						Parameter(i)=Mid(Parameter(i),1,Instr(Parameter(i),"=")-1)
+;						WriteLine stream2,"if ("+Parameter(i)+"==0)"
+;						WriteLine stream2,Parameter(i)+"="+par$
+;						WriteLine stream2,"endif"
+;					Else
+;						par=0
+;					EndIf
+;					
+;					Select Right(Parameter(i),1)
+;						Case "$"
+;							func\stringpars=func\stringpars+1
+;							script\varstringc=script\varstringc+1
+;							script\varstring[script\varstringc]=par
+;							script\varstringn[script\varstringc]=Parameter(i)
+;						Default
+;							End
+;					End Select
+;				Next
+;				func\pars=ParameterCount-1

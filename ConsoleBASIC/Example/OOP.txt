@@ -1,0 +1,28 @@
+CLASS THaus
+	PRV STATIC List:TLinkedList
+	PUB X:INT
+	PUB Y:INT
+	
+	FUNC CREATE(X:INT, Y:INT)
+		SELF.X=X
+		SELF.Y=Y
+		List.Add SELF
+	END
+	FUNC DELETE()
+		PRINT "Haus wurde gelöscht"
+	END
+	
+	
+	PUB FUNC BAUEN()
+		PRINT "Ich wurde gebaut"
+	END
+	PUB STATIC FUNC AlleBauen
+		FOR Haus IN List
+			Haus.Bauen
+		END
+	END
+END
+Haus:THaus=NEW THaus(100,100)
+THaus.AlleBauen
+Haus.Bauen
+Haus=NULL

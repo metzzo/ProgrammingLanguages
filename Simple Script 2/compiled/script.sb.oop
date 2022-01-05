@@ -1,0 +1,16 @@
+function blubb(name$)
+local map%
+map%=mapcreate(name$)
+mapadd(35575464,map%,blubb)
+mapadd(map%,"x",0)
+mapadd(map%,"y",0)
+mapadd(map%,"other",0)
+return(map%)
+endfunction
+function othertype(name$)
+local map%
+map%=mapcreate(name$)
+mapadd(35575464,map%,othertype)
+mapadd(map%,"feld",0)
+return(map%)
+endfunction

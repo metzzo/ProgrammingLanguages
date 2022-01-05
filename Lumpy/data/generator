@@ -1,0 +1,4 @@
+public function start:void()
+	this.status = 0
+end
+

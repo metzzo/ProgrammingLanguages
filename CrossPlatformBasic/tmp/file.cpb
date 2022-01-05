@@ -1,0 +1,30 @@
+Local List:TList = New TList
+Local I:TIntDatatype = New TIntDatatype
+List.Add(I.Create(420))
+
+I = New TIntDatatype
+List.Add(I.Create(240))
+
+I = New TIntDatatype
+List.Add(I.Create(24))
+
+I = New TIntDatatype
+List.Add(I.Create(42))
+
+
+Type TIntDatatype
+	Field Value:Int
+	
+	Function Create:TIntDatatype(Value:Int)
+		This.Value = Value
+		Return This
+	EndFunction
+EndType
+List.StartIterate
+Local Obj:TIntDatatype=TIntDatatype(List.Next())
+While List.HasNext() <> NULL
+	Print Obj.Value
+	
+	Obj = TIntDatatype(List.Next())
+Wend
+List.EndIterate

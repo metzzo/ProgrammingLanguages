@@ -1,0 +1,85 @@
+XML Format:
+Projekt:
+Erstellen:
+{
+	type: 'project',
+	action: 'create', // creates
+	name: 'Projektname',
+	desc: 'Projektbeschreibung',
+	fileserver: {
+		type: 'dropbox'
+		username: 'benutzername'
+	},
+	users: [
+		{
+			user: 10, // User ID
+			pw: 'passwort und so',
+			roles: [ // if this does not exist, user is automatically an admin => this attribute wont be in the first release
+				'administrator' // is allowed to do everything, Other possible values are: gfx(is allowed to upload graphics), sfx(is allowed to upload sound), coder(is allowed to upload code),
+			]
+		}
+	]
+}
+Responds:
+{
+	type: 'project',
+	action: 'create',
+	id: 'id of project' // may be null if failed,
+	errorcode: 42 // if there was an error, here is the reason, optional
+}
+
+
+Bearbeiten:
+{
+	type: 'project',
+	action:  'edit',
+	id: 'project id',
+	// ... now all attributes as from project => create are possible
+}
+Responds:
+{
+	type: 'project',
+	action: 'edit',
+	successful: true,
+	errorcode: 42 // if there was an error, here is the reason, optional
+}
+
+
+Löschen:
+{
+	type: 'project',
+	action: 'delete',
+	id: 'project id'
+}
+Responds:
+{
+	type: 'project',
+	action: 'delete',
+	successful: true,
+	errorcode: 42 // if there was an error, here is the reason, optional
+}
+
+
+Sourcefile:
+Erstellen:
+{
+	type: 'source',
+	action: 'create',
+	id: 'project id',
+	name: 'name of file',
+	creator: 'user id',
+	
+}
+
+
+Modify:
+{
+	type: 'source',
+	action: 'modify',
+	id: 'file id',
+	diff: 'diffs' // changes since last change
+}
+
+
+
+

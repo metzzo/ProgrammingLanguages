@@ -1,0 +1,24 @@
+import lumpy
+
+
+
+function program()
+	var t = new test
+	t.optionalerParameter ,"lol"
+end
+
+function optionalerParameter(test:int = 100,lol:string)
+	print test
+	print lol
+end
+
+class test
+	public function new(test:int = 999)
+		print test
+	end
+	
+	public function optionalerParameter(test:int = 100,lol:string)
+		print test
+		print lol
+	end
+end

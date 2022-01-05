@@ -1,0 +1,47 @@
+importall()
+graphics(640,480,0,2)
+setbuffer(backbuffer())
+local py% ;die y kordinate des Spielers
+local gy% ;die y kordinate das Gegners
+
+local bx%=320
+local by%=240
+local bangle%=0
+
+repeat
+cls()
+getfps(10,10)
+
+bx%=bx%+cos(bangle%)*5
+by%=by%+sin(bangle%)*5
+
+If (by%>480)
+bangle%=(360-bangle%)
+endIf
+If (by%<0)
+bangle%=(360-bangle%) 
+endIf
+If (bx%>640)
+bangle%=(180-bangle%)
+endIf    
+If (bx%<0)
+bangle%=(180-bangle%)   
+endIf    
+
+if (keydown(200))
+y%=y%+3
+endif
+
+if (keydown(208))
+y%=y%-3
+endif
+
+oval(bx%,by%,10,10)
+
+rect (20,y%,10,50)
+
+
+
+flip(1)
+forever()
+

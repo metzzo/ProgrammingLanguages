@@ -1,0 +1,18 @@
+// foo around a bit to show the nice little parser
+// feel free to change it... if you build in some
+// symantic errors the parser will report it by putting
+// out a "parse error" with the line and column
+
+$foo = 3 * ( 2 - 9 );
+$bar = 88 - 22 - 11;
+
+$fooX = checkforBARing($foo,$bar);
+
+if($fooX != $bar + $foo AND $bar != $foo)
+{
+	print("That fooX=" .. $fooX .. " is not equal to the bar=" .. $bar .. "!!!");
+}
+else
+{
+	print("Wow... " .. $foo .. "==" .. $bar .. ".. your VM must be insane!!");
+}

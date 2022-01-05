@@ -1,0 +1,52 @@
+Local Array:Int[]
+Dim Array[20]
+
+Array[1]=100
+
+Print Array[1]
+
+
+
+
+<local>
+	<arraydef name="Array" type="int" dim="1">
+</local>
+<dimarray>
+	<array>
+		<name>
+			<var name="Array">
+		</name>
+		<dim>
+			<int value="20">
+		</dim>
+	</array>
+</dimarray>
+<set>
+	<name>
+		<array>
+			<name>
+				<var name="array">
+			</name>
+			<dim>
+				<int value="1">
+			</dim>
+		</array>
+	</name>
+	<value>
+		<int value="100">
+	</value>
+</set>
+
+<call name="print">
+	<param>
+		<array>
+			<name>
+				<var name="array">
+			</name>
+			<dim>
+				<int value="1">
+			</dim>
+		</array>
+	</param>
+</call>
+

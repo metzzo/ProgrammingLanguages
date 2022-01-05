@@ -1,0 +1,38 @@
+import lumpy
+
+class test
+	public static var statisch:int = 99
+	
+	public static function test()
+		print "ROFL"
+	end
+	
+	public static property name
+		get
+			return "Peter"
+		end
+		set
+			print "set name: " + value
+		end
+	end
+	
+	public static generator:int()
+		var i = 2
+		loop true
+			i = i*2
+			yield return i
+		end
+	end
+end
+
+function program()
+	test.statisch = 200
+	print test.statisch
+	test.test
+	print test.name
+	test.name = "hans"
+	
+	test.start
+	print test.invoke()
+	print test.invoke()
+end

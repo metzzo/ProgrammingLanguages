@@ -1,0 +1,24 @@
+importall()
+graphics(640,480,0,2)
+setbuffer(backbuffer())
+local hndl1 as timage
+hndl1.new(200,200)
+hndl1.load("gfx/player.png")
+hndl1.x%=320
+hndl1.y%=400
+
+repeat
+cls()
+
+if (keydown(203))
+hndl1.x%=hndl1.x%-1
+endif
+
+if (keydown(205))
+hndl1.x%=hndl1.x%+1
+endif
+
+hndl1.draw()
+
+flip(0)
+until(keyhit(1))

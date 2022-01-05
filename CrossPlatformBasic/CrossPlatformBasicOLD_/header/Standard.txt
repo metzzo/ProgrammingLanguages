@@ -1,0 +1,6 @@
+Header "Standard"
+	Function Print:Void()
+	Function GCCollect:Void()
+	Function MemAlloced:Int()
+	
+EndHeader

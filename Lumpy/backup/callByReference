@@ -1,0 +1,42 @@
+import lumpy
+
+class test
+	public var attribut = 100
+	
+	public function methode(ref test:int)
+		test = 400
+	end
+	
+	public function new()
+	end
+end
+
+function program()
+	var rofl = 100
+	testFunktion rofl
+	var t = new test
+	t.methode(rofl)
+	print rofl
+	
+	//testFunktion 100 error
+	
+	var i = 100, k = 200
+	
+	print i
+	print k
+	swap i,k
+	print "swap"
+	print i
+	print k
+end
+
+
+function testFunktion(ref einParameter:int)
+	einParameter = 200
+end
+
+function swap(ref l:int, ref r:int)
+	var i = l
+	l = r
+	r = i
+end

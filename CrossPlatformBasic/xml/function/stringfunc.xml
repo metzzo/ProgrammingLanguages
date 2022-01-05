@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<root>
+	<function name="len" type="int">
+		<param name="TEXT" type="string" />
+	</function>
+	<function name="chr" type="string">
+		<param name="VALUE" type="int" />
+	</function>
+	<function name="asc" type="int">
+		<param name="TEXT" type="string" />
+	</function>
+	<function name="instr" type="int">
+		<param name="TEXT1" type="string" />
+		<param name="TEXT2" type="string" />
+		<param name="START" type="int" pre="0"/>
+	</function>
+	<function name="mid" type="string">
+		<param name="TEXT" type="string" />
+		<param name="START" type="int" />
+		<param name="ANZAHL" type="int" pre="-1"/>
+	</function>
+	<function name="left" type="string">
+		<param name="TEXT" type="string" />
+		<param name="ANZAHL" type="int" />
+	</function>
+	<function name="right" type="string">
+		<param name="TEXT" type="string" />
+		<param name="ANZAHL" type="int" />
+	</function>
+	<function name="upper" type="string">
+		<param name="TEXT" type="string" />
+	</function>
+	<function name="lower" type="string">
+		<param name="TEXT" type="string" />
+	</function>
+	<function name="trim" type="string">
+		<param name="TEXT" type="string" />
+	</function>
+	<function name="replace" type="string">
+		<param name="TEXT" type="string" />
+		<param name="SUCHE" type="string" />
+		<param name="ERSETZE" type="string" />
+		<param name="POSITION" type="int" pre="0"/>
+	</function>
+</root>

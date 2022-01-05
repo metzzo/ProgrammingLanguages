@@ -1,0 +1,24 @@
+import lumpy
+
+
+class test
+	private var _hunger = 20
+	public property Hunger:int
+		set
+			this._hunger = value
+		end
+		
+		get
+			return this._hunger
+		end
+	end
+	
+	public function new()
+	end
+end
+
+function program()
+	var t = new test
+	t.hunger = 30
+	print t.hunger
+end

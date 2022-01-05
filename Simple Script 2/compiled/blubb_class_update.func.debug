@@ -1,0 +1,4 @@
+0: %1!%=%1%
+1: print ("Hallo Welt")
+2: %1%->other=othertype()
+3: print ((%1%->other)->feld)

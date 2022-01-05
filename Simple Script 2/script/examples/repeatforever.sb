@@ -1,0 +1,9 @@
+local i%
+repeat
+i%=i%+1
+Print("Hallo"&i%)
+if (i%==10)
+print("muh")
+exit
+endif
+forever

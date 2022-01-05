@@ -1,0 +1,745 @@
+// --------------------------------- //
+// Project: GLScriptBasic
+// Start: Friday, April 30, 2010
+// IDE Version: 7.322
+?DEFINE DEBUGMODE
+
+
+CONSTANT OPPOP=0
+CONSTANT OPPUSHNUM=1
+CONSTANT OPPUSHSTR=2
+CONSTANT OPADD=3
+CONSTANT OPSUB=4
+CONSTANT OPDIV=5
+CONSTANT OPMUL=6
+CONSTANT OPLESS=7
+CONSTANT OPGREATER=8
+CONSTANT OPINV=9
+CONSTANT OPREF=10
+CONSTANT OPSET=11
+CONSTANT OPCALL=12
+CONSTANT OPFCALL=13
+CONSTANT OPJMP=14
+CONSTANT OPLBL=15
+CONSTANT OPCHECK=16
+CONSTANT OPNOTCHECK=17
+CONSTANT OPVAR=18
+CONSTANT OPCMP=19
+
+
+CONSTANT OPPUSHVAR=22
+CONSTANT OPAND=23
+CONSTANT OPOR=24
+CONSTANT OPDEF=25
+CONSTANT OPLESSEQU=26
+CONSTANT OPGREATEREQU=27
+CONSTANT OPPUSHARRAY=28
+CONSTANT OPDIMARRAY=29
+CONSTANT OPREDIMARRAY=30
+CONSTANT OPRET=31
+CONSTANT OPGETARRAY=32
+//CONSTANT OP=0
+
+//GLScriptBasic beinhaltet sowenige OpCodes wie nur möglich
+//pop --löscht das letzte Element aufm Stack
+//pushnum --Zahl pushen
+//pushstr --String pushen
+//pushvar --Variable pushen
+//add,sub,div,mul,cmp,less,greater,inv,and,or,lessequ,greaterequ --addieren, subtrahieren, multiplizieren, dividieren, vergleichen, kleiner, groesser,kleinergleich,größergleich invertieren
+//ref -Referenziert eine variable
+//set -- setzt die referenzierte Variable
+//call --ruft eine Funktion auf
+//fcall --ruft eine im Script definierte Funktion auf
+//jmp --springt an einen ort
+//lbl --definiert einen sprungpunkt
+//check --vergleicht den Wert an erster Stelle, wenn wahr dann springe an label
+//notcheck --vergleicht, wenn falsch dann springe an label
+//var --erstellt eine Variable auf dem varstack (Der Stack für die Variablen)
+//unvar --löscht so und so viele Variablen vom Stack (variable Stack)
+//pushscope --markiert eine Position im Varstack (fuer lokale Variablen)
+//popscope --löscht diese Markierung
+//pusharray --pusht ein neues Array als ein ganzes auf den Stack
+//getarray --pusht ein gegebenes Array aufn stack
+//dimarray, redimarray --vergrösser ein array
+//ret --springt aus dem aktuellen Scope
+//def --definiert eine im script definierte Funktion, also quasi ein Alias
+
+// Eine Virtuelle Machine
+TYPE TVM
+	OpCode[] AS TOpCode // OpCodes
+	Code$ // Code als String
+	Stack[] AS TStackMember // Der Zahlen Stack
+	Var[] AS TVariable // Der Variablen Stack
+	Scope%[] //Wo der nächste Scope beginnt
+	Label%[16] //Die Label Markierungen
+	Frames[] AS TStackFrame //Alle Stackframes
+ENDTYPE
+
+// Ein ausführbares Opcode
+TYPE TOpCode
+	ID%=-1
+	Par$ //Der String Parameter (falls es einen hat)
+	Par[2] //Die Zahl Parameter
+	?IFDEF DEBUGMODE
+	Text$ //der OpCode
+	?ENDIF
+ENDTYPE
+
+CONSTANT ELEMNUM=0 //Element ist eine Nummer
+CONSTANT ELEMSTR=1 //Element ist ein String
+
+// Ein Element auf dem Stack
+TYPE TStackMember
+	Typ%=-1
+	Par$ //Als String
+	Par //Als Number
+	IsArray //Ist es ein Array?
+ENDTYPE
+
+//Stack Frame speichert bei einem Function aufruf alle Werte
+
+TYPE TStackFrame
+	Ref //Der Ref Register
+	Backjmp // Wohin zurück gesprungen werden sol
+ENDTYPE
+
+// Eine Variable
+TYPE TVariable
+	Typ%=0 //Datentyp (std. int)
+	IsArray%=FALSE //Ist es ein Array?
+	Par$ //String=0
+	Par //number=1
+	Arr$[] //string array typ=1
+	Arr[] //num array typ=0
+	Dimension% //Wie viele Dimensionen
+ENDTYPE
+
+// Eine Funktionsdefinition
+TYPE TDef
+	ID;Name$;ParCount%
+ENDTYPE
+GLOBAL Defs[] AS TDef
+
+GLOBAL CurrentOP AS TOpCode // Das aktuelle OpCode (nur im Debug Modus zugreifbar
+
+GLOBAL CurrentVM AS TVM //Die Aktuelle VM (fuer funktionsaufrufe)
+
+FUNCTION CreateVM AS TVM: Code$
+	LOCAL vm AS TVM
+	vm.Code$=Code$
+	LOCAL Line$[], Word$[]
+	SPLITSTR(Code$, Line$[],"\n")
+
+	DIM vm.OpCode[LEN(Line$[])]
+
+	FOR i=0 TO LEN(Line$[])-1
+		IF INSTR(Line$[i],"//")<>-1
+			Line$[i]=MID$(Line$[i],0,INSTR(Line$[i],"//"))
+		ENDIF
+		SPLITSTR(Line$[i],Word$[]," ")
+		?IFDEF DEBUGMODE
+			vm.OpCode[i].Text$=Line$[i]
+		?ENDIF
+
+		SELECT Word$[0]
+			CASE "pushstr"
+				vm.OpCode[i].ID%=OPPUSHSTR
+				vm.OpCode[i].Par$=MID$(Line$[i],LEN("pushstr")+2,LEN(Line$[i])-1-LEN("pushstr")-2)
+			CASE "pushnum"
+				vm.OpCode[i].ID%=OPPUSHNUM
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "pop"
+				vm.OpCode[i].ID%=OPPOP
+			CASE "add"
+				vm.OpCode[i].ID%=OPADD
+			CASE "sub"
+				vm.OpCode[i].ID%=OPSUB
+			CASE "mul"
+				vm.OpCode[i].ID%=OPMUL
+			CASE "div"
+				vm.OpCode[i].ID%=OPDIV
+			CASE "cmp"
+				vm.OpCode[i].ID%=OPCMP
+			CASE "less"
+				vm.OpCode[i].ID%=OPLESS
+			CASE "greater"
+				vm.OpCode[i].ID%=OPGREATER
+			CASE "lessequ"
+				vm.OpCode[i].ID%=OPLESSEQU
+			CASE "greaterequ"
+				vm.OpCode[i].ID%=OPGREATEREQU
+			CASE "and"
+				vm.OpCode[i].ID%=OPAND
+			CASE "or"
+				vm.OpCode[i].ID%=OPOR
+			CASE "inv"
+				vm.OpCode[i].ID%=OPINV
+			CASE "ref"
+				vm.OpCode[i].ID%=OPREF
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "set"
+				vm.OpCode[i].ID%=OPSET
+			CASE "call"
+				vm.OpCode[i].ID%=OPCALL
+				LOCAL Find=FALSE
+				FOREACH D IN Defs[]
+					IF D.Name$=Word$[1]
+						vm.OpCode[i].ID%=OPFCALL
+						vm.OpCode[i].Par[0]=D.ID
+						vm.OpCode[i].Par[1]=D.ParCount
+						Find=TRUE
+						BREAK
+					ENDIF
+				NEXT
+				//Das @ entfernen
+				IF INSTR(Word$[1],"@") THEN Word$[1]=MID$(Word$[1],0,INSTR(Word$[1],"@"))
+				IF Find=FALSE
+					vm.OpCode[i].Par$=Word$[1]
+				ENDIF
+			CASE "jmp"
+				vm.OpCode[i].ID%=OPJMP
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "lbl"
+				vm.OpCode[i].ID%=OPLBL
+				vm.OpCode[i].Par[0]=Word$[1]
+				DIMPUSH vm.Label[],0
+				vm.Label[vm.OpCode[i].Par[0]]=i
+			CASE "check"
+				vm.OpCode[i].ID%=OPCHECK
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "notcheck"
+				vm.OpCode[i].ID%=OPNOTCHECK
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "var"
+				vm.OpCode[i].ID%=OPVAR
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "pushvar"
+				vm.OpCode[i].ID%=OPPUSHVAR
+			CASE "pusharray"
+				vm.OpCode[i].ID%=OPPUSHARRAY
+			CASE "getarray"
+				vm.OpCode[i].ID%=OPGETARRAY
+			CASE "dimarray"
+				vm.OpCode[i].ID%=OPDIMARRAY
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "redimarray"
+				vm.OpCode[i].ID%=OPREDIMARRAY
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "ret"
+				vm.OpCode[i].ID%=OPRET
+				vm.OpCode[i].Par[0]=Word$[1]
+			CASE "def"
+				LOCAL D AS TDef
+				D.Name$=Word$[1]
+				D.ID=Word$[2]
+				D.ParCount=Word$[3]
+				DIMPUSH Defs[], D
+			DEFAULT
+				Output("Unknown opcode "+Word$[i])
+				?IFNDEF HTML5
+				KEYWAIT
+				?ENDIF
+		ENDSELECT
+	NEXT
+
+	RETURN vm
+ENDFUNCTION
+
+FUNCTION ExecuteVM: vm AS TVM, StartPos=0
+	StackPushNumber(vm,0)
+	LOCAL Ref% //Ein Register, der auf die aktuelle Variable zeigt
+	LOCAL Op AS TOpCode
+	CurrentOP.Text$="Only in debug Mode"
+	FOR i=StartPos TO LEN(vm.OpCode[])-1
+		Op=vm.OpCode[i]
+		?IFDEF DEBUGMODE
+			DEBUG "Execute: "+Op.Text$+"\n"
+			CurrentOP=Op
+		?ENDIF
+		IF LEN(vm.Stack[])<1 THEN StackPushNumber(vm,0)
+		SELECT Op.ID
+			CASE OPPUSHSTR
+				StackPushString(vm, Op.Par$)
+			CASE OPPUSHNUM
+				StackPushNumber(vm,Op.Par[0])
+			CASE OPPOP
+				StackPop(vm)
+			CASE OPADD
+				LOCAL A$, B$
+				B$=StackPopString$(vm)
+				A$=StackPopString$(vm)
+				IF IsValue2(A$) AND IsValue2(B$)
+					LOCAL C,D
+					C=A$
+					D=B$
+					StackPushNumber(vm,C+D)
+				ELSE
+					StackPushString(vm,A$+B$)
+				ENDIF
+			CASE OPSUB
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A-b)
+			CASE OPMUL
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A*b)
+			CASE OPDIV
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A/b)
+			CASE OPCMP
+				LOCAL A$, b$
+
+				b$=StackPopString$(vm)
+				A$=StackPopString$(vm)
+				IF IsValue2(A$) AND IsValue2(b$)
+					LOCAL D,C
+					D=A$
+					C=b$
+					StackPushNumber(vm, C=D)
+				ELSE
+					StackPushNumber(vm, A$=b$)
+				ENDIF
+			CASE OPLESS
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A<b)
+			CASE OPGREATER
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A>b)
+			CASE OPLESSEQU
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A<=b)
+			CASE OPGREATEREQU
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A>=b)
+			CASE OPAND
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A AND b)
+			CASE OPOR
+				LOCAL A, b
+				b=StackPopNumber(vm)
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,A OR b)
+			CASE OPINV
+				LOCAL A
+				A=StackPopNumber(vm)
+				StackPushNumber(vm,INTEGER(A)=0)
+			CASE OPREF
+				Ref=Op.Par[0]
+			CASE OPSET
+				IF vm.Stack[-1].IsArray //AND vm.Stack[Ref].IsArray //Oberstes Element muss ein Array sein also: Arr[]=Arr2[]"
+					vm.Var[Ref].Arr$[]=vm.Var[vm.Stack[-1].Par].Arr$[]
+					vm.Var[Ref].Arr[]=vm.Var[vm.Stack[-1].Par].Arr[]
+					vm.Var[Ref].Dimension=vm.Var[vm.Stack[-1].Par].Dimension
+					vm.Var[Ref].Typ=vm.Var[vm.Stack[-1].Par].Typ
+					vm.Var[Ref].IsArray=TRUE
+					StackPop(vm) //Das oberste Element wef
+				ELSEIF vm.Var[Ref].IsArray=FALSE
+
+					LOCAL Member AS TStackMember
+					Member=StackPop(vm)
+					vm.Var[Ref].Par=Member.Par
+					vm.Var[Ref].Par$=Member.Par$
+					IF IsValue2(vm.Var[Ref].Par$)
+						vm.Var[Ref].Par=Member.Par$
+						vm.Var[Ref].Typ=1
+					ELSEIF LEN(Member.Par$)>0
+						vm.Var[Ref].Typ=1
+					ELSE
+						vm.Var[Ref].Typ=0
+					ENDIF
+				ELSE
+					IF vm.Var[Ref].Typ=0
+						SELECT vm.Var[Ref].Dimension
+							CASE 0
+								LOCAL A=StackPopNumber(vm),b=StackPopNumber(vm)
+								vm.Var[Ref].Arr[b]=A
+							CASE 1
+								LOCAL A=StackPopNumber(vm), C=StackPopNumber(vm), b=StackPopNumber(vm)
+								vm.Var[Ref].Arr[b][C]=A
+							CASE 2
+								LOCAL A=StackPopNumber(vm),D=StackPopNumber(vm), C=StackPopNumber(vm), b=StackPopNumber(vm)
+								vm.Var[Ref].Arr[b][C][D]=A
+							CASE 3
+								LOCAL A=StackPopNumber(vm),E=StackPopNumber(vm),D=StackPopNumber(vm), C=StackPopNumber(vm), b=StackPopNumber(vm)
+								vm.Var[Ref].Arr[b][C][D][E]=A
+						ENDSELECT
+					ELSEIF vm.Var[Ref].Typ=1
+						SELECT vm.Var[Ref].Dimension
+							CASE 0
+								LOCAL A$=StackPopString$(vm),b=StackPopNumber(vm)
+								vm.Var[Ref].Arr$[b]=A$
+							CASE 1
+								LOCAL A$=StackPopString$(vm), C=StackPopNumber(vm), b=StackPopNumber(vm)
+								vm.Var[Ref].Arr$[b][C]=A$
+							CASE 2
+								LOCAL A$=StackPopString$(vm), D=StackPopNumber(vm), C=StackPopNumber(vm), b=StackPopNumber(vm)
+								vm.Var[Ref].Arr$[b][C][D]=A$
+							CASE 3
+								LOCAL A$=StackPopString$(vm), E=StackPopNumber(vm),D=StackPopNumber(vm), C=StackPopNumber(vm), b=StackPopNumber(vm)
+								vm.Var[Ref].Arr$[b][C][D][E]=A$
+						ENDSELECT
+					ENDIF
+				ENDIF
+				Ref=0
+			CASE OPCALL
+				CurrentVM=vm
+				IF CALLBYNAME(Op.Par$)=0
+					STDERR "Failed to call '"+Op.Par$+"'."
+				ENDIF
+				vm=CurrentVM
+			CASE OPFCALL
+				LOCAL Frame AS TStackFrame
+				Frame.Backjmp=i
+				Frame.Ref=Ref
+				DIMPUSH vm.Frames[], Frame
+				i=vm.Label[Op.Par[0]]
+			CASE OPRET
+				LOCAL Member AS TStackMember //Den Return Wert zurück holen
+				Member=StackPop(vm)
+				LOCAL Frame AS TStackFrame
+				Frame=vm.Frames[-1]
+				DIMDEL vm.Frames[], -1
+				i=Frame.Backjmp
+				Ref=Frame.Ref
+				REDIM vm.Var[LEN(vm.Var[])-Op.Par[0]]
+				StackPush(vm, Member)
+			CASE OPLBL
+				// nichts tun
+			CASE OPJMP
+				i=vm.Label[Op.Par[0]]
+			CASE OPCHECK
+				LOCAL A=StackPopNumber(vm)
+				IF A<>0
+					i=vm.Label[Op.Par[0]]
+				ENDIF
+			CASE OPNOTCHECK
+				LOCAL A=StackPopNumber(vm)
+				IF A=0
+					i=vm.Label[Op.Par[0]]
+				ENDIF
+			CASE OPVAR
+				LOCAL Var AS TVariable
+				Var.Typ=Op.Par[0]
+				DIMPUSH vm.Var[],Var
+			CASE OPPUSHVAR
+				IF vm.Var[Ref].IsArray=FALSE
+					LOCAL Member AS TStackMember
+					Member.Par=vm.Var[Ref].Par
+					Member.Par$=vm.Var[Ref].Par$
+					Member.Typ=vm.Var[Ref].Typ
+					StackPush(vm, Member)
+				ELSE
+					IF vm.Var[Ref].Typ=0
+						SELECT vm.Var[Ref].Dimension
+							CASE 0
+								LOCAL A=StackPopNumber(vm)
+								StackPushNumber(vm,vm.Var[Ref].Arr[A])
+							CASE 1
+								LOCAL b=StackPopNumber(vm),A=StackPopNumber(vm)
+								StackPushNumber(vm,vm.Var[Ref].Arr[A][b])
+							CASE 2
+								LOCAL C=StackPopNumber(vm),b=StackPopNumber(vm),A=StackPopNumber(vm)
+								StackPushNumber(vm,vm.Var[Ref].Arr[A][b][C])
+							CASE 3
+								LOCAL D=StackPopNumber(vm),C=StackPopNumber(vm),b=StackPopNumber(vm),A=StackPopNumber(vm)
+								StackPushNumber(vm,vm.Var[Ref].Arr[A][b][C][D])
+						ENDSELECT
+					ELSEIF vm.Var[Ref].Typ=1
+						SELECT vm.Var[Ref].Dimension
+							CASE 0
+								LOCAL A=StackPopNumber(vm)
+								StackPushString(vm,vm.Var[Ref].Arr$[A])
+							CASE 1
+								LOCAL b=StackPopNumber(vm),A=StackPopNumber(vm)
+								StackPushString(vm,vm.Var[Ref].Arr$[A][b])
+							CASE 2
+								LOCAL C=StackPopNumber(vm),b=StackPopNumber(vm),A=StackPopNumber(vm)
+								StackPushString(vm,vm.Var[Ref].Arr$[A][b][C])
+							CASE 3
+								LOCAL D=StackPopNumber(vm),C=StackPopNumber(vm),b=StackPopNumber(vm),A=StackPopNumber(vm)
+								StackPushString(vm,vm.Var[Ref].Arr$[A][b][C][D])
+						ENDSELECT
+					ELSEIF vm.Var[Ref].Typ=-1
+						//END
+					ENDIF
+				ENDIF
+				Ref=0
+			CASE OPGETARRAY
+
+			CASE OPPUSHARRAY
+				StackPushNumber(vm,Ref)
+				vm.Stack[-1].IsArray=TRUE
+			CASE OPDIMARRAY TO OPREDIMARRAY
+				LOCAL Re=FALSE
+				IF Op.ID=OPREDIMARRAY THEN Re=TRUE
+				LOCAL ID=StackPopNumber(vm)
+				vm.Var[ID].IsArray=TRUE
+				vm.Var[ID].Dimension=Op.Par[0]
+				IF vm.Var[ID].Typ=1
+					SELECT Op.Par[0]
+						CASE 0
+							IF Re
+								REDIM vm.Var[ID].Arr$[StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr$[StackPopNumber(vm)]
+							ENDIF
+						CASE 1
+							IF Re
+								REDIM vm.Var[ID].Arr$[StackPopNumber(vm)][StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr$[StackPopNumber(vm)][StackPopNumber(vm)]
+							ENDIF
+						CASE 2
+							IF Re
+								REDIM vm.Var[ID].Arr$[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr$[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ENDIF
+						CASE 3
+							IF Re
+								REDIM vm.Var[ID].Arr$[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr$[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ENDIF
+						DEFAULT
+							//END
+					ENDSELECT
+				ELSEIF vm.Var[ID].Typ=0
+					SELECT Op.Par[0]
+						CASE 0
+							IF Re
+								REDIM vm.Var[ID].Arr[StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr[StackPopNumber(vm)]
+							ENDIF
+						CASE 1
+							IF Re
+								REDIM vm.Var[ID].Arr[StackPopNumber(vm)][StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr[StackPopNumber(vm)][StackPopNumber(vm)]
+							ENDIF
+						CASE 2
+							IF Re
+								REDIM vm.Var[ID].Arr[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ENDIF
+						CASE 3
+							IF Re
+								REDIM vm.Var[ID].Arr[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ELSE
+								DIM vm.Var[ID].Arr[StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)][StackPopNumber(vm)]
+							ENDIF
+						DEFAULT
+							//END
+					ENDSELECT
+				ENDIF
+			DEFAULT
+				//END
+		ENDSELECT
+	NEXT
+ENDFUNCTION
+FUNCTION StackPush: vm AS TVM, StackMember AS TStackMember
+	DIMPUSH vm.Stack[], StackMember
+ENDFUNCTION
+FUNCTION StackPop AS TStackMember: vm AS TVM
+	IF LEN(vm.Stack[])=0
+		OutputError("Stack is empty at OpCode: "+CurrentOP.Text$)
+		Debug_OutputStack(vm)
+	ENDIF
+
+	LOCAL StackMember AS TStackMember
+	StackMember=vm.Stack[-1]
+  	DIMDEL vm.Stack[],-1
+
+	RETURN StackMember
+ENDFUNCTION
+
+FUNCTION StackPushString: vm AS TVM, Text$
+	LOCAL StackMember AS TStackMember
+	StackMember.Par$=Text$
+	StackMember.Typ=ELEMSTR
+	StackPush(vm, StackMember)
+//	DEBUG "Push String: "+Text$+"\n"
+ENDFUNCTION
+FUNCTION StackPopString$: vm AS TVM
+	LOCAL Text$
+	LOCAL StackMember AS TStackMember
+	StackMember=StackPop(vm)
+	IF StackMember.Typ=ELEMNUM
+		Text$=StackMember.Par
+	ELSE
+		Text$=StackMember.Par$
+	ENDIF
+//	DEBUG "Pop String: "+Text$+"\n"
+	RETURN Text$
+ENDFUNCTION
+
+FUNCTION StackPushNumber: vm AS TVM, val
+	LOCAL StackMember AS TStackMember
+	StackMember.Par=val
+
+	StackMember.Typ=ELEMNUM
+	StackPush(vm, StackMember)
+//	DEBUG "Push Number: "+val+"\n"
+ENDFUNCTION
+FUNCTION StackPopNumber: vm AS TVM
+	LOCAL Value
+	LOCAL StackMember AS TStackMember
+	StackMember=StackPop(vm)
+	IF StackMember.Typ=ELEMNUM
+		Value=StackMember.Par
+	ELSE
+		Value=StackMember.Par$
+	ENDIF
+//	DEBUG "Pop Number: "+Value+"\n"
+	RETURN Value
+ENDFUNCTION
+FUNCTION StackSetNumberArray: vm AS TVM, ID%, Arr[]
+	IF vm.Var[-ID].IsArray
+		IF vm.Var[-ID].Typ=0
+			vm.Var[-ID].Arr=Arr[]
+		ELSE
+			DIM vm.Var[-ID].Arr[-1]
+			FOREACH A IN Arr[]
+				DIMPUSH vm.Var[-ID].Arr$[],A
+			NEXT
+		ENDIF
+	ELSE
+		END
+	ENDIF
+ENDFUNCTION
+FUNCTION StackSetStringArray: vm AS TVM, ID%, Arr$[]
+	IF vm.Var[-ID].IsArray
+		IF vm.Var[-ID].Typ=1
+			vm.Var[-ID].Arr$=Arr$[]
+		ELSE
+			DIM vm.Var[-ID].Arr$[-1]
+			FOREACH A IN Arr$[]
+				DIMPUSH vm.Var[-ID].Arr[],A
+			NEXT
+		ENDIF
+	ELSE
+		Error("Internal")
+	ENDIF
+ENDFUNCTION
+FUNCTION StackPopStringArray: vm AS TVM, Arr$[]
+	LOCAL ID%=StackPopNumber(vm)
+	IF vm.Var[-ID].IsArray
+		IF vm.Var[-ID].Typ=1
+			Arr$[]=vm.Var[-ID].Arr$[]
+		ELSE
+			FOREACH A IN vm.Var[-ID].Arr[]
+				DIMPUSH Arr$[], A
+			NEXT
+		ENDIF
+		RETURN ID
+	ELSE
+		Error("Internal")
+	ENDIF
+ENDFUNCTION
+FUNCTION StackPopNumberArray: vm AS TVM, Arr[]
+	LOCAL ID=StackPopNumber(vm)
+	IF vm.Var[-ID].IsArray
+		IF vm.Var[-ID].Typ=0
+			Arr[]=vm.Var[-ID].Arr[]
+		ELSE
+			FOREACH A IN vm.Var[-ID].Arr$[]
+				DIMPUSH Arr[], A
+			NEXT
+		ENDIF
+		RETURN ID
+	ELSE
+		Error("Internal")
+	ENDIF
+ENDFUNCTION
+FUNCTION IsValue2: Text$
+	IF LEN(Text$)=0 THEN RETURN FALSE
+	FOR i=0 TO LEN(Text$)-1
+		LOCAL a=ASC(MID$(Text$,i,1))
+		IF a>=48 AND a<=57 OR a=46 OR a=45
+		ELSE
+			RETURN FALSE
+		ENDIF
+	NEXT
+	RETURN TRUE
+ENDFUNCTION
+
+FUNCTION Debug_OutputStack: vm AS TVM
+	DEBUG "\nStack Content:\n"
+	LOCAL i
+	FOREACH S IN vm.Stack[]
+		IF i>0 //Das Erste Element sollte nicht ausgegeben werden
+			LOCAL Out$
+			IF S.Typ=ELEMNUM
+				Out$="Number: "+S.Par
+			ELSEIF S.Typ=ELEMSTR
+				Out$="String: "+S.Par$
+			ELSE
+				Out$="Unknown: "+S.Par$+" "+S.Par
+			ENDIF
+			DEBUG i+":\t "+Out$+" Array: "+S.IsArray+"\n"
+		ENDIF
+		i=i+1
+	NEXT
+	DEBUG "Variable Stack:\n"
+	FOREACH V IN vm.Var[]
+		LOCAL Out$
+		IF V.Typ=0
+			Out$=Out$+"Number: "+V.Par
+		ELSEIF V.Typ=1
+			Out$=Out$+"String: "+V.Par$
+		ELSE
+			Out$=Out$+"Unknown: "
+		ENDIF
+		IF V.IsArray
+			Out$=Out$+" Array"
+			IF V.Typ=0
+				FOREACH A IN V.Arr[]
+					Out$=Out$+", "+A
+				NEXT
+			ELSE
+				FOREACH A IN V.Arr$[]
+					Out$=Out$+", "+A
+				NEXT
+			ENDIF
+		ENDIF
+		DEBUG Out$+"\n"
+	NEXT
+	//IF i<=1 THEN DEBUG "Stack is empty\n"
+	DEBUG "\nEnd Stack Content\n"
+ENDFUNCTION
+
+FUNCTION OutputError:	Err$
+	DEBUG "ERROR: "+Err$+"\n"
+ENDFUNCTION
+
+FUNCTION CallFunction:VM AS TVM, Name$, ParamCount%
+	FOREACH D IN Defs[]
+		IF D.Name$="SCRIPT_"+Name$+"@"+ParamCount
+			LOCAL Frame AS TStackFrame
+			Frame.Backjmp=LEN(VM.OpCode[])
+			Frame.Ref=0
+			DIMPUSH VM.Frames[], Frame
+
+			ExecuteVM(VM, VM.Label[D.ID])
+			RETURN
+		ENDIF
+	NEXT
+	STDOUT "COULDN'T FIND FUNCTION: "+Name$
+ENDFUNCTION

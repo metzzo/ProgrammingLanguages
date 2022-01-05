@@ -1,0 +1,81 @@
+		Case "if"
+			script\Ifcount=script\Ifcount+1
+			script\Ifs[script\Ifcount]=Paras(0)
+			stepin=script\Ifcount
+			If Paras(0)=False Then ;die If abfrage ist false
+				;Suche Solange bis zum nächsten True
+				Repeat
+					script\rowcount=script\rowcount+1
+					If Left(script\rows[script\rowcount],2)="if" 
+						script\Ifcount=script\Ifcount+1 ;erhöhe das Stepin
+						script\Ifs[script\Ifcount]=False ;damit ein von vorher erstelltes If nicht in die Quere kommt
+					EndIf
+					If Left(script\rows[script\rowcount],6)="elseif"
+						script\Ifcount=script\Ifcount+1 ;erhöhe das Stepin
+						script\Ifs[script\Ifcount]=True ;damit ein von vorher erstelltes If nicht in die Quere kommt
+						If stepin=script\Ifcount
+							Exit
+						EndIf
+					EndIf
+					If script\rows[script\rowcount]="endif()"
+						script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+					EndIf
+					If script\rows[script\rowcount]="else()"
+						script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+					EndIf
+				Until script\Ifs[script\Ifcount]<>False
+			EndIf
+		Case "endif"
+			script\Ifcount=script\Ifcount-1
+			If script\Ifs[script\Ifcount]=False Then  ;wenn jetzt False ist gehe zum nächsten Stepin
+				Repeat
+					script\rowcount=script\rowcount+1
+					If Left(script\rows[script\rowcount],2)="if"
+						script\Ifcount=script\Ifcount+1 ;erhöhe das Stepin
+						script\Ifs[script\Ifcount]=False ;damit ein von vorher erstelltes If nicht in die Quere kommt
+					EndIf
+					If script\rows[script\rowcount]="endif()"
+						script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+					EndIf
+					If script\rows[script\rowcount]="else()"
+						script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+					EndIf
+				Until script\Ifs[script\Ifcount]<>False
+			EndIf
+		Case "else"
+			;da der State gerade SICHER true ist, wird garkeine Überprüfung durchgeführt
+			script\Ifcount=script\Ifcount+1
+			script\Ifs[script\Ifcount]=False
+			Repeat
+				script\rowcount=script\rowcount+1
+				If Left(script\rows[script\rowcount],2)="if"
+					script\Ifcount=script\Ifcount+1 ;erhöhe das Stepin
+					script\Ifs[script\Ifcount]=False ;damit ein von vorher erstelltes If nicht in die Quere kommt
+				EndIf
+				If script\rows[script\rowcount]="endif()"
+					script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+				EndIf
+				If script\rows[script\rowcount]="else()"
+					script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+				EndIf
+			Until script\Ifs[script\Ifcount]<>False
+		Case "elseif"
+			If Paras(0)=False
+				script\Ifs[script\Ifcount]=False
+				script\Ifcount=script\Ifcount+1
+				script\Ifs[script\Ifcount]=False
+				Repeat
+					script\rowcount=script\rowcount+1
+					DebugLog script\rows[script\rowcount]
+					If Left(script\rows[script\rowcount],2)="if"
+						script\Ifcount=script\Ifcount+1 ;erhöhe das Stepin
+						script\Ifs[script\Ifcount]=False ;damit ein von vorher erstelltes If nicht in die Quere kommt
+					EndIf
+					If script\rows[script\rowcount]="endif()"
+						script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+					EndIf
+					If script\rows[script\rowcount]="else()"
+						script\Ifcount=script\Ifcount-1 ;mindere das Stepin
+					EndIf
+				Until script\Ifs[script\Ifcount]<>False
+			EndIf

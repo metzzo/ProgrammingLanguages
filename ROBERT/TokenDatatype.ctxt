@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=typ
+comment0.target=TokenDatatype(String)
+comment1.target=String\ toString()
+comment2.target=int\ getId()
+comment3.target=int\ getTyp()
+numComments=4

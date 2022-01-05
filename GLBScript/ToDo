@@ -1,0 +1,62 @@
+CURRENT SPEED: 7 Sekunden Kompilieren
+
+Roadmap: 
+ - 2D fully working (3 - 4 Months)
+ - Online IDE (-> First release) (1-2 Months)
+ - Export App (exports your games automatically into native looking apps, I'll need some test devices for this...)
+	- iOS
+	- Android
+	- Windows Phone 7
+	- bada
+	- Windows
+	- Linux
+	- Mac OS X
+
+ - Additional game programming functionalities (Physics, Advanced Collision detection, Built in Tilemap support,  Particles, EVAL support, Ressource Indenpendent Programming) ( 2-3 months)
+ - Scripting language for GLBasic  (-> Add On) ( 1-2 months)
+ - 3D (-> Add On) ( 3 - 4 Months)
+ - Network (-> Add On) ( 2-3 Months)
+ - Online Game Builder with multi user editing (-> Add On) (3-4 Months)
+
+
+
+
+Business model:
+
+GLBScript versions:
+	- Free: 		Online verson with limited commands (~500 commands) and limited sprites/sounds (~10 assets [sound, sprite, model, ...]). Has the following features: 3D, Network, and Online Game Builder
+	- Pro: 			Offline version (easy usage in the GLB IDE), Online version with unlimited commands/sprites and sounds. Easy to extend with Add Ons. Price: 40€
+	- Enterprise: 	All Add Ons included Price: 90€
+
+Add Ons (all Add Ons will cost 25€):
+	- 3D: 					WebGL 3D support, Will be written completly in GLBScript!
+	- Scripting 			Scripting language for GLBasic: Extend your GLB games easily with GLBScript
+	- Network: 				Network support for your HTML5 games (not sure anymore...)
+	- Online Game Builder: 	Create your 2D games easily with built in editors - ONLINE
+	- Multiuser support:	Enables you and your team to work on the same game simulatnously (even on the same file). Chat support included.
+
+
+
+
+*) GLB BUG - WRITEULONG schreibt nicht unsigniert: WRITEULONG 0, -100; CLOSEFILE 0; READULONG 0, val //-100
+*) GLB BUG - Manchmal kann man Subs ganz normal aufrufen (siehe JumpIt in der funktion "Menu")
+*) GLB BUG - "Hallo:"  - Hallo: steht in der Jumpliste
+*) GLB BUG - CODEFILE$()/CODELINE() in FUNCTIOn in Type geht nicht
+*) GLB BUG - Media directory is created even if i dont use it
+*) GLB BUG - EXPORT throws linker errors
+*) IF "" THEN //C++ Errors
+
+
+0.4
+
+Improved: Google Closure update
+Fixed: Charset problem
+Added: Experimental bitmap font system - kerning is missing!
+Added: Font Kerning
+Fixed: Super in methods functions again
+Fixed: Compiler crash when using ABSTRACT
+Fixed: CREATESCREEN threw "Image not yet loaded", but it was already loaded!
+Added: DRAWRECT x,y,w,h,TransparentColor <- "clears" the pixel of the Screen - useful for terrain destruction in worms style!
+Added: GETPIXEL - slow as hell...
+Fixed: Transparency with fonts
+Added: INKEY$

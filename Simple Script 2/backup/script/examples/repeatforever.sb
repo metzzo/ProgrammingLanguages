@@ -1,0 +1,10 @@
+local i%
+repeat
+i%=i%+1
+Print("Hallo"i%)
+if (i%==10)
+goto("exit")
+endif
+
+forever
+label("exit")

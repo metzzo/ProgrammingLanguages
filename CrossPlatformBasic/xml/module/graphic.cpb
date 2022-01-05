@@ -1,0 +1,21 @@
+Type TImage
+	Private
+	Field Img:Int
+	
+	Public
+	Function Load:Void(Path:String)
+		This.Img=LoadIMage(Path)
+	EndFunction
+	Function Load:Void(Path:String, FrameWidth:Int, FrameHeight:Int)
+		This.Img=LoadAnim(Path, FrameWidth, FrameHeight)
+	EndFunction
+	
+	Function Draw:Void(X:Float, Y:Float, Frame:Int=0)
+		DrawImage This.Img, X,Y,Frame
+	EndFunction
+	
+	Private
+	Function Delete:Void()
+		FreeImage This.Img
+	EndFunction
+EndType

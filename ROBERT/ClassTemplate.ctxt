@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=boolean\ register()
+comment1.params=name
+comment1.target=ClassTemplate(String)
+comment2.params=name\ dataType
+comment2.target=void\ addAttribut(String,\ String)
+comment3.target=Iterator\ getMemberIterator()
+comment4.params=name
+comment4.target=int\ getID(String)
+comment5.target=String\ getName()
+numComments=6

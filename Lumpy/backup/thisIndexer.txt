@@ -1,0 +1,25 @@
+import lumpy
+
+function program()
+	var t = new test
+	t[100] = 10
+	print t[100]
+end
+
+class test
+	public property[pos:int] this
+		get
+			print "gettt"
+			print pos
+			return 1
+		end
+		set
+			print "set"
+			value = 100
+			print pos
+		end
+	end
+	
+	public function new()
+	end
+end

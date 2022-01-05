@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=dim\ vm
+comment0.target=Array(int,\ VM)
+comment1.params=pos
+comment1.target=Object\ get(int)
+comment2.params=pos\ obj
+comment2.target=void\ set(int,\ Object)
+numComments=3

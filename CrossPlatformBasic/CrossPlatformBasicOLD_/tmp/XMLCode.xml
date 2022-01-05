@@ -1,0 +1,3296 @@
+<?xml version="1.0"?>
+<CPB version="0.2">
+  <deftype name="object" extend="" fieldcount="0" methodcount="0"/>
+  <deftype name="vererbt" extend="object" fieldcount="2" methodcount="1">
+    <field name="hahaichbinprivat" type="float" dimension="0">
+      <float value="99.9999924"/>
+    </field>
+    <field name="hallo" type="int" dimension="0">
+      <int value="100"/>
+    </field>
+    <method name="___vererbt__test1__internmethod___vererbt__dim_0_" vtable="0" realname="___vererbt__test1__internmethod__" type="void" dimension="0">
+      <param name="this" type="vererbt" dimension="0"/>
+    </method>
+  </deftype>
+  <deftype name="ververerbt" extend="object" fieldcount="0" methodcount="2">
+    <method name="___ververerbt__test2__internmethod___ververerbt__dim_0_" vtable="0" realname="___ververerbt__test2__internmethod__" type="void" dimension="0">
+      <param name="this" type="ververerbt" dimension="0"/>
+    </method>
+    <method name="___ververerbt__test1__internmethod___ververerbt__dim_0_" vtable="1" realname="___ververerbt__test1__internmethod__" type="void" dimension="0">
+      <param name="this" type="ververerbt" dimension="0"/>
+    </method>
+  </deftype>
+  <deftype name="verververerbt" extend="object" fieldcount="0" methodcount="1">
+    <method name="___verververerbt__blub__internmethod___verververerbt__dim_0_" vtable="0" realname="___verververerbt__blub__internmethod__" type="void" dimension="0">
+      <param name="this" type="verververerbt" dimension="0"/>
+    </method>
+  </deftype>
+  <deftype name="blubtyp" extend="object" fieldcount="2" methodcount="1">
+    <field name="hallo" type="int" dimension="0">
+      <int value="200"/>
+    </field>
+    <field name="tschuess" type="int" dimension="0">
+      <int value="300"/>
+    </field>
+    <method name="___blubtyp__hihi__internmethod___blubtyp__dim_0_" vtable="0" realname="___blubtyp__hihi__internmethod__" type="void" dimension="0">
+      <param name="this" type="blubtyp" dimension="0"/>
+    </method>
+  </deftype>
+  <deftype name="tmethodtest" extend="object" fieldcount="1" methodcount="5">
+    <field name="haha" type="int" dimension="0">
+      <int value="20"/>
+    </field>
+    <method name="___tmethodtest__methodentest__internmethod___tmethodtest__dim_0__int__dim_0_" vtable="0" realname="___tmethodtest__methodentest__internmethod__" type="void" dimension="0">
+      <param name="this" type="tmethodtest" dimension="0"/>
+      <param name="param" type="int" dimension="0"/>
+    </method>
+    <method name="___tmethodtest__methodentest__internmethod___tmethodtest__dim_0__float__dim_0_" vtable="1" realname="___tmethodtest__methodentest__internmethod__" type="void" dimension="0">
+      <param name="this" type="tmethodtest" dimension="0"/>
+      <param name="param" type="float" dimension="0"/>
+    </method>
+    <method name="___tmethodtest__blub__internmethod___tmethodtest__dim_0_" vtable="0" realname="___tmethodtest__blub__internmethod__" type="tmethodtest" dimension="0">
+      <param name="this" type="tmethodtest" dimension="0"/>
+    </method>
+    <method name="___tmethodtest__arraytest__internmethod___tmethodtest__dim_0_" vtable="0" realname="___tmethodtest__arraytest__internmethod__" type="int" dimension="2">
+      <param name="this" type="tmethodtest" dimension="0"/>
+    </method>
+    <method name="___tmethodtest__getarray__internmethod___tmethodtest__dim_0__int__dim_0_" vtable="1" realname="___tmethodtest__getarray__internmethod__" type="tmethodtest" dimension="1">
+      <param name="this" type="tmethodtest" dimension="0"/>
+      <param name="mitparam" type="int" dimension="0"/>
+    </method>
+  </deftype>
+  <deftype name="ttest" extend="object" fieldcount="4" methodcount="0">
+    <field name="x" type="int" dimension="0">
+      <int value="200"/>
+    </field>
+    <field name="y" type="float" dimension="0">
+      <float value="0.0"/>
+    </field>
+    <field name="z" type="string" dimension="0">
+      <string value=""/>
+    </field>
+    <field name="testarray" type="ttest" dimension="1">
+      <new type="ttest">
+        <dim>
+          <int value="20"/>
+        </dim>
+      </new>
+    </field>
+  </deftype>
+  <deftype name="tlist" extend="object" fieldcount="1" methodcount="0">
+    <field name="start" type="tlink" dimension="0">
+      <null/>
+    </field>
+  </deftype>
+  <deftype name="tlink" extend="object" fieldcount="3" methodcount="0">
+    <field name="prev" type="tlink" dimension="0">
+      <null/>
+    </field>
+    <field name="succ" type="tlink" dimension="0">
+      <null/>
+    </field>
+    <field name="value" type="int" dimension="0">
+      <int value="0"/>
+    </field>
+  </deftype>
+  <deftype name="testtype2" extend="object" fieldcount="1" methodcount="0">
+    <field name="self" type="testtype2" dimension="0">
+      <null/>
+    </field>
+  </deftype>
+  <deftype name="treturntype" extend="object" fieldcount="1" methodcount="0">
+    <field name="haha" type="int" dimension="0">
+      <mul>
+        <left>
+          <int value="-1"/>
+        </left>
+        <right>
+          <int value="99"/>
+        </right>
+      </mul>
+    </field>
+  </deftype>
+  <global>
+    <defvar name="einkleinertest" type="ttest" dimension="0"/>
+    <defarray name="wawa" type="ttest" dimension="1"/>
+    <defvar name="zeahler" type="int" dimension="0"/>
+    <defvar name="halloglobal" type="int" dimension="0"/>
+  </global>
+  <function name="___vererbt__test1__internmethod___vererbt__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="this" type="vererbt" dimension="0"/>
+    <code>
+      <line number="11">
+        <call name="print_string__dim_0_">
+          <param>
+            <string value="Hiho"/>
+          </param>
+        </call>
+      </line>
+      <line number="12">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <string value="In Test1 "/>
+              </left>
+              <right>
+                <cast to="string" from="int">
+                  <type>
+                    <access name="vererbt" class="vererbt">
+                      <left>
+                        <var name="this"/>
+                      </left>
+                      <right>
+                        <var name="hallo"/>
+                      </right>
+                    </access>
+                  </type>
+                </cast>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="___ververerbt__test2__internmethod___ververerbt__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="this" type="ververerbt" dimension="0"/>
+    <code>
+      <line number="19">
+        <call name="print_string__dim_0_">
+          <param>
+            <string value="In Test2"/>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="___ververerbt__test1__internmethod___ververerbt__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="this" type="ververerbt" dimension="0"/>
+    <code>
+      <line number="22">
+        <call name="print_string__dim_0_">
+          <param>
+            <string value="HUHU"/>
+          </param>
+        </call>
+      </line>
+      <line number="23">
+        <call name="print_string__dim_0_">
+          <param>
+            <string value="In Test 1 aber VerVErerbt"/>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="___verververerbt__blub__internmethod___verververerbt__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="this" type="verververerbt" dimension="0"/>
+    <code/>
+  </function>
+  <function name="___blubtyp__hihi__internmethod___blubtyp__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="this" type="blubtyp" dimension="0"/>
+    <code>
+      <line number="35">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <stringadd>
+                  <left>
+                    <stringadd>
+                      <left>
+                        <string value="Blubbig: "/>
+                      </left>
+                      <right>
+                        <cast to="string" from="int">
+                          <type>
+                            <access name="blubtyp" class="blubtyp">
+                              <left>
+                                <var name="this"/>
+                              </left>
+                              <right>
+                                <var name="hallo"/>
+                              </right>
+                            </access>
+                          </type>
+                        </cast>
+                      </right>
+                    </stringadd>
+                  </left>
+                  <right>
+                    <string value=" - "/>
+                  </right>
+                </stringadd>
+              </left>
+              <right>
+                <cast to="string" from="int">
+                  <type>
+                    <access name="blubtyp" class="blubtyp">
+                      <left>
+                        <var name="this"/>
+                      </left>
+                      <right>
+                        <var name="tschuess"/>
+                      </right>
+                    </access>
+                  </type>
+                </cast>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="___tmethodtest__methodentest__internmethod___tmethodtest__dim_0__int__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="this" type="tmethodtest" dimension="0"/>
+    <param name="param" type="int" dimension="0"/>
+    <code>
+      <line number="59">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <string value="In Methode "/>
+              </left>
+              <right>
+                <cast to="string" from="int">
+                  <var name="param"/>
+                </cast>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+      <line number="60">
+        <set>
+          <name>
+            <type>
+              <access name="tmethodtest" class="tmethodtest">
+                <left>
+                  <var name="this"/>
+                </left>
+                <right>
+                  <var name="haha"/>
+                </right>
+              </access>
+            </type>
+          </name>
+          <value>
+            <int value="100"/>
+          </value>
+        </set>
+      </line>
+      <line number="61">
+        <call name="print_string__dim_0_">
+          <param>
+            <string value="Aus Methode"/>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="___tmethodtest__methodentest__internmethod___tmethodtest__dim_0__float__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="this" type="tmethodtest" dimension="0"/>
+    <param name="param" type="float" dimension="0"/>
+    <code>
+      <line number="64">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <string value="Ueberladen: "/>
+              </left>
+              <right>
+                <cast to="string" from="float">
+                  <var name="param"/>
+                </cast>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="___tmethodtest__blub__internmethod___tmethodtest__dim_0_" type="tmethodtest" dimension="0" userfunc="1">
+    <param name="this" type="tmethodtest" dimension="0"/>
+    <code>
+      <line number="67">
+        <return>
+          <var name="this"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="___tmethodtest__arraytest__internmethod___tmethodtest__dim_0_" type="int" dimension="2" userfunc="1">
+    <param name="this" type="tmethodtest" dimension="0"/>
+    <code>
+      <line number="70">
+        <call name="print_string__dim_0_">
+          <param>
+            <string value="In Array Test"/>
+          </param>
+        </call>
+      </line>
+      <line number="71">
+        <local>
+          <defarray name="arr" type="int" dimension="2"/>
+        </local>
+      </line>
+      <line number="72">
+        <set>
+          <name>
+            <var name="arr"/>
+          </name>
+          <value>
+            <new type="int">
+              <dim>
+                <int value="20"/>
+              </dim>
+              <dim>
+                <int value="20"/>
+              </dim>
+            </new>
+          </value>
+        </set>
+      </line>
+      <line number="72">
+        <set>
+          <name>
+            <array type="int" dimension="2">
+              <name>
+                <var name="arr"/>
+              </name>
+              <dimension>
+                <int value="4"/>
+              </dimension>
+              <dimension>
+                <int value="4"/>
+              </dimension>
+            </array>
+          </name>
+          <value>
+            <int value="200"/>
+          </value>
+        </set>
+      </line>
+      <line number="73">
+        <return>
+          <var name="arr"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="___tmethodtest__getarray__internmethod___tmethodtest__dim_0__int__dim_0_" type="tmethodtest" dimension="1" userfunc="1">
+    <param name="this" type="tmethodtest" dimension="0"/>
+    <param name="mitparam" type="int" dimension="0"/>
+    <code>
+      <line number="76">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <string value="GetArray: "/>
+              </left>
+              <right>
+                <cast to="string" from="int">
+                  <var name="mitparam"/>
+                </cast>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+      <line number="77">
+        <local>
+          <defarray name="arr" type="tmethodtest" dimension="1"/>
+        </local>
+      </line>
+      <line number="78">
+        <set>
+          <name>
+            <var name="arr"/>
+          </name>
+          <value>
+            <new type="tmethodtest">
+              <dim>
+                <int value="2"/>
+              </dim>
+            </new>
+          </value>
+        </set>
+      </line>
+      <line number="78">
+        <set>
+          <name>
+            <array type="tmethodtest" dimension="1">
+              <name>
+                <var name="arr"/>
+              </name>
+              <dimension>
+                <int value="1"/>
+              </dimension>
+            </array>
+          </name>
+          <value>
+            <new type="tmethodtest"/>
+          </value>
+        </set>
+      </line>
+      <line number="79">
+        <return>
+          <var name="arr"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="createlist" type="tlist" dimension="0" userfunc="1">
+    <code>
+      <line number="105">
+        <local>
+          <defvar name="list" type="tlist" dimension="0"/>
+        </local>
+      </line>
+      <line number="106">
+        <set>
+          <name>
+            <var name="list"/>
+          </name>
+          <value>
+            <new type="tlist"/>
+          </value>
+        </set>
+      </line>
+      <line number="106">
+        <set>
+          <name>
+            <type>
+              <access name="tlist" class="tlist">
+                <left>
+                  <var name="list"/>
+                </left>
+                <right>
+                  <var name="start"/>
+                </right>
+              </access>
+            </type>
+          </name>
+          <value>
+            <null/>
+          </value>
+        </set>
+      </line>
+      <line number="107">
+        <return>
+          <var name="list"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="add_tlist__dim_0__int__dim_0_" type="tlink" dimension="0" userfunc="1">
+    <param name="list" type="tlist" dimension="0"/>
+    <param name="value" type="int" dimension="0"/>
+    <code>
+      <line number="112">
+        <set>
+          <name>
+            <var name="zeahler"/>
+          </name>
+          <value>
+            <add>
+              <left>
+                <var name="zeahler"/>
+              </left>
+              <right>
+                <int value="1"/>
+              </right>
+            </add>
+          </value>
+        </set>
+      </line>
+      <line number="113">
+        <local>
+          <defvar name="link" type="tlink" dimension="0"/>
+        </local>
+      </line>
+      <line number="115">
+        <set>
+          <name>
+            <var name="link"/>
+          </name>
+          <value>
+            <new type="tlink"/>
+          </value>
+        </set>
+      </line>
+      <line number="117">
+        <set>
+          <name>
+            <type>
+              <access name="tlink" class="tlink">
+                <left>
+                  <var name="link"/>
+                </left>
+                <right>
+                  <var name="value"/>
+                </right>
+              </access>
+            </type>
+          </name>
+          <value>
+            <var name="value"/>
+          </value>
+        </set>
+      </line>
+      <line number="118">
+        <set>
+          <name>
+            <type>
+              <access name="tlink" class="tlink">
+                <left>
+                  <var name="link"/>
+                </left>
+                <right>
+                  <var name="prev"/>
+                </right>
+              </access>
+            </type>
+          </name>
+          <value>
+            <type>
+              <access name="tlist" class="tlist">
+                <left>
+                  <var name="list"/>
+                </left>
+                <right>
+                  <var name="start"/>
+                </right>
+              </access>
+            </type>
+          </value>
+        </set>
+      </line>
+      <line number="119">
+        <set>
+          <name>
+            <type>
+              <access name="tlink" class="tlink">
+                <left>
+                  <var name="link"/>
+                </left>
+                <right>
+                  <var name="succ"/>
+                </right>
+              </access>
+            </type>
+          </name>
+          <value>
+            <null/>
+          </value>
+        </set>
+      </line>
+      <line number="120">
+        <if line="121">
+          <condition>
+            <cast to="int" from="null">
+              <notequal>
+                <left>
+                  <type>
+                    <access name="tlist" class="tlist">
+                      <left>
+                        <var name="list"/>
+                      </left>
+                      <right>
+                        <var name="start"/>
+                      </right>
+                    </access>
+                  </type>
+                </left>
+                <right>
+                  <null/>
+                </right>
+              </notequal>
+            </cast>
+          </condition>
+          <line>
+            <set>
+              <name>
+                <type>
+                  <access name="tlist" class="tlist">
+                    <left>
+                      <var name="list"/>
+                    </left>
+                    <right>
+                      <access name="tlink" class="tlink">
+                        <left>
+                          <var name="start"/>
+                        </left>
+                        <right>
+                          <var name="succ"/>
+                        </right>
+                      </access>
+                    </right>
+                  </access>
+                </type>
+              </name>
+              <value>
+                <var name="link"/>
+              </value>
+            </set>
+          </line>
+        </if>
+      </line>
+      <line number="121">
+        <set>
+          <name>
+            <type>
+              <access name="tlist" class="tlist">
+                <left>
+                  <var name="list"/>
+                </left>
+                <right>
+                  <var name="start"/>
+                </right>
+              </access>
+            </type>
+          </name>
+          <value>
+            <var name="link"/>
+          </value>
+        </set>
+      </line>
+      <line number="123">
+        <return>
+          <var name="link"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="gettype" type="treturntype" dimension="0" userfunc="1">
+    <code>
+      <line number="174">
+        <return>
+          <new type="treturntype"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="typalsparameter_treturntype__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="blubtest" type="treturntype" dimension="0"/>
+    <code>
+      <line number="178">
+        <call name="print_string__dim_0_">
+          <param>
+            <cast to="string" from="int">
+              <type>
+                <access name="treturntype" class="treturntype">
+                  <left>
+                    <var name="blubtest"/>
+                  </left>
+                  <right>
+                    <var name="haha"/>
+                  </right>
+                </access>
+              </type>
+            </cast>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="ohnenichts" type="void" dimension="0" userfunc="1">
+    <code/>
+  </function>
+  <function name="blub_int__dim_0__string__dim_0__int__dim_0_" type="int" dimension="0" userfunc="1">
+    <param name="x" type="int" dimension="0"/>
+    <param name="z" type="string" dimension="0"/>
+    <param name="y" type="int" dimension="0"/>
+    <code>
+      <line number="302">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <stringadd>
+                  <left>
+                    <stringadd>
+                      <left>
+                        <stringadd>
+                          <left>
+                            <stringadd>
+                              <left>
+                                <string value="X: "/>
+                              </left>
+                              <right>
+                                <cast to="string" from="int">
+                                  <var name="x"/>
+                                </cast>
+                              </right>
+                            </stringadd>
+                          </left>
+                          <right>
+                            <string value=" Y: "/>
+                          </right>
+                        </stringadd>
+                      </left>
+                      <right>
+                        <cast to="string" from="int">
+                          <var name="y"/>
+                        </cast>
+                      </right>
+                    </stringadd>
+                  </left>
+                  <right>
+                    <string value="  "/>
+                  </right>
+                </stringadd>
+              </left>
+              <right>
+                <var name="z"/>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+      <line number="303">
+        <return>
+          <int value="100"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="blub_string__dim_0__int__dim_0__float__dim_0_" type="int" dimension="0" userfunc="1">
+    <param name="x" type="string" dimension="0"/>
+    <param name="z" type="int" dimension="0"/>
+    <param name="y" type="float" dimension="0"/>
+    <code>
+      <line number="307">
+        <call name="print_string__dim_0_">
+          <param>
+            <string value="In anderes Blub"/>
+          </param>
+        </call>
+      </line>
+      <line number="308">
+        <return>
+          <mul>
+            <left>
+              <int value="-1"/>
+            </left>
+            <right>
+              <int value="100"/>
+            </right>
+          </mul>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="vordefiniert_int__dim_0__float__dim_0__string__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="x" type="int" dimension="0"/>
+    <param name="y" type="float" dimension="0"/>
+    <param name="z" type="string" dimension="0"/>
+    <code>
+      <line number="312">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <stringadd>
+                  <left>
+                    <stringadd>
+                      <left>
+                        <stringadd>
+                          <left>
+                            <stringadd>
+                              <left>
+                                <string value="VORDEFINIERT FTW. "/>
+                              </left>
+                              <right>
+                                <cast to="string" from="int">
+                                  <var name="x"/>
+                                </cast>
+                              </right>
+                            </stringadd>
+                          </left>
+                          <right>
+                            <string value=" "/>
+                          </right>
+                        </stringadd>
+                      </left>
+                      <right>
+                        <cast to="string" from="float">
+                          <var name="y"/>
+                        </cast>
+                      </right>
+                    </stringadd>
+                  </left>
+                  <right>
+                    <string value=" "/>
+                  </right>
+                </stringadd>
+              </left>
+              <right>
+                <var name="z"/>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function name="arrayfunktion_int__dim_1_" type="int" dimension="1" userfunc="1">
+    <param name="x" type="int" dimension="1"/>
+    <code>
+      <line number="317">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <string value="In Array Funktion: "/>
+              </left>
+              <right>
+                <cast to="string" from="int">
+                  <array type="int" dimension="1">
+                    <name>
+                      <var name="x"/>
+                    </name>
+                    <dimension>
+                      <int value="40"/>
+                    </dimension>
+                  </array>
+                </cast>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+      <line number="318">
+        <set>
+          <name>
+            <var name="x"/>
+          </name>
+          <value>
+            <cast to="int" from="null">
+              <null/>
+            </cast>
+          </value>
+        </set>
+      </line>
+      <line number="319">
+        <local>
+          <defarray name="test" type="int" dimension="1"/>
+        </local>
+      </line>
+      <line number="320">
+        <set>
+          <name>
+            <var name="test"/>
+          </name>
+          <value>
+            <new type="int">
+              <dim>
+                <int value="10"/>
+              </dim>
+            </new>
+          </value>
+        </set>
+      </line>
+      <line number="321">
+        <set>
+          <name>
+            <array type="int" dimension="1">
+              <name>
+                <var name="test"/>
+              </name>
+              <dimension>
+                <int value="4"/>
+              </dimension>
+            </array>
+          </name>
+          <value>
+            <int value="22"/>
+          </value>
+        </set>
+      </line>
+      <line number="322">
+        <return>
+          <var name="test"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="mehrdimtest_int__dim_3_" type="int" dimension="3" userfunc="1">
+    <param name="y" type="int" dimension="3"/>
+    <code>
+      <line number="326">
+        <call name="print_string__dim_0_">
+          <param>
+            <stringadd>
+              <left>
+                <string value="In Mehr Dim Array Funktion: "/>
+              </left>
+              <right>
+                <cast to="string" from="int">
+                  <array type="int" dimension="3">
+                    <name>
+                      <var name="y"/>
+                    </name>
+                    <dimension>
+                      <int value="4"/>
+                    </dimension>
+                    <dimension>
+                      <int value="4"/>
+                    </dimension>
+                    <dimension>
+                      <int value="4"/>
+                    </dimension>
+                  </array>
+                </cast>
+              </right>
+            </stringadd>
+          </param>
+        </call>
+      </line>
+      <line number="327">
+        <set>
+          <name>
+            <var name="y"/>
+          </name>
+          <value>
+            <cast to="int" from="null">
+              <null/>
+            </cast>
+          </value>
+        </set>
+      </line>
+      <line number="329">
+        <local>
+          <defarray name="test" type="int" dimension="3"/>
+        </local>
+      </line>
+      <line number="330">
+        <set>
+          <name>
+            <var name="test"/>
+          </name>
+          <value>
+            <new type="int">
+              <dim>
+                <int value="2"/>
+              </dim>
+              <dim>
+                <int value="2"/>
+              </dim>
+              <dim>
+                <int value="2"/>
+              </dim>
+            </new>
+          </value>
+        </set>
+      </line>
+      <line number="331">
+        <set>
+          <name>
+            <array type="int" dimension="3">
+              <name>
+                <var name="test"/>
+              </name>
+              <dimension>
+                <int value="1"/>
+              </dimension>
+              <dimension>
+                <int value="1"/>
+              </dimension>
+              <dimension>
+                <int value="1"/>
+              </dimension>
+            </array>
+          </name>
+          <value>
+            <int value="100"/>
+          </value>
+        </set>
+      </line>
+      <line number="332">
+        <return>
+          <var name="test"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="datatypetest" type="void" dimension="0" userfunc="1">
+    <code>
+      <line number="336">
+        <local>
+          <defvar name="testshort" type="short" dimension="0"/>
+          <defvar name="testdouble" type="double" dimension="0"/>
+          <defvar name="testlong" type="long" dimension="0"/>
+          <defvar name="testbyte" type="byte" dimension="0"/>
+        </local>
+      </line>
+      <line number="337">
+        <set>
+          <name>
+            <var name="testshort"/>
+          </name>
+          <value>
+            <cast to="short" from="int">
+              <int value="65535"/>
+            </cast>
+          </value>
+        </set>
+      </line>
+      <line number="338">
+        <set>
+          <name>
+            <var name="testdouble"/>
+          </name>
+          <value>
+            <cast to="double" from="float">
+              <float value="10000.0000"/>
+            </cast>
+          </value>
+        </set>
+      </line>
+      <line number="339">
+        <set>
+          <name>
+            <var name="testlong"/>
+          </name>
+          <value>
+            <cast to="long" from="int">
+              <int value="9999999"/>
+            </cast>
+          </value>
+        </set>
+      </line>
+      <line number="340">
+        <set>
+          <name>
+            <var name="testbyte"/>
+          </name>
+          <value>
+            <cast to="byte" from="int">
+              <int value="255"/>
+            </cast>
+          </value>
+        </set>
+      </line>
+    </code>
+  </function>
+  <function name="testarray" type="int" dimension="2" userfunc="1">
+    <code>
+      <line number="348">
+        <local>
+          <defarray name="array" type="int" dimension="2"/>
+        </local>
+      </line>
+      <line number="349">
+        <set>
+          <name>
+            <var name="array"/>
+          </name>
+          <value>
+            <new type="int">
+              <dim>
+                <int value="8"/>
+              </dim>
+              <dim>
+                <int value="8"/>
+              </dim>
+            </new>
+          </value>
+        </set>
+      </line>
+      <line number="350">
+        <set>
+          <name>
+            <array type="int" dimension="2">
+              <name>
+                <var name="array"/>
+              </name>
+              <dimension>
+                <int value="4"/>
+              </dimension>
+              <dimension>
+                <int value="4"/>
+              </dimension>
+            </array>
+          </name>
+          <value>
+            <int value="100"/>
+          </value>
+        </set>
+      </line>
+      <line number="351">
+        <return>
+          <var name="array"/>
+        </return>
+      </line>
+    </code>
+  </function>
+  <function name="optionaltest_int__dim_0__int__dim_0__int__dim_0_" type="void" dimension="0" userfunc="1">
+    <param name="x" type="int" dimension="0"/>
+    <param name="y" type="int" dimension="0"/>
+    <param name="z" type="int" dimension="0"/>
+    <code>
+      <line number="357">
+        <call name="print_string__dim_0_">
+          <param>
+            <cast to="string" from="int">
+              <var name="x"/>
+            </cast>
+          </param>
+        </call>
+      </line>
+      <line number="358">
+        <call name="print_string__dim_0_">
+          <param>
+            <cast to="string" from="int">
+              <var name="y"/>
+            </cast>
+          </param>
+        </call>
+      </line>
+      <line number="359">
+        <call name="print_string__dim_0_">
+          <param>
+            <cast to="string" from="int">
+              <var name="z"/>
+            </cast>
+          </param>
+        </call>
+      </line>
+    </code>
+  </function>
+  <function type="void" dimension="0" name="print_string__dim_0_" realname="print" userfunc="0">
+    <param name="text" type="string" dimension="0"/>
+  </function>
+  <function type="void" dimension="0" name="gccollect" realname="gccollect" userfunc="0"/>
+  <code>
+    <line number="0">
+      <call name="print_string__dim_0_">
+        <param>
+          <cast to="string" from="int">
+            <mul>
+              <left>
+                <int value="2"/>
+              </left>
+              <right>
+                <add>
+                  <left>
+                    <int value="2"/>
+                  </left>
+                  <right>
+                    <int value="3"/>
+                  </right>
+                </add>
+              </right>
+            </mul>
+          </cast>
+        </param>
+      </call>
+    </line>
+    <line number="1"/>
+    <line number="16"/>
+    <line number="26"/>
+    <line number="31"/>
+    <line number="38">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Next0"/>
+        </param>
+      </call>
+    </line>
+    <line number="39">
+      <local>
+        <defvar name="normal" type="vererbt" dimension="0"/>
+      </local>
+    </line>
+    <line number="40">
+      <set>
+        <name>
+          <var name="normal"/>
+        </name>
+        <value>
+          <new type="vererbt"/>
+        </value>
+      </set>
+    </line>
+    <line number="41">
+      <type>
+        <call vtable="0" name="___vererbt__test1__internmethod___vererbt__dim_0_">
+          <param>
+            <var name="normal"/>
+          </param>
+        </call>
+      </type>
+    </line>
+    <line number="42">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Next"/>
+        </param>
+      </call>
+    </line>
+    <line number="43">
+      <local>
+        <defvar name="testver" type="ververerbt" dimension="0"/>
+      </local>
+    </line>
+    <line number="44">
+      <set>
+        <name>
+          <var name="testver"/>
+        </name>
+        <value>
+          <new type="ververerbt"/>
+        </value>
+      </set>
+    </line>
+    <line number="44">
+      <type>
+        <call vtable="1" name="___ververerbt__test1__internmethod___ververerbt__dim_0_">
+          <param>
+            <var name="testver"/>
+          </param>
+        </call>
+      </type>
+    </line>
+    <line number="45">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Next2"/>
+        </param>
+      </call>
+    </line>
+    <line number="46">
+      <type>
+        <call vtable="0" name="___ververerbt__test2__internmethod___ververerbt__dim_0_">
+          <param>
+            <var name="testver"/>
+          </param>
+        </call>
+      </type>
+    </line>
+    <line number="47">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Begin"/>
+        </param>
+      </call>
+    </line>
+    <line number="49">
+      <local>
+        <defvar name="methodtestinst" type="tmethodtest" dimension="0"/>
+      </local>
+    </line>
+    <line number="50">
+      <set>
+        <name>
+          <var name="methodtestinst"/>
+        </name>
+        <value>
+          <new type="tmethodtest"/>
+        </value>
+      </set>
+    </line>
+    <line number="50">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="StartPArameter"/>
+        </param>
+      </call>
+    </line>
+    <line number="51">
+      <type>
+        <call vtable="1" name="___tmethodtest__methodentest__internmethod___tmethodtest__dim_0__float__dim_0_">
+          <param>
+            <var name="methodtestinst"/>
+          </param>
+          <param>
+            <float value="100.900002"/>
+          </param>
+        </call>
+      </type>
+    </line>
+    <line number="52">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="EndParameter"/>
+        </param>
+      </call>
+    </line>
+    <line number="53">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Haha: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <type>
+                  <access name="tmethodtest" class="tmethodtest">
+                    <left>
+                      <call vtable="0" name="___tmethodtest__blub__internmethod___tmethodtest__dim_0_">
+                        <param>
+                          <call vtable="0" name="___tmethodtest__blub__internmethod___tmethodtest__dim_0_">
+                            <param>
+                              <call vtable="0" name="___tmethodtest__blub__internmethod___tmethodtest__dim_0_">
+                                <param>
+                                  <var name="methodtestinst"/>
+                                </param>
+                              </call>
+                            </param>
+                          </call>
+                        </param>
+                      </call>
+                    </left>
+                    <right>
+                      <var name="haha"/>
+                    </right>
+                  </access>
+                </type>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="54">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Aus Methode: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <type>
+                  <array type="int" dimension="2">
+                    <name>
+                      <call vtable="0" name="___tmethodtest__arraytest__internmethod___tmethodtest__dim_0_">
+                        <param>
+                          <var name="methodtestinst"/>
+                        </param>
+                      </call>
+                    </name>
+                    <dimension>
+                      <int value="4"/>
+                    </dimension>
+                    <dimension>
+                      <int value="4"/>
+                    </dimension>
+                  </array>
+                </type>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="55">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Rekurive Arrays: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <type>
+                  <array type="int" dimension="2">
+                    <name>
+                      <call vtable="0" name="___tmethodtest__arraytest__internmethod___tmethodtest__dim_0_">
+                        <param>
+                          <array type="tmethodtest" dimension="1">
+                            <name>
+                              <call vtable="1" name="___tmethodtest__getarray__internmethod___tmethodtest__dim_0__int__dim_0_">
+                                <param>
+                                  <var name="methodtestinst"/>
+                                </param>
+                                <param>
+                                  <int value="400"/>
+                                </param>
+                              </call>
+                            </name>
+                            <dimension>
+                              <int value="1"/>
+                            </dimension>
+                          </array>
+                        </param>
+                      </call>
+                    </name>
+                    <dimension>
+                      <int value="4"/>
+                    </dimension>
+                    <dimension>
+                      <int value="4"/>
+                    </dimension>
+                  </array>
+                </type>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="56"/>
+    <line number="82"/>
+    <line number="92"/>
+    <line number="95"/>
+    <line number="95">
+      <set>
+        <name>
+          <var name="einkleinertest"/>
+        </name>
+        <value>
+          <new type="ttest"/>
+        </value>
+      </set>
+    </line>
+    <line number="96">
+      <set>
+        <name>
+          <var name="wawa"/>
+        </name>
+        <value>
+          <new type="ttest">
+            <dim>
+              <int value="20"/>
+            </dim>
+          </new>
+        </value>
+      </set>
+    </line>
+    <line number="96">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Ein kleiner Test mit vordefinierte Werte: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <type>
+                  <access name="ttest" class="ttest">
+                    <left>
+                      <var name="einkleinertest"/>
+                    </left>
+                    <right>
+                      <var name="x"/>
+                    </right>
+                  </access>
+                </type>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="98"/>
+    <line number="104"/>
+    <line number="109"/>
+    <line number="111"/>
+    <line number="126">
+      <local>
+        <defvar name="list" type="tlist" dimension="0"/>
+      </local>
+    </line>
+    <line number="127">
+      <set>
+        <name>
+          <var name="list"/>
+        </name>
+        <value>
+          <call name="createlist"/>
+        </value>
+      </set>
+    </line>
+    <line number="127">
+      <call name="add_tlist__dim_0__int__dim_0_">
+        <param>
+          <var name="list"/>
+        </param>
+        <param>
+          <int value="4"/>
+        </param>
+      </call>
+    </line>
+    <line number="128">
+      <call name="add_tlist__dim_0__int__dim_0_">
+        <param>
+          <var name="list"/>
+        </param>
+        <param>
+          <int value="10"/>
+        </param>
+      </call>
+    </line>
+    <line number="129">
+      <call name="add_tlist__dim_0__int__dim_0_">
+        <param>
+          <var name="list"/>
+        </param>
+        <param>
+          <int value="100"/>
+        </param>
+      </call>
+    </line>
+    <line number="131">
+      <local>
+        <defvar name="cur" type="tlink" dimension="0"/>
+      </local>
+    </line>
+    <line number="132">
+      <set>
+        <name>
+          <var name="cur"/>
+        </name>
+        <value>
+          <type>
+            <access name="tlist" class="tlist">
+              <left>
+                <var name="list"/>
+              </left>
+              <right>
+                <var name="start"/>
+              </right>
+            </access>
+          </type>
+        </value>
+      </set>
+    </line>
+    <line number="133">
+      <while>
+        <condition>
+          <cast to="int" from="null">
+            <notequal>
+              <left>
+                <var name="cur"/>
+              </left>
+              <right>
+                <null/>
+              </right>
+            </notequal>
+          </cast>
+        </condition>
+        <line number="134">
+          <call name="print_string__dim_0_">
+            <param>
+              <stringadd>
+                <left>
+                  <string value="Linked List: "/>
+                </left>
+                <right>
+                  <cast to="string" from="int">
+                    <type>
+                      <access name="tlink" class="tlink">
+                        <left>
+                          <var name="cur"/>
+                        </left>
+                        <right>
+                          <var name="value"/>
+                        </right>
+                      </access>
+                    </type>
+                  </cast>
+                </right>
+              </stringadd>
+            </param>
+          </call>
+        </line>
+        <line number="135">
+          <set>
+            <name>
+              <var name="cur"/>
+            </name>
+            <value>
+              <type>
+                <access name="tlink" class="tlink">
+                  <left>
+                    <var name="cur"/>
+                  </left>
+                  <right>
+                    <var name="prev"/>
+                  </right>
+                </access>
+              </type>
+            </value>
+          </set>
+        </line>
+      </while>
+    </line>
+    <line number="137">
+      <local>
+        <defarray name="test" type="ttest" dimension="1"/>
+      </local>
+    </line>
+    <line number="138">
+      <set>
+        <name>
+          <var name="test"/>
+        </name>
+        <value>
+          <new type="ttest">
+            <dim>
+              <int value="2"/>
+            </dim>
+          </new>
+        </value>
+      </set>
+    </line>
+    <line number="138">
+      <set>
+        <name>
+          <array type="ttest" dimension="1">
+            <name>
+              <var name="test"/>
+            </name>
+            <dimension>
+              <int value="1"/>
+            </dimension>
+          </array>
+        </name>
+        <value>
+          <new type="ttest"/>
+        </value>
+      </set>
+    </line>
+    <line number="140">
+      <set>
+        <name>
+          <type>
+            <access name="ttest" class="ttest">
+              <left>
+                <array type="ttest" dimension="1">
+                  <name>
+                    <var name="test"/>
+                  </name>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                </array>
+              </left>
+              <right>
+                <var name="x"/>
+              </right>
+            </access>
+          </type>
+        </name>
+        <value>
+          <int value="10"/>
+        </value>
+      </set>
+    </line>
+    <line number="142">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Test: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <type>
+                  <access name="ttest" class="ttest">
+                    <left>
+                      <array type="ttest" dimension="1">
+                        <name>
+                          <var name="test"/>
+                        </name>
+                        <dimension>
+                          <int value="1"/>
+                        </dimension>
+                      </array>
+                    </left>
+                    <right>
+                      <var name="x"/>
+                    </right>
+                  </access>
+                </type>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="144">
+      <set>
+        <name>
+          <type>
+            <access name="ttest" class="ttest">
+              <left>
+                <array type="ttest" dimension="1">
+                  <name>
+                    <var name="test"/>
+                  </name>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                </array>
+              </left>
+              <right>
+                <var name="testarray"/>
+              </right>
+            </access>
+          </type>
+        </name>
+        <value>
+          <new type="ttest">
+            <dim>
+              <int value="5"/>
+            </dim>
+          </new>
+        </value>
+      </set>
+    </line>
+    <line number="145">
+      <set>
+        <name>
+          <type>
+            <access name="ttest" class="ttest">
+              <left>
+                <array type="ttest" dimension="1">
+                  <name>
+                    <var name="test"/>
+                  </name>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                </array>
+              </left>
+              <right>
+                <array type="ttest" dimension="1">
+                  <name>
+                    <var name="testarray"/>
+                  </name>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                </array>
+              </right>
+            </access>
+          </type>
+        </name>
+        <value>
+          <new type="ttest"/>
+        </value>
+      </set>
+    </line>
+    <line number="146">
+      <set>
+        <name>
+          <type>
+            <access name="ttest" class="ttest">
+              <left>
+                <array type="ttest" dimension="1">
+                  <name>
+                    <var name="test"/>
+                  </name>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                </array>
+              </left>
+              <right>
+                <access name="ttest" class="ttest">
+                  <left>
+                    <array type="ttest" dimension="1">
+                      <name>
+                        <var name="testarray"/>
+                      </name>
+                      <dimension>
+                        <int value="1"/>
+                      </dimension>
+                    </array>
+                  </left>
+                  <right>
+                    <var name="x"/>
+                  </right>
+                </access>
+              </right>
+            </access>
+          </type>
+        </name>
+        <value>
+          <int value="100"/>
+        </value>
+      </set>
+    </line>
+    <line number="148">
+      <call name="print_string__dim_0_">
+        <param>
+          <cast to="string" from="int">
+            <type>
+              <access name="ttest" class="ttest">
+                <left>
+                  <array type="ttest" dimension="1">
+                    <name>
+                      <var name="test"/>
+                    </name>
+                    <dimension>
+                      <int value="1"/>
+                    </dimension>
+                  </array>
+                </left>
+                <right>
+                  <access name="ttest" class="ttest">
+                    <left>
+                      <array type="ttest" dimension="1">
+                        <name>
+                          <var name="testarray"/>
+                        </name>
+                        <dimension>
+                          <int value="1"/>
+                        </dimension>
+                      </array>
+                    </left>
+                    <right>
+                      <var name="x"/>
+                    </right>
+                  </access>
+                </right>
+              </access>
+            </type>
+          </cast>
+        </param>
+      </call>
+    </line>
+    <line number="150"/>
+    <line number="153">
+      <local>
+        <defvar name="test2" type="testtype2" dimension="0"/>
+      </local>
+    </line>
+    <line number="154">
+      <set>
+        <name>
+          <var name="test2"/>
+        </name>
+        <value>
+          <new type="testtype2"/>
+        </value>
+      </set>
+    </line>
+    <line number="155">
+      <set>
+        <name>
+          <type>
+            <access name="testtype2" class="testtype2">
+              <left>
+                <var name="test2"/>
+              </left>
+              <right>
+                <var name="self"/>
+              </right>
+            </access>
+          </type>
+        </name>
+        <value>
+          <var name="test2"/>
+        </value>
+      </set>
+    </line>
+    <line number="157">
+      <local>
+        <defvar name="tmptyp" type="testtype2" dimension="0"/>
+      </local>
+    </line>
+    <line number="158">
+      <set>
+        <name>
+          <var name="tmptyp"/>
+        </name>
+        <value>
+          <var name="test2"/>
+        </value>
+      </set>
+    </line>
+    <line number="159">
+      <local>
+        <defvar name="j" type="int" dimension="0"/>
+      </local>
+    </line>
+    <line number="160">
+      <set>
+        <name>
+          <var name="j"/>
+        </name>
+        <value>
+          <int value="0"/>
+        </value>
+      </set>
+    </line>
+    <line number="160">
+      <while>
+        <condition>
+          <cast to="int" from="null">
+            <notequal>
+              <left>
+                <var name="tmptyp"/>
+              </left>
+              <right>
+                <null/>
+              </right>
+            </notequal>
+          </cast>
+        </condition>
+        <line number="161">
+          <call name="print_string__dim_0_">
+            <param>
+              <string value="Hallo in Type DUmm"/>
+            </param>
+          </call>
+        </line>
+        <line number="162">
+          <set>
+            <name>
+              <var name="tmptyp"/>
+            </name>
+            <value>
+              <type>
+                <access name="testtype2" class="testtype2">
+                  <left>
+                    <var name="tmptyp"/>
+                  </left>
+                  <right>
+                    <var name="self"/>
+                  </right>
+                </access>
+              </type>
+            </value>
+          </set>
+        </line>
+        <line number="163">
+          <set>
+            <name>
+              <var name="j"/>
+            </name>
+            <value>
+              <add>
+                <left>
+                  <var name="j"/>
+                </left>
+                <right>
+                  <int value="1"/>
+                </right>
+              </add>
+            </value>
+          </set>
+        </line>
+        <line number="164">
+          <if line="165">
+            <condition>
+              <greater>
+                <left>
+                  <var name="j"/>
+                </left>
+                <right>
+                  <int value="4"/>
+                </right>
+              </greater>
+            </condition>
+            <line>
+              <break/>
+            </line>
+          </if>
+        </line>
+      </while>
+    </line>
+    <line number="167">
+      <local>
+        <defvar name="typ" type="treturntype" dimension="0"/>
+      </local>
+    </line>
+    <line number="168">
+      <set>
+        <name>
+          <var name="typ"/>
+        </name>
+        <value>
+          <call name="gettype"/>
+        </value>
+      </set>
+    </line>
+    <line number="168">
+      <set>
+        <name>
+          <type>
+            <access name="treturntype" class="treturntype">
+              <left>
+                <var name="typ"/>
+              </left>
+              <right>
+                <var name="haha"/>
+              </right>
+            </access>
+          </type>
+        </name>
+        <value>
+          <int value="20"/>
+        </value>
+      </set>
+    </line>
+    <line number="169">
+      <call name="typalsparameter_treturntype__dim_0_">
+        <param>
+          <var name="typ"/>
+        </param>
+      </call>
+    </line>
+    <line number="171">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Bekomme Typ: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <access name="treturntype" class="treturntype">
+                  <left>
+                    <call name="gettype"/>
+                  </left>
+                  <right>
+                    <var name="haha"/>
+                  </right>
+                </access>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="173"/>
+    <line number="177"/>
+    <line number="181"/>
+    <line number="186">
+      <local>
+        <defarray name="mehrdim" type="int" dimension="3"/>
+      </local>
+    </line>
+    <line number="187">
+      <set>
+        <name>
+          <var name="mehrdim"/>
+        </name>
+        <value>
+          <new type="int">
+            <dim>
+              <int value="5"/>
+            </dim>
+            <dim>
+              <int value="9"/>
+            </dim>
+            <dim>
+              <int value="20"/>
+            </dim>
+          </new>
+        </value>
+      </set>
+    </line>
+    <line number="188">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Mehrdim start"/>
+        </param>
+      </call>
+    </line>
+    <line number="189">
+      <set>
+        <name>
+          <array type="int" dimension="3">
+            <name>
+              <var name="mehrdim"/>
+            </name>
+            <dimension>
+              <int value="4"/>
+            </dimension>
+            <dimension>
+              <int value="8"/>
+            </dimension>
+            <dimension>
+              <int value="19"/>
+            </dimension>
+          </array>
+        </name>
+        <value>
+          <int value="42"/>
+        </value>
+      </set>
+    </line>
+    <line number="190">
+      <set>
+        <name>
+          <array type="int" dimension="3">
+            <name>
+              <var name="mehrdim"/>
+            </name>
+            <dimension>
+              <int value="4"/>
+            </dimension>
+            <dimension>
+              <int value="4"/>
+            </dimension>
+            <dimension>
+              <int value="4"/>
+            </dimension>
+          </array>
+        </name>
+        <value>
+          <int value="99"/>
+        </value>
+      </set>
+    </line>
+    <line number="192">
+      <call name="print_string__dim_0_">
+        <param>
+          <cast to="string" from="int">
+            <array type="int" dimension="3">
+              <name>
+                <var name="mehrdim"/>
+              </name>
+              <dimension>
+                <int value="4"/>
+              </dimension>
+              <dimension>
+                <int value="8"/>
+              </dimension>
+              <dimension>
+                <int value="19"/>
+              </dimension>
+            </array>
+          </cast>
+        </param>
+      </call>
+    </line>
+    <line number="193">
+      <set>
+        <name>
+          <var name="mehrdim"/>
+        </name>
+        <value>
+          <call name="mehrdimtest_int__dim_3_">
+            <param>
+              <var name="mehrdim"/>
+            </param>
+          </call>
+        </value>
+      </set>
+    </line>
+    <line number="194">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Blub"/>
+        </param>
+      </call>
+    </line>
+    <line number="196">
+      <call name="datatypetest"/>
+    </line>
+    <line number="197">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Hallo"/>
+        </param>
+      </call>
+    </line>
+    <line number="199">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Hallo"/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <add>
+                  <left>
+                    <add>
+                      <left>
+                        <add>
+                          <left>
+                            <add>
+                              <left>
+                                <mul>
+                                  <left>
+                                    <int value="2"/>
+                                  </left>
+                                  <right>
+                                    <add>
+                                      <left>
+                                        <int value="5"/>
+                                      </left>
+                                      <right>
+                                        <int value="4"/>
+                                      </right>
+                                    </add>
+                                  </right>
+                                </mul>
+                              </left>
+                              <right>
+                                <mul>
+                                  <left>
+                                    <int value="5"/>
+                                  </left>
+                                  <right>
+                                    <add>
+                                      <left>
+                                        <int value="8"/>
+                                      </left>
+                                      <right>
+                                        <int value="10"/>
+                                      </right>
+                                    </add>
+                                  </right>
+                                </mul>
+                              </right>
+                            </add>
+                          </left>
+                          <right>
+                            <int value="5"/>
+                          </right>
+                        </add>
+                      </left>
+                      <right>
+                        <int value="5"/>
+                      </right>
+                    </add>
+                  </left>
+                  <right>
+                    <int value="3"/>
+                  </right>
+                </add>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="201">
+      <call name="vordefiniert_int__dim_0__float__dim_0__string__dim_0_">
+        <param>
+          <int value="100"/>
+        </param>
+        <param>
+          <float value="9.89999962"/>
+        </param>
+        <param>
+          <string value="Gaga"/>
+        </param>
+      </call>
+    </line>
+    <line number="203">
+      <local>
+        <defarray name="mehrdimstring" type="string" dimension="2"/>
+      </local>
+    </line>
+    <line number="204">
+      <set>
+        <name>
+          <var name="mehrdimstring"/>
+        </name>
+        <value>
+          <new type="string">
+            <dim>
+              <int value="5"/>
+            </dim>
+            <dim>
+              <int value="5"/>
+            </dim>
+          </new>
+        </value>
+      </set>
+    </line>
+    <line number="205">
+      <set>
+        <name>
+          <array type="string" dimension="2">
+            <name>
+              <var name="mehrdimstring"/>
+            </name>
+            <dimension>
+              <int value="2"/>
+            </dimension>
+            <dimension>
+              <int value="3"/>
+            </dimension>
+          </array>
+        </name>
+        <value>
+          <string value="Hallo"/>
+        </value>
+      </set>
+    </line>
+    <line number="206">
+      <call name="print_string__dim_0_">
+        <param>
+          <array type="string" dimension="2">
+            <name>
+              <var name="mehrdimstring"/>
+            </name>
+            <dimension>
+              <int value="2"/>
+            </dimension>
+            <dimension>
+              <int value="3"/>
+            </dimension>
+          </array>
+        </param>
+      </call>
+    </line>
+    <line number="208">
+      <local>
+        <defarray name="anderertest" type="int" dimension="2"/>
+      </local>
+    </line>
+    <line number="209">
+      <set>
+        <name>
+          <var name="anderertest"/>
+        </name>
+        <value>
+          <new type="int">
+            <dim>
+              <int value="10"/>
+            </dim>
+            <dim>
+              <int value="10"/>
+            </dim>
+          </new>
+        </value>
+      </set>
+    </line>
+    <line number="210">
+      <for>
+        <forvar>
+          <declaration>
+            <local>
+              <defvar name="x" type="int" dimension="0"/>
+            </local>
+          </declaration>
+          <var>
+            <var name="x"/>
+          </var>
+        </forvar>
+        <start>
+          <int value="0"/>
+        </start>
+        <to>
+          <int value="9"/>
+        </to>
+        <step>
+          <int value="1"/>
+        </step>
+        <line number="211">
+          <for>
+            <forvar>
+              <declaration>
+                <local>
+                  <defvar name="y" type="int" dimension="0"/>
+                </local>
+              </declaration>
+              <var>
+                <var name="y"/>
+              </var>
+            </forvar>
+            <start>
+              <int value="0"/>
+            </start>
+            <to>
+              <int value="9"/>
+            </to>
+            <step>
+              <int value="1"/>
+            </step>
+            <line number="212">
+              <set>
+                <name>
+                  <array type="int" dimension="2">
+                    <name>
+                      <var name="anderertest"/>
+                    </name>
+                    <dimension>
+                      <var name="x"/>
+                    </dimension>
+                    <dimension>
+                      <var name="y"/>
+                    </dimension>
+                  </array>
+                </name>
+                <value>
+                  <add>
+                    <left>
+                      <mul>
+                        <left>
+                          <var name="x"/>
+                        </left>
+                        <right>
+                          <int value="9"/>
+                        </right>
+                      </mul>
+                    </left>
+                    <right>
+                      <var name="y"/>
+                    </right>
+                  </add>
+                </value>
+              </set>
+            </line>
+          </for>
+        </line>
+      </for>
+    </line>
+    <line number="215">
+      <for>
+        <forvar>
+          <declaration>
+            <local>
+              <defvar name="x" type="int" dimension="0"/>
+            </local>
+          </declaration>
+          <var>
+            <var name="x"/>
+          </var>
+        </forvar>
+        <start>
+          <int value="0"/>
+        </start>
+        <to>
+          <int value="9"/>
+        </to>
+        <step>
+          <int value="1"/>
+        </step>
+        <line number="216">
+          <for>
+            <forvar>
+              <declaration>
+                <local>
+                  <defvar name="y" type="int" dimension="0"/>
+                </local>
+              </declaration>
+              <var>
+                <var name="y"/>
+              </var>
+            </forvar>
+            <start>
+              <int value="0"/>
+            </start>
+            <to>
+              <int value="9"/>
+            </to>
+            <step>
+              <int value="1"/>
+            </step>
+            <line number="217">
+              <call name="print_string__dim_0_">
+                <param>
+                  <stringadd>
+                    <left>
+                      <stringadd>
+                        <left>
+                          <stringadd>
+                            <left>
+                              <stringadd>
+                                <left>
+                                  <stringadd>
+                                    <left>
+                                      <string value="In Array an Position '"/>
+                                    </left>
+                                    <right>
+                                      <cast to="string" from="int">
+                                        <var name="x"/>
+                                      </cast>
+                                    </right>
+                                  </stringadd>
+                                </left>
+                                <right>
+                                  <string value="', '"/>
+                                </right>
+                              </stringadd>
+                            </left>
+                            <right>
+                              <cast to="string" from="int">
+                                <var name="y"/>
+                              </cast>
+                            </right>
+                          </stringadd>
+                        </left>
+                        <right>
+                          <string value="': "/>
+                        </right>
+                      </stringadd>
+                    </left>
+                    <right>
+                      <cast to="string" from="int">
+                        <array type="int" dimension="2">
+                          <name>
+                            <var name="anderertest"/>
+                          </name>
+                          <dimension>
+                            <var name="x"/>
+                          </dimension>
+                          <dimension>
+                            <var name="y"/>
+                          </dimension>
+                        </array>
+                      </cast>
+                    </right>
+                  </stringadd>
+                </param>
+              </call>
+            </line>
+          </for>
+        </line>
+      </for>
+    </line>
+    <line number="221">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="MultiDim Array:"/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <array type="int" dimension="3">
+                  <name>
+                    <var name="mehrdim"/>
+                  </name>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                  <dimension>
+                    <int value="1"/>
+                  </dimension>
+                </array>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="223">
+      <local>
+        <defarray name="array" type="int" dimension="1"/>
+      </local>
+    </line>
+    <line number="224">
+      <set>
+        <name>
+          <var name="array"/>
+        </name>
+        <value>
+          <new type="int">
+            <dim>
+              <int value="1000"/>
+            </dim>
+          </new>
+        </value>
+      </set>
+    </line>
+    <line number="226">
+      <set>
+        <name>
+          <array type="int" dimension="1">
+            <name>
+              <var name="array"/>
+            </name>
+            <dimension>
+              <int value="40"/>
+            </dimension>
+          </array>
+        </name>
+        <value>
+          <mul>
+            <left>
+              <int value="100"/>
+            </left>
+            <right>
+              <int value="4"/>
+            </right>
+          </mul>
+        </value>
+      </set>
+    </line>
+    <line number="227">
+      <set>
+        <name>
+          <var name="array"/>
+        </name>
+        <value>
+          <call name="arrayfunktion_int__dim_1_">
+            <param>
+              <var name="array"/>
+            </param>
+          </call>
+        </value>
+      </set>
+    </line>
+    <line number="228">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Aus Array Funktion: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <array type="int" dimension="1">
+                  <name>
+                    <var name="array"/>
+                  </name>
+                  <dimension>
+                    <int value="4"/>
+                  </dimension>
+                </array>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="229">
+      <call name="gccollect"/>
+    </line>
+    <line number="232">
+      <call name="print_string__dim_0_">
+        <param>
+          <cast to="string" from="int">
+            <mul>
+              <left>
+                <int value="-1"/>
+              </left>
+              <right>
+                <int value="5"/>
+              </right>
+            </mul>
+          </cast>
+        </param>
+      </call>
+    </line>
+    <line number="234">
+      <call name="print_string__dim_0_">
+        <param>
+          <cast to="string" from="float">
+            <cast to="float" from="string">
+              <string value="5.5"/>
+            </cast>
+          </cast>
+        </param>
+      </call>
+    </line>
+    <line number="239">
+      <local>
+        <defvar name="floattest" type="float" dimension="0"/>
+      </local>
+    </line>
+    <line number="240">
+      <set>
+        <name>
+          <var name="floattest"/>
+        </name>
+        <value>
+          <cast to="float" from="int">
+            <int value="200"/>
+          </cast>
+        </value>
+      </set>
+    </line>
+    <line number="240">
+      <call name="print_string__dim_0_">
+        <param>
+          <cast to="string" from="float">
+            <var name="floattest"/>
+          </cast>
+        </param>
+      </call>
+    </line>
+    <line number="244"/>
+    <line number="245">
+      <set>
+        <name>
+          <var name="halloglobal"/>
+        </name>
+        <value>
+          <int value="100"/>
+        </value>
+      </set>
+    </line>
+    <line number="247">
+      <call name="print_string__dim_0_">
+        <param>
+          <string value="Zweite Zeile"/>
+        </param>
+      </call>
+    </line>
+    <line number="248">
+      <local>
+        <defvar name="hallo" type="int" dimension="0"/>
+      </local>
+    </line>
+    <line number="249">
+      <set>
+        <name>
+          <var name="hallo"/>
+        </name>
+        <value>
+          <int value="40"/>
+        </value>
+      </set>
+    </line>
+    <line number="249">
+      <set>
+        <name>
+          <var name="hallo"/>
+        </name>
+        <value>
+          <add>
+            <left>
+              <int value="100"/>
+            </left>
+            <right>
+              <mul>
+                <left>
+                  <int value="5"/>
+                </left>
+                <right>
+                  <int value="10"/>
+                </right>
+              </mul>
+            </right>
+          </add>
+        </value>
+      </set>
+    </line>
+    <line number="250">
+      <set>
+        <name>
+          <var name="hallo"/>
+        </name>
+        <value>
+          <cast to="int" from="float">
+            <add>
+              <left>
+                <cast to="float" from="int">
+                  <var name="hallo"/>
+                </cast>
+              </left>
+              <right>
+                <float value="100.000000"/>
+              </right>
+            </add>
+          </cast>
+        </value>
+      </set>
+    </line>
+    <line number="252">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Text: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <var name="hallo"/>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="255">
+      <if>
+        <condition>
+          <mul>
+            <left>
+              <int value="10"/>
+            </left>
+            <right>
+              <int value="10"/>
+            </right>
+          </mul>
+        </condition>
+        <line number="256">
+          <call name="print_string__dim_0_">
+            <param>
+              <string value="Hallo ist gleich 10"/>
+            </param>
+          </call>
+        </line>
+        <line number="257">
+          <else>
+            <line number="257">
+              <if>
+                <condition>
+                  <int value="10"/>
+                </condition>
+                <line number="258">
+                  <if>
+                    <condition>
+                      <cast to="int" from="string">
+                        <string value="Hallo Welt"/>
+                      </cast>
+                    </condition>
+                    <line number="259">
+                      <call name="print_string__dim_0_">
+                        <param>
+                          <string value="hallo"/>
+                        </param>
+                      </call>
+                    </line>
+                    <line number="260">
+                      <else>
+                        <line number="260">
+                          <if>
+                            <condition>
+                              <int value="2"/>
+                            </condition>
+                            <line number="261">
+                              <call name="print_string__dim_0_">
+                                <param>
+                                  <string value="Blub"/>
+                                </param>
+                              </call>
+                            </line>
+                            <line number="263">
+                              <else>
+                                <line number="263">
+                                  <call name="print_string__dim_0_">
+                                    <param>
+                                      <string value="Gaga"/>
+                                    </param>
+                                  </call>
+                                </line>
+                              </else>
+                            </line>
+                          </if>
+                        </line>
+                      </else>
+                    </line>
+                  </if>
+                </line>
+                <line number="265">
+                  <call name="print_string__dim_0_">
+                    <param>
+                      <string value="In Elseif"/>
+                    </param>
+                  </call>
+                </line>
+                <line number="267">
+                  <else>
+                    <line number="267">
+                      <call name="print_string__dim_0_">
+                        <param>
+                          <string value="Blub"/>
+                        </param>
+                      </call>
+                    </line>
+                  </else>
+                </line>
+              </if>
+            </line>
+          </else>
+        </line>
+      </if>
+    </line>
+    <line number="270">
+      <local>
+        <defvar name="tmp" type="int" dimension="0"/>
+      </local>
+    </line>
+    <line number="271">
+      <set>
+        <name>
+          <var name="tmp"/>
+        </name>
+        <value>
+          <int value="1"/>
+        </value>
+      </set>
+    </line>
+    <line number="271">
+      <while>
+        <condition>
+          <less>
+            <left>
+              <var name="tmp"/>
+            </left>
+            <right>
+              <int value="10"/>
+            </right>
+          </less>
+        </condition>
+        <line number="272">
+          <call name="print_string__dim_0_">
+            <param>
+              <stringadd>
+                <left>
+                  <string value="In While - Wend "/>
+                </left>
+                <right>
+                  <cast to="string" from="int">
+                    <var name="tmp"/>
+                  </cast>
+                </right>
+              </stringadd>
+            </param>
+          </call>
+        </line>
+        <line number="273">
+          <set>
+            <name>
+              <var name="tmp"/>
+            </name>
+            <value>
+              <add>
+                <left>
+                  <var name="tmp"/>
+                </left>
+                <right>
+                  <int value="1"/>
+                </right>
+              </add>
+            </value>
+          </set>
+        </line>
+      </while>
+    </line>
+    <line number="276">
+      <repeat>
+        <line number="277">
+          <call name="print_string__dim_0_">
+            <param>
+              <string value="In Repeat Until"/>
+            </param>
+          </call>
+        </line>
+        <line number="278">
+          <break/>
+        </line>
+        <condition>
+          <int value="1"/>
+        </condition>
+      </repeat>
+    </line>
+    <line number="281">
+      <select>
+        <condition>
+          <int value="10"/>
+        </condition>
+        <line number="282">
+          <case>
+            <condition>
+              <int value="5"/>
+            </condition>
+            <line number="283">
+              <call name="print_string__dim_0_">
+                <param>
+                  <string value="Hallo"/>
+                </param>
+              </call>
+            </line>
+            <line number="284">
+              <call name="print_string__dim_0_">
+                <param>
+                  <string value="Blubbig"/>
+                </param>
+              </call>
+            </line>
+          </case>
+        </line>
+        <line number="282">
+          <case>
+            <condition>
+              <int value="20"/>
+            </condition>
+            <line number="283">
+              <call name="print_string__dim_0_">
+                <param>
+                  <string value="Hallo"/>
+                </param>
+              </call>
+            </line>
+            <line number="284">
+              <call name="print_string__dim_0_">
+                <param>
+                  <string value="Blubbig"/>
+                </param>
+              </call>
+            </line>
+          </case>
+        </line>
+        <line number="285">
+          <case>
+            <condition>
+              <int value="7"/>
+            </condition>
+            <line number="286">
+              <call name="print_string__dim_0_">
+                <param>
+                  <string value="blub"/>
+                </param>
+              </call>
+            </line>
+          </case>
+        </line>
+        <line number="288">
+          <default>
+            <line number="288">
+              <call name="print_string__dim_0_">
+                <param>
+                  <string value="in Default"/>
+                </param>
+              </call>
+            </line>
+          </default>
+        </line>
+      </select>
+    </line>
+    <line number="291">
+      <for>
+        <forvar>
+          <declaration>
+            <local>
+              <defvar name="i" type="int" dimension="0"/>
+            </local>
+          </declaration>
+          <var>
+            <var name="i"/>
+          </var>
+        </forvar>
+        <start>
+          <int value="0"/>
+        </start>
+        <to>
+          <int value="10"/>
+        </to>
+        <step>
+          <int value="1"/>
+        </step>
+        <line number="292">
+          <call name="print_string__dim_0_">
+            <param>
+              <stringadd>
+                <left>
+                  <string value="Zahl: "/>
+                </left>
+                <right>
+                  <cast to="string" from="int">
+                    <var name="i"/>
+                  </cast>
+                </right>
+              </stringadd>
+            </param>
+          </call>
+        </line>
+      </for>
+    </line>
+    <line number="295">
+      <call name="print_string__dim_0_">
+        <param>
+          <cast to="string" from="int">
+            <call name="blub_string__dim_0__int__dim_0__float__dim_0_">
+              <param>
+                <string value="Hallo"/>
+              </param>
+              <param>
+                <int value="10"/>
+              </param>
+              <param>
+                <float value="10.0000000"/>
+              </param>
+            </call>
+          </cast>
+        </param>
+      </call>
+    </line>
+    <line number="296">
+      <call name="ohnenichts"/>
+    </line>
+    <line number="298"/>
+    <line number="301"/>
+    <line number="306"/>
+    <line number="311"/>
+    <line number="316"/>
+    <line number="325"/>
+    <line number="335"/>
+    <line number="345">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Aus Array direkt entnommen: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <array type="int" dimension="2">
+                  <name>
+                    <call name="testarray"/>
+                  </name>
+                  <dimension>
+                    <int value="4"/>
+                  </dimension>
+                  <dimension>
+                    <int value="4"/>
+                  </dimension>
+                </array>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="346">
+      <call name="print_string__dim_0_">
+        <param>
+          <stringadd>
+            <left>
+              <string value="Lustig: "/>
+            </left>
+            <right>
+              <cast to="string" from="int">
+                <mul>
+                  <left>
+                    <int value="-1"/>
+                  </left>
+                  <right>
+                    <mul>
+                      <left>
+                        <int value="-1"/>
+                      </left>
+                      <right>
+                        <mul>
+                          <left>
+                            <int value="-1"/>
+                          </left>
+                          <right>
+                            <mul>
+                              <left>
+                                <int value="-1"/>
+                              </left>
+                              <right>
+                                <mul>
+                                  <left>
+                                    <int value="-1"/>
+                                  </left>
+                                  <right>
+                                    <mul>
+                                      <left>
+                                        <int value="-1"/>
+                                      </left>
+                                      <right>
+                                        <mul>
+                                          <left>
+                                            <int value="-1"/>
+                                          </left>
+                                          <right>
+                                            <mul>
+                                              <left>
+                                                <int value="-1"/>
+                                              </left>
+                                              <right>
+                                                <mul>
+                                                  <left>
+                                                    <int value="-1"/>
+                                                  </left>
+                                                  <right>
+                                                    <mul>
+                                                      <left>
+                                                        <int value="-1"/>
+                                                      </left>
+                                                      <right>
+                                                        <mul>
+                                                          <left>
+                                                            <int value="-1"/>
+                                                          </left>
+                                                          <right>
+                                                            <mul>
+                                                            <left>
+                                                            <int value="-1"/>
+                                                            </left>
+                                                            <right>
+                                                            <mul>
+                                                            <left>
+                                                            <int value="-1"/>
+                                                            </left>
+                                                            <right>
+                                                            <mul>
+                                                            <left>
+                                                            <int value="-1"/>
+                                                            </left>
+                                                            <right>
+                                                            <mul>
+                                                            <left>
+                                                            <int value="-1"/>
+                                                            </left>
+                                                            <right>
+                                                            <mul>
+                                                            <left>
+                                                            <int value="-1"/>
+                                                            </left>
+                                                            <right>
+                                                            <int value="10"/>
+                                                            </right>
+                                                            </mul>
+                                                            </right>
+                                                            </mul>
+                                                            </right>
+                                                            </mul>
+                                                            </right>
+                                                            </mul>
+                                                            </right>
+                                                            </mul>
+                                                          </right>
+                                                        </mul>
+                                                      </right>
+                                                    </mul>
+                                                  </right>
+                                                </mul>
+                                              </right>
+                                            </mul>
+                                          </right>
+                                        </mul>
+                                      </right>
+                                    </mul>
+                                  </right>
+                                </mul>
+                              </right>
+                            </mul>
+                          </right>
+                        </mul>
+                      </right>
+                    </mul>
+                  </right>
+                </mul>
+              </cast>
+            </right>
+          </stringadd>
+        </param>
+      </call>
+    </line>
+    <line number="347"/>
+    <line number="354">
+      <call name="optionaltest_int__dim_0__int__dim_0__int__dim_0_">
+        <param>
+          <int value="100"/>
+        </param>
+        <param>
+          <int value="100"/>
+        </param>
+        <param>
+          <int value="300"/>
+        </param>
+      </call>
+    </line>
+    <line number="356"/>
+  </code>
+</CPB>

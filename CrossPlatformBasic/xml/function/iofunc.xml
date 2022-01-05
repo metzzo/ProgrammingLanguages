@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<root>
+	<function name="print" type="void">
+		<param name="TEXT" type="string" />
+	</function>
+	<function name="exit" type="void">
+		<param name="VALUE" type="int" />
+	</function>
+</root>

@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=vm
+comment0.target=void\ execute(VM)
+comment1.params=ret
+comment1.target=OpCodeReturnJump(int)
+comment2.target=int\ getRet()
+numComments=3

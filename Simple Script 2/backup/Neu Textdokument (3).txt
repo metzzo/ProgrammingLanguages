@@ -1,0 +1,89 @@
+;		If wholerow="next"
+;			pos=zcount-1
+;			stepin=0
+;			While Left(script\rows[pos],4)<>"for " And stepin=0
+;				pos=pos-1
+;				If script\rows[pos]="next" Then stepin=stepin+1
+;				If Left(script\rows[pos],4)="for " And stepin>0 Then stepin=stepin-1
+;				If (script\rows[pos]="exit" Or script\rows[pos]="exit()") And stepin=0 
+;					script\rows[pos]="jumptoline("+zcount+")"
+;				EndIf
+;			Wend
+;			wholerow="jumptoline("+pos+")"
+;		EndIf
+					Case "forever"
+;				pos=zcount
+;				stepin=0
+;				While script\rows[pos]<>"repeat" And stepin=0
+;					pos=pos-1
+;					If script\rows[pos]="forever" Then stepin=stepin+1
+;					If script\rows[pos]="repeat" And stepin>0 Then stepin=stepin-1
+;					If (script\rows[pos]="exit" Or script\rows[pos]="exit()") And stepin=0 
+;						zcount=zcount+1
+;						script\rows[pos]="jumptoline("+zcount+")"
+;					EndIf
+;				Wend
+;				wholerow="jumptoline("+pos+")"
+		End Select
+			
+;			ParseCmd(wholerow)
+;			script\rows[zcount]=Parameter(1)
+;			script\rows[zcount]=script\rows[zcount]+":"+"For ()"
+;			script\rows[zcount]=script\rows[zcount]+":"+"if ("+Parameter(2)+")"
+;			script\rows[zcount]=script\rows[zcount]+":"+"exit"
+;			script\rows[zcount]=script\rows[zcount]+":"+"endif()"
+;			If Instr(Parameter(2),"%")
+;				z=Mid(Parameter(1),2,Instr(Parameter(1),"!"))
+;				wholerow="%"+z+"="+"%"+z+"+"+Parameter(3)
+;			ElseIf Instr(Parameter(2),"#")
+;				z=Mid(Parameter(1),2,Instr(Parameter(1),"!"))
+;				wholerow="#"+z+"!#="+"#"+z+"#+"+Parameter(3)					
+;			ElseIf Instr(Parameter(2),"$")
+;				z=Mid(Parameter(1),2,Instr(Parameter(1),"!"))
+;				wholerow="$"+z+"!$="+"$"+z+"$+"+Parameter(3)		
+;			EndIf
+;			script\rows[zcount]=script\rows[zcount]+":"+wholerow
+
+		
+;		If Left(wholerow,5)="until"
+;			script\rows[zcount]="if ("+Mid(wholerow,7)+")"
+;			zcount=zcount+1
+;			pos=zcount+3
+;			script\rows[zcount]="jumptoline("+pos+")"
+;			zcount=zcount+1
+;			script\rows[zcount]="endif()"
+;			zcount=zcount+1
+;			wholerow="forever"
+;		EndIf
+;		
+;		If Left(wholerow,5)="while"
+;			script\rows[zcount]=wholerow
+;			zcount=zcount+3
+;			wholerow=""
+;			Goto dontwritein
+;		EndIf
+;		If Left(wholerow,4)="wend"
+;			pos=zcount
+;			While Left(script\rows[pos],5)<>"while" And stepin=0
+;				pos=pos-1
+;				If script\rows[pos]="wend" Then stepin=stepin+1
+;				If script\rows[pos]="while" And stepin>0 Then stepin=stepin-1
+;				If (script\rows[pos]="exit" Or script\rows[pos]="exit()") And stepin=0 
+;					script\rows[pos]="jumptoline("+zcount+")"
+;				EndIf
+;			Wend
+;			ppos=pos-1
+;			script\rows[pos]="if (not ("+Mid(script\rows[pos],7)+"))"
+;			
+;			pos=pos+1
+;			zzcount=zcount+1
+;			script\rows[pos]="jumptoline("+zzcount+")"
+;			pos=pos+1
+;			script\rows[pos]="endif()"
+;			ppos=ppos
+;			script\rows[zcount]="jumptoline("+ppos+")"
+;			zcount=zcount+1
+;			wholerow=""
+;			Goto dontwritein
+;		EndIf
+;		f

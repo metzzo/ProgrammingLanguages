@@ -1,0 +1,54 @@
+importall()
+graphics(640,480,0,2)
+setbuffer(backbuffer())
+local py%=320;die y kordinate des Spielers
+local gy%=320 ;die y kordinate das Gegners
+
+local bx%=320
+local by%=240
+local bangle%=0
+
+repeat
+cls()
+if (keyhit(1))
+end()
+endif
+getfps(10,10)
+  
+bx%=bx%+cos(bangle%)*2
+by%=by%+sin(bangle%)*-2
+
+
+if (keydown(200))
+py%=py%-3
+endif
+
+if (keydown(208))
+py%=py%+3
+endif
+if ((gy%+25)>by%)
+gy%=gy%-3
+endif
+if ((gy%+25)<by%)
+gy%=gy%+3
+endif
+;kollisionen
+if (rectsoverlap(bx%,by%,10,10,540,gy%,10,50)==1)
+bangle%=180-bangle%
+endif
+If (by%>480)
+bangle%=360-bangle%
+endif
+If (by%<0)
+bangle%=360-bangle%
+endif
+
+
+;zeichnen
+oval (bx%,by%,10,10)
+rect (20,py%,10,50)
+rect (540,gy%,10,50)
+
+
+flip(0)
+forever()

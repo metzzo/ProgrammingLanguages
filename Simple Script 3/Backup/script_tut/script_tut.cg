@@ -1,0 +1,330 @@
+// Options-section für CppCC. Am besten in der Doku nachlesen, was man alles
+// so einstellen kann
+OPTIONS
+{
+	HDR_EXTENSION = "h";
+	SRC_EXTENSION = "cpp";
+	STRING_CLASS = "std::string";
+	COUNT_COLUMNS = true;
+	DEBUG_PARSER = false;
+	DEBUG_SCANNER = false;
+	SHARP_LINES = false;
+	USE_EXCEPTIONS = false;
+	NAMESPACE_NAME = "script_tut";
+	
+	// Default-lookahed, damit non-LL(1)
+	// statements gematcht werden (im moment
+	// nur if(), weil das beliebig geschachtelt werden
+	// kann und zB nicht immer klar ist, welches else zu welchem
+	// if gehört ;) Das kann den Parser ganz schön in bredouille
+	// bringen, deswegen guckt der sich erstmal ne menge tokens vorher an
+	// und guckt wie es am besten passt. Dauert zwar etwas länger das ganze,
+	// aber wir basteln ja keinen Just-In-time scanner und parser wie zB
+	// php.
+	DEFAULT_LOOKAHEAD = 1000000000;
+}
+
+// Dieser code wird as-is in die erstellten Dateien kopiert
+{
+#include <iostream>
+#include <math.h> // für atoi()
+using namespace std;
+}
+
+// Die definition für ein Token
+TOKEN scriptToken
+{
+	public:
+	// Variablen, auf die der Kommunikation
+	// Scanner => Parser dienen.
+	
+	// ein identifier-string
+	std::string identifier;
+	
+	// ein var-name string
+	std::string varName;
+	
+	// ein string-string
+	std::string stringValue;
+	
+	// integer-value
+	int intValue;
+}
+
+// Die definition des Scanners
+SCANNER scriptScanner
+{
+
+	// Native-section, wird so wie sie ist in die Klasse hineingeschrieben
+	{
+		public:
+		
+		// Wenn ein Input/Output error passiert, wird diese
+		// Funktion aufgerufen
+		bool onIOError(ScanException e)
+		{
+			cout << "IO Error: " << e.what() << endl;
+			return true;
+		}
+		
+		// wenn zB eine Zeichenkette gescannt wird, die auf kein
+		// Token passt, wird diese Funktion aufgerufen
+		bool onScanError(ScanException e)
+		{
+			cout << "Scan Error: " << e.what() << endl;
+			return true;
+		}
+	}
+	
+	// ========= RULES für den Scanner =========\\
+	
+	// Patterns, die geskippt werden. So z.B. Newlines
+	// oder Tabs ( halt alle Whitespaces). Ebenso
+	// c-Style "// commentar"-Comments.
+	SKIP
+	{
+		// whitespaces
+		<ws: " " | "\t" | "\v" | "\f" >
+		// c-style comments skippen ( "//" bis Newline )
+		<SHORT_COMMENT: "//" (~['\n','\r'])* >
+		// wenn so ein zeichen kommt, line-counter erhöhen
+		<eol: "\n" /*| "\r" | "\n\r" | "\r\n"*/ > { newLine(); }
+	}
+	
+	// Ab hier beginnt die Section, in der alle für das Parsing
+	// relevanten Tokens definiert werden
+	TOKEN
+	{
+		//=================== TokeN ================== \\
+		// ein IF
+		<IF: "if">
+		<ELSE: "else">
+		// ( und )
+		<L_PAR: "(">
+		<R_PAR: ")">
+		// { und }
+		<L_CURLY: "{">
+		<R_CURLY: "}">
+		// Komma
+		<COMMA: ",">
+		// Das allmächtige Semikolon
+		<SEMICOLON: ";">
+		
+		// Operatoren
+		<ASSIGN: "=">
+		<EQUAL: "==">
+		<NEQUAL: "!=">
+		<ADD: "+">
+		<SUB: "-">
+		<MULT: "*">
+		<DIV: "/">
+		<CONCAT: "..">
+		<LOGIC_OR: "OR">
+		<LOGIC_AND: "AND">
+		
+		// =================== DynamiC TokeN ==================== \\
+		
+		// Token mit <# sind Hilfs-Token und werden nicht
+		// dem Parser bekannt gemacht. Sie dienen alleinig als Macros
+		// für andere Token.
+		
+		// Dies ist eine einfache Ziffer
+		<#DIGIT: ['0'-'9']>
+		// Ein Groß- oder Kleinbuchstabe
+		<#LETTER: ['a'-'z','A'-'Z']>
+		
+		// Ein identifier besteht immer aus mindestens einem oder mehr
+		// Buchstaben und dannach auch aus nummern oder "_".
+		// Richtige idents sind also zB:
+		// humpf, foo33, i_am_a_scripting_guy_on_cloud_7
+		// Dem Token wird dann als identifier-Wert der Wert
+		// des tokens zugewiesen.
+		<IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>|['_'])* > { token->identifier = token->image(); }
+		
+		// Ein Variablenname ist aufgebaut wie ein Identifier, nur dass er
+		// ein Dollarzeichen ("$") am Anfang hat:
+		<VAR_NAME: ['$'] <IDENTIFIER> >  { token->varName = token->image(); }
+		
+		// eine nummer besteht aus ziffern ( mindestens 1 )  und evtl.
+		// einem vorangestelltem Minus
+		<DECIMAL: ['-']? <DIGIT>+> { token->intValue = atoi(token->image().c_str()); }
+		
+		// Der String ist etwas komplizierter, alles was zwischen Hochkommata
+		// steht wird als String akkzeptiert.	    
+		<STRING: "\"" (~['\"'])* "\"" > { token->stringValue = token->image(); }
+	}
+}
+
+// Die definition unseres Parsers
+PARSER scriptParser
+{
+	// native-section des parsers
+	{
+		public:
+		
+		/* Wird aufgerufen, wenn im Parser ein Fehler passiert. z.B. falsche Anordnung von
+		Tokens, die auf kein Pattern passen. */		
+		bool onParseError(ParseException e)
+		{
+			cout << "In line " << e.where().ln << " near " << e.where().col 
+				 << " is an error: " << e.what() << endl;
+			return true;
+		}				
+	}
+
+	// ========= RULES für den Parser ======== \\
+
+	// Mit diesem Pattern beginnt das Parsing.
+	() file ()
+	{
+		// native section, wird so in die funktion kopiert
+		{
+		}
+		
+		// eine datei besteht aus ner menge statements..
+		// aber es gibt auch dateien ohne statements ;)
+		// da wird dann halt nix gemacht ;)
+		statement()* { cout << "Statement list" << endl; }
+	}
+	
+	() statement ()
+	{
+		{
+		}
+		// Hier wird nach verschiedenen Statements gesucht.
+		// Ein statement kann entweder sein:
+		if_statement()					
+			{ cout << "If statement" << endl; }			// ein if-statement
+		| compound_statement()
+			{ cout << "compound statement" << endl; }	// gruppierte statements
+		| expression() <SEMICOLON>			
+			{ cout << "Simple statement" << endl; }		// ein einfaches statement (auch "expression" genannt + Terminator (";")
+		| <SEMICOLON>						
+			{ cout << "Empty statement" << endl; }		// oder ein leeres statement
+	}
+	
+	() compound_statement ()
+	{
+		{
+		}
+		
+		// Ein compound statement
+		// besteht aus statements innerhalb von
+		// geschweiften klammern		
+		<L_CURLY> statement()* <R_CURLY>
+	}
+	
+	() if_statement ()
+	{
+		{
+		}
+		
+		// ein if statement besteht aus dem Keyword "if" plus
+		// eine eingeklammerte Condition plus einen then-block
+		// und eventuell (optional) einem else-block
+		<IF> <L_PAR> expression() <R_PAR>
+			statement()
+		( <ELSE> statement() )?
+	}
+	
+	() expression () 
+	{
+		{
+		}
+		
+		// eine expression kann zb. eine assign-expression sein:
+		assign_expression()
+	}
+	
+	() assign_expression ()
+	{
+		{
+		}
+		
+		// zb %holla = "Hallodri", akzeptiert auch z.B. "2 = 9", was später aber durch
+		// den compiler erkannt wird
+		concat_expression() ( <ASSIGN> concat_expression() { cout << "Assign" << endl; } )*
+	}
+	
+	() concat_expression ()
+	{
+		{
+		}
+		
+		// string verbindungs operator ;)
+		logical_OR_expression() ( <CONCAT> logical_OR_expression() { cout << "Concatenation op" << endl; } )*
+	}
+	
+	() logical_OR_expression ()
+	{
+		{
+		}
+		// XXX OR YYY
+		logical_AND_expression() ( <LOGIC_OR> logical_AND_expression() { cout << "Logic OR" << endl; } )*
+	}
+	
+	() logical_AND_expression ()
+	{
+		// XXX AND YYY
+		equal_expression() ( <LOGIC_AND> equal_expression() { cout << "Logic AND" << endl; } )*
+	}
+	
+	() equal_expression ()
+	{
+		{
+		}
+		
+		// XXX ("=="|"!=") YY
+		add_expression() ( ( <EQUAL> | <NEQUAL> ) add_expression() { cout << "Equality operator" << endl; } )*
+	}	
+	
+	() add_expression ()
+	{
+		{
+		}
+		
+		// XXX ("+"|"-") YYY, und das beliebig oft ( 3 + 2 + %c + 9 )
+		mult_expression() ( ( <ADD> | <SUB> ) mult_expression() { cout << "Addition|Substraction" << endl; } )*
+	}
+	
+	() mult_expression ()
+	{
+		{
+		}
+		
+		// XXX ("*"|"/") YYY
+		func_call_expression() ( ( <MULT> | <DIV> ) func_call_expression() { cout << "Multiplication|Divide" << endl; } )*
+	}
+	
+	() func_call_expression ()
+	{
+		{
+		}
+		
+		// ein funktionsaufruf besteht aus
+		// einem identifier (funktionsname)
+		// plus parameterliste in klammern
+		// (wobei die parameterliste optional ist):		
+		( ( <IDENTIFIER> <L_PAR> argument_list()? <R_PAR> ) { cout << "Function call" << endl; } ) *
+		| value_expression()
+	}
+	
+	() argument_list ()
+	{
+		// eine parameterliste besteht aus expressions
+		// die durch ein komma getrennt sind:
+		( expression() ( <COMMA> expression() )* ) { cout << "Argument list" << endl; }
+	}		
+		
+	() value_expression ()
+	{
+		{
+		}
+		
+		<VAR_NAME> { cout << "Variable name: " << token->varName << endl; }
+		| <STRING> { cout << "String: " << token->stringValue << endl; }
+		| <DECIMAL> { cout << "Number: " << token->intValue << endl; }
+		// geklammerte expression, zb: 2 * ( 3 + 9 )
+		| <L_PAR> expression() <R_PAR> { cout << "Grouped expression" << endl; }
+	}
+}

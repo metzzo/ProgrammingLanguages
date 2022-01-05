@@ -1,0 +1,6 @@
+importall()
+local i%
+while (i%<10)
+i%=i%+1
+print("Durchgang "&i%)
+wend

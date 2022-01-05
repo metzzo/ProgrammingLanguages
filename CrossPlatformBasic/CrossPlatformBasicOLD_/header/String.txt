@@ -1,0 +1,14 @@
+Header "String Lib"
+	Function Len:Int(Str:String)
+	Function Chr:String(Value:Int)
+	Function Asc:Int(Str:String)
+	Function InStr:Int(Text1:String, Text2:String, Start:Int = 0)
+	Function Mid:String(Str:String, Start:Int, Count:Int=-1)
+	Function Left:String(Str:String, Count:Int)
+	Function Right:String(Str:String, Count:Int)
+	Function Upper:String(Str:String)
+	Function Lower:String(Str:String)
+	Function Trim:String(Str:String)
+	Function Replace:String(Str:String, Search:String, Repl:String, Start:Int=0)
+	Function Split:String[](SplitStr:String[])
+EndHEader

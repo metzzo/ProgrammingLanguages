@@ -1,0 +1,2 @@
+script_tut.exe
+pause

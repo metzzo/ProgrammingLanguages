@@ -1,0 +1,11 @@
+<platforms>
+	<platform name="c">
+		<target name="windows">
+			<compile>
+				
+			</compile>
+		</target>
+	</platform>
+	
+	
+</platforms>

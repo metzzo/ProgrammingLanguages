@@ -1,0 +1,6 @@
+Funktionen: fehlerfrei
+Schleifen: bugs
+If Abfragen: fehlerfrei
+Variablen: fehlerfrei
+OOP: bugs
+Arrays: fehlerfrei

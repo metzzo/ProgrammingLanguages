@@ -1,0 +1,131 @@
+;Herzlich Willkommen zu Simple Script 2
+;Heute programmieren wir ein Grundgerüst von einem Simple Pong
+graphics(640,480,0,2)
+setbuffer(backbuffer())
+importall() ;importieren nicht vergessen ;)
+local player as Timage
+player.new(0,0)
+player.load("gfx/player.png")
+player.x%=320
+player.y%=10
+
+;Gegner:
+local gegner as Timage
+gegner.new(0,0)
+gegner.load("gfx/player.png")
+gegner.x%=320
+gegner.y%=440
+;ball
+local ballx%
+local bally%
+local ballspeedx%
+local ballspeedy%
+local playerlive%=7
+local gegnerlive%=7
+ballx%=320
+bally%=240
+ballspeedx%=rand(-2,2)
+ballspeedy%=2
+local myfps%
+;mainloop
+repeat
+	cls()
+	myfps%=fps()
+	text("FPS: "myfps%,0,0)
+	text("Spieler: "playerlive%"  Gegner:"gegnerlive%,240,320,1,1)
+	player.draw()
+	gegner.draw()
+
+	if (playerlive%==0)
+		cls()
+		flip()
+		print("Verloren!")
+		delay(1000)
+		end()
+	endif
+
+	if (gegnerlive%==0)
+		cls()
+		flip()
+		print("Gewonnen!")
+		delay(1000)
+		end()
+	endif
+	;gegner
+	if (ballx%>gegner.x%)
+		gegner.x%=gegner.x%+3
+	endif
+	if (ballx%<gegner.x%)
+		gegner.x%=gegner.x%-3
+	endif
+	;bewegen
+	if (keydown(203))
+		player.x%=player.x%-5
+	endif
+	if (keydown(205))
+		player.x%=player.x%+5
+	endif
+	;ball
+	if (ballx%<0)
+		ballspeedx%=rand(2,4)
+	endif
+	if (ballx%>630)
+		ballspeedx%=rand(-2,-4)
+	endif
+
+	if (rectsoverlap(gegner.x%,gegner.y%,32,32,ballx%,bally%,10,10))	
+		ballspeedy%=rand(-2,-3)
+		ballspeedx%=rand(-5,5)
+		if (ballspeedy%==0)
+			ballspeedy%=-2
+		endif
+		if (ballspeedx%==0)
+			ballspeedx%=-3
+		endif
+	endif
+	if (rectsoverlap(player.x%,player.y%,32,32,ballx%,bally%,10,10))	
+		ballspeedy%=rand(2,3)
+		ballspeedx%=rand(-5,5)
+		if (ballspeedy%==0)
+			ballspeedy%=2
+		endif
+		if (ballspeedx%==0)
+			ballspeedx%=3
+		endif
+	endif
+
+	if (bally%<0)
+		playerlive%=playerlive%-1
+		ballx%=320
+		bally%=240
+		ballspeedy%=rand(-3,3)
+		ballspeedx%=rand(5,-5)
+		if (ballspeedy%==0)
+			ballspeedy%=2
+		endif
+		if (ballspeedx%==0)
+			ballspeedx%=3
+		endif
+	endif
+	if (bally%>480)
+		gegnerlive%=gegnerlive%-1
+		ballx%=320
+		bally%=240
+		if (ballspeedy%==0)
+			ballspeedy%=2
+		endif
+		if (ballspeedx%==0)
+			ballspeedx%=3
+		endif
+	endif
+	if (ballx%<0)
+		ballspeedx%=rand(1,5)
+	endif
+	if (ballx%>630)
+		ballspeedx%=rand(-1,-5)
+	endif
+	ballx%=ballx%+ballspeedx%
+	bally%=bally%+ballspeedy%
+	oval(ballx%,bally%,10,10)
+	flip()
+until (keydown(1) ) ;Wenn Esc dann beenden

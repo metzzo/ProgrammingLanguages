@@ -1,0 +1,141 @@
+definition
+begin
+	class baum begin
+		var int test1
+		var int test2
+	end
+	ref of baum test
+
+	func int search
+		int test
+		array of int feld
+	begin
+		definition begin
+			var int i
+			var int ret
+		end
+		ret=0
+		for (i=0, i<9, i=i+1) begin
+			if (feld[i] == test) begin
+				ret=1
+			end
+		end
+		return ret
+	end
+	func int groesstesArray
+		array of int feld
+	begin
+		definition begin
+			var int i
+			var int max
+		end
+		max=0
+		for (i=0, i<9, i=i+1) begin
+			if (max<feld[i]) begin
+				max=feld[i]
+			end
+		end
+		return max
+	end
+	var int i
+	var int hallo2
+	var string blub
+	array of int kleinesArray
+	array of array of int grossesArray
+	
+	
+	func void function2
+	begin
+		print("HALLO WELT")
+	end
+	
+	func int testFunction 
+		int param1 
+		string param2
+	begin
+		print(toString(param1)+" -- "+param2)
+		function2()
+		return (100)
+	end
+	func int rekursivFunktion
+		int i
+	begin
+		if (i<5) begin
+			rekursivFunktion(i+1)
+			print("Funktion Nummer: "+i)
+		end else begin
+			print("Ende")
+		end
+	end
+	func array of int arrayFunktion
+		array of int test
+	begin
+		definition
+		begin
+			array of int test2
+		end
+		print("blubbb")
+		print("Array als Parameter: "+toString(test[3]))
+		dim test2[5]		
+		test2[2]=999
+		print("Lokales Array: "+test2[2])
+		return test2
+	end
+	func array of array of int mehrdimFunktion
+		array of array of int mehrdim
+	begin
+		print("Parameter: "+mehrdim[5][3])
+		mehrdim[5][3]=99	
+		print("gesetzt: "+mehrdim[5][3])
+		return mehrdim
+	end
+end
+print("sstaaarrt")
+dim kleinesArray[10]
+for (i=0, i<9, i=i+1) begin
+	
+end
+for (i=0, i<9, i=i+1) begin
+	print("i: "+i)
+	print("Array: "+toString(kleinesArray[i]))
+end
+
+print("ist 16 in array vorhanden: "+search(16, kleinesArray))
+print("groesste Zahl in array: "+groesstesArray(kleinesArray))
+
+print("Aus Funktion: "+arrayFunktion(kleinesArray)[2])
+
+dim grossesArray[10][6]
+grossesArray[5][3]=9999
+print("Mehrere Dimensionen: "+mehrdimFunktion(grossesArray)[5][3])
+
+
+
+if (1) begin
+	print("Hallo Welt ZWEI")
+end else if (1) begin
+	print("Hallo Wrlt DREI")
+end else begin
+	print("blub VIER")
+end
+
+i=0
+while (i<4) 
+begin
+	print("while: "+i)
+	i=i+1
+end
+
+i=0
+do 
+begin
+	print("do while: "+i)
+	i=i+1
+end 
+while(i<4)
+
+
+for (i=0 , i<4 , i=i+1)
+begin
+	print("for: "+i)
+end

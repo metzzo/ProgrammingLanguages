@@ -1,0 +1,3 @@
+Function End:Void()
+	exit(0)
+EndFunction

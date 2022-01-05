@@ -1,0 +1,363 @@
+Print 2*(2+3)
+Type Vererbt
+	Private
+	Field HahaIchBinPrivat:Float=99.999991
+	Protected
+	
+	Field Hallo:Int = 100
+	
+	Public
+	
+	Function Test1:Void()
+		Print "Hiho"
+		Print "In Test1 "+This.Hallo
+	EndFunction
+EndType
+ 
+Type VerVererbt
+	Function Test2:Void()
+		//This.Hallo=This.Hallo+1
+		Print "In Test2"
+	EndFunction
+	Function Test1:Void()
+		Print "HUHU"
+		Print "In Test 1 aber VerVErerbt"
+	EndFunction
+EndType
+Type VerVerVererbt
+	Function Blub:Void()
+		//This.Hallo=-1
+	EndFunction
+EndType
+Type BlubTyp
+	Field Hallo:Int=200
+	Field Tschuess:Int=300
+	Function Hihi:Void()
+		Print "Blubbig: "+This.Hallo+" - "+This.Tschuess
+	EndFunction
+EndType
+Print "Next0"
+Local Normal:Vererbt=New Vererbt
+
+Normal.Test1()
+Print "Next"
+Local TestVer:VerVererbt=New VerVererbt
+TestVer.Test1()
+Print "Next2" 
+TestVer.Test2()
+Print "Begin"
+
+Local MethodTestInst:TMethodTest=New TMethodTest
+Print "StartPArameter"
+MethodTestInst.MethodenTest(100.9)
+Print "EndParameter"
+Print "Haha: "+MethodTestInst.Blub().Blub().Blub().Haha
+Print "Aus Methode: "+MethodTestInst.ArrayTest()[4][4]
+Print "Rekurive Arrays: " + MethodTestInst.GetArray(400)[1].ArrayTest()[4][4]
+Type TMethodTest
+	Field Haha:Int=20
+	Function MethodenTest:Void(Param:Int)
+		Print "In Methode "+Param
+		This.Haha=100
+		Print "Aus Methode"
+	EndFunction
+	Function MethodenTest:Void(Param:Float)
+		Print "Ueberladen: "+Param
+	EndFunction
+	Function Blub:TMethodTest()
+		Return This
+	EndFunction
+	Function ArrayTest:Int[][]()
+		Print "In Array Test"
+		Local Arr:Int[][]=New Int[20][20]
+		Arr[4][4]=200
+		Return Arr
+	EndFunction
+	Function GetArray:TMethodTest[](MitParam:Int)
+		Print "GetArray: "+MitParam
+		Local Arr:TMethodTest[]=New TMethodTest[2]
+		Arr[1]=New TMethodTest
+		Return Arr
+	EndFunction
+EndType
+Type TTest
+	Field X:Int=200
+	
+	
+	Field Y:Float
+	Field Z:String
+	
+	Field TestArray:TTest[]=New TTest[20] 
+EndType
+
+Type TList
+	Field Start:TLink
+EndType
+Global EinKleinerTest:TTest=New TTest, Wawa:TTest[]=New TTest[20]
+Print "Ein kleiner Test mit vordefinierte Werte: "+EinKleinerTest.X
+
+Type TLink
+	Field Prev:TLink
+	Field Succ:TLink
+	Field Value:Int
+EndType
+
+Function CreateList:TList()
+	Local List:TList=New TList
+	List.Start=Null
+	Return List
+EndFunction
+Global Zeahler:Int
+
+Function Add:TLink(List:TList, Value:Int)
+	Zeahler=Zeahler+1
+	Local Link:TLink
+	
+	Link=New TLink
+	
+	Link.Value=Value
+	Link.Prev=List.Start
+	Link.Succ=Null
+	If List.Start<>Null Then List.Start.Succ=Link
+	List.Start=Link
+	
+	Return Link
+EndFunction
+
+Local List:TList = CreateList()
+Add(List,4)
+Add(List,10)
+Add(List,100)
+
+Local Cur:TLink
+Cur=List.Start
+While Cur<>Null
+	Print "Linked List: "+Cur.Value
+	Cur=Cur.Prev
+Wend
+Local Test:TTest[]=New TTest[2]
+Test[1]=New TTest
+
+Test[1].X=10
+
+Print "Test: "+Test[1].X
+
+Test[1].TestArray=New TTest[5]
+Test[1].TestArray[1]=New TTest
+Test[1].TestArray[1].X=100
+
+Print Test[1].TestArray[1].X
+
+Type TestType2
+	Field Self:TestType2
+EndType
+Local Test2:TestType2
+Test2=New TestType2
+Test2.Self=Test2
+
+Local TmpTyp:TestType2
+TmpTyp=Test2
+Local j:Int=0
+While TmpTyp<>Null
+	Print "Hallo in Type DUmm"
+	TmpTyp=TmpTyp.Self
+	j=j+1
+	If j>4 Then Break
+Wend
+
+Local Typ:TReturnType=GetType()
+Typ.HAHA=20
+TypAlsParameter(Typ)
+
+Print "Bekomme Typ: "+GetType().HAHA
+
+Function GetType:TReturnType()
+	Return New TReturnType
+EndFunction
+
+Function TypAlsParameter:Void(BlubTest:TReturnType)
+	Print BlubTest.HAHA
+EndFunction
+
+Type TReturnType
+	Field HAHA:Int=-99
+EndType
+
+
+Local MehrDim:Int[][][]
+MehrDim=New Int[5][9][20]
+Print "Mehrdim start"
+MehrDim[4][8][19]=42
+MehrDim[4][4][4]=99
+
+Print MehrDim[4][8][19]
+MehrDim=MehrDimTest(MehrDim)
+Print "Blub"
+
+Datatypetest
+Print "Hallo"
+
+Print("Hallo"+(2*(5+4)+(5*(8+10))+5+5+3))
+
+VorDefiniert()
+
+Local MehrDimString:String[][]
+mehrdimstring=New String[5][5]
+MehrdimString[2][3]="Hallo"
+Print MehrDImString[2][3]
+
+Local AndererTest:Int[][]
+AndererTest=New Int[10][10]
+For Local X:Int=0 To 9
+	For Local Y:Int=0 To 9
+		andererTest[X][Y]=X*9+Y
+	Next
+Next
+For Local X:Int=0 To 9
+	For Local Y:Int=0 To 9
+		Print "In Array an Position '"+X+"', '"+Y+"': "+AndererTest[X][Y]
+	Next
+Next
+
+Print "MultiDim Array:"+MehrDim[1][1][1]
+
+Local Array:Int[]
+Array=New Int[1000]
+
+Array[40]=100*4
+Array=ArrayFunktion(Array)
+Print "Aus Array Funktion: "+Array[4]
+GCCollect()
+
+
+Print -5
+
+Print Float("5.5")
+
+
+
+
+Local FloatTest:Float=200
+Print FloatTest
+
+
+
+Global HalloGlobal:Int
+HalloGlobal=100
+
+Print "Zweite Zeile"
+Local Hallo:Int=40 ;Es gibt Int(%),Float(#),String($),Nichts(Int)
+Hallo=100+5*10
+Hallo=Hallo+100.0
+
+Print "Text: "+Hallo
+
+
+If 10*10
+   Print "Hallo ist gleich 10"
+ElseIf 10
+   If "Hallo Welt"
+      Print "hallo"
+   ElseIf 2
+      Print "Blub"
+   Else
+      Print "Gaga"
+   EndIf
+   Print "In Elseif"
+Else
+   Print "Blub"
+EndIf
+
+Local Tmp:Int=1
+While tmp<10
+   Print "In While - Wend "+Tmp
+   Tmp=Tmp+1
+Wend
+
+Repeat
+   Print "In Repeat Until"
+   Break
+Until 1
+
+Select 10
+   Case 5, 20
+      Print "Hallo"
+      Print("Blubbig")
+   Case 7
+      Print "blub"
+   Default
+      Print "in Default"
+EndSelect
+
+For Local i:Int=0 To 10
+   Print "Zahl: "+i
+Next
+
+Print Blub("Hallo",10,10.0)
+OhneNichts()
+
+Function OhneNichts:Void()
+EndFunction
+
+Function Blub:Int(X:Int,Z:String,Y:Int)
+   Print "X: "+X+" Y: "+Y+"  "+Z
+   Return 100
+EndFunction
+
+Function Blub:Int(X:String, Z:Int, Y:Float)
+	Print "In anderes Blub"
+	Return -100
+EndFunction
+
+Function VorDefiniert:Void(X:Int=100,Y:Float=9.9,Z:String="Gaga")
+	Print "VORDEFINIERT FTW. "+X+" "+Y+" "+Z
+EndFunction
+
+
+Function ArrayFunktion:Int[](X:Int[])
+	Print "In Array Funktion: "+X[40]
+	X=Null
+	Local Test:Int[]
+	Test=New Int[10]
+	Test[4]=22
+	Return Test
+EndFunction
+
+Function MehrDimTest:Int[][][](Y:Int[][][])
+	Print "In Mehr Dim Array Funktion: "+Y[4][4][4]
+	Y=Null
+	
+	Local Test:Int[][][]
+	Test=New Int[2][2][2]
+	Test[1][1][1]=100
+	Return Test
+EndFunction
+
+Function Datatypetest:Void()
+	Local TestShort:Short, TestDouble:Double, TestLong:Long, TestByte:Byte
+	TestShort=65535
+	TestDouble=9999.99999
+	TestLong=9999999
+	TestByte=255
+	;short2string usw. muss noch in C implementiert werden
+	;Print "Short: "+TestShort+" Double: "+TestDouble+" Long: "+TestLong+" Byte: "+TestByte
+EndFunction
+
+Print "Aus Array direkt entnommen: "+TestArray()[4][4]
+Print "Lustig: "+(++++-------+++----++-----10)
+Function TestArray:Int[][]()
+	Local Array:Int[][]
+	Array=New Int[8][8]
+	Array[4][4]=100
+	Return Array
+EndFunction
+
+OptionalTest 100,100
+
+Function OptionalTest:Void(X:Int=100,Y:Int=200,Z:Int=300)
+	Print X
+	Print Y
+	Print Z
+EndFunction
+
+

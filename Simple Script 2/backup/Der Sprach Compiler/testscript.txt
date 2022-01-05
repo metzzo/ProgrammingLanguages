@@ -1,0 +1,25 @@
+Kommentar: Hier ist eine kleine Variablen Spielerei
+zeige aus: Hallo Welt
+deklariere Variable: hallo1
+verändere Variable: hallo1 in 100
+Zeige aus: Ich bin schwul! "hallo1"
+
+Kommentar: Wenn Spielerei
+Wenn "hallo1" ist 100 dann
+  zeige aus: hallo1 ist 100!!!111
+beende überprüfung
+
+Kommantar: Schleifen Spielerei
+Schleife:
+  Zeige aus: Schleife!
+  Wenn "Zufall(0,10)" ist 1 dann
+    Gehe aus Schleife
+  beende Bedingung
+Springe Zurück
+
+Kommentar:Sprungpunkt Spielerei
+Springe zu Sprungpunkt: Ich bin ein Sprungpunkt!
+Zeige aus: Ich werde nie angezeigt!
+Sprungpunkt: Ich bin ein Sprungpunkt!
+
+Beende Programm

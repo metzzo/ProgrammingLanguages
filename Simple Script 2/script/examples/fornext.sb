@@ -1,0 +1,6 @@
+
+importall()
+local i%
+for (i%=0,i%>5,1) ;1. Startwert, 2. Wann beendet werden soll3. Um wieviel hinzuaddiert werden muss
+    print("durchlauf"i%)
+next

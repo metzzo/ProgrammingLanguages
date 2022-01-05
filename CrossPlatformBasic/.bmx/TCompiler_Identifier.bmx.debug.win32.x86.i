@@ -1,0 +1,42 @@
+import brl.blitz
+import bah.libxml
+import "Util_CPB.bmx"
+TIdentifier^brl.blitz.Object{
+.Datatype$&
+.Name$&
+.IsArray%&
+-New%()="_bb_TIdentifier_New"
+-Delete%()="_bb_TIdentifier_Delete"
+-Create:TIdentifier(N$,Typ$)="_bb_TIdentifier_Create"
+-ToNode:bah.libxml.TxmlNode(Infos:brl.linkedlist.TList="bbNullObject")="_bb_TIdentifier_ToNode"
+}A="bb_TIdentifier"
+TIdentifierFunction^TIdentifier{
+.RealName$&
+.ParamList:brl.linkedlist.TList&
+.UserFunc@&
+.Used@&
+-New%()="_bb_TIdentifierFunction_New"
+-Delete%()="_bb_TIdentifierFunction_Delete"
+-use@()="_bb_TIdentifierFunction_use"
+-AddParameter%(Name$,DataType$,IsArray%,Pre$=$"")="_bb_TIdentifierFunction_AddParameter"
+-GenName%()="_bb_TIdentifierFunction_GenName"
+}="bb_TIdentifierFunction"
+TIdentifierVariable^TIdentifier{
+-New%()="_bb_TIdentifierVariable_New"
+-Delete%()="_bb_TIdentifierVariable_Delete"
+-ToNode:bah.libxml.TxmlNode(Infos:brl.linkedlist.TList)="_bb_TIdentifierVariable_ToNode"
+}="bb_TIdentifierVariable"
+TIdentifierType^TIdentifier{
+-New%()="_bb_TIdentifierType_New"
+-Delete%()="_bb_TIdentifierType_Delete"
+}="bb_TIdentifierType"
+TParameter^brl.blitz.Object{
+.Name$&
+.Datatype$&
+.IsArray%&
+.Pre$&
+.Node:bah.libxml.TxmlNode&
+-New%()="_bb_TParameter_New"
+-Delete%()="_bb_TParameter_Delete"
+-Create:TParameter(Name$,Datatype$,Pre$,IsArray%)="_bb_TParameter_Create"
+}="bb_TParameter"

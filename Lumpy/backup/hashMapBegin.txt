@@ -1,0 +1,46 @@
+import lumpy
+
+
+function program()
+	var m = new Map<String, String>()
+end
+
+class<DataKey, DataValue> Map
+	private var Values:MapEntry<DataKey, DataValue>[]
+	
+	public function new(size)
+		if size < 1 
+			size = 1
+		end
+		this.Values = new MapEntry<DataKey, DataValue>[size];
+	end
+	public function new()
+		this.new(1024)
+	end
+	
+	
+end
+
+class<DataKey, DataValue> MapEntry
+	private var _key:DataKey
+	private var _value:DataValue
+	public property Value
+		get
+			return this._value
+		end
+	end
+	public property Key
+		get
+			return this._Key
+		end
+	end
+	
+	public function getHashCode()
+		return 0
+	end
+	
+	public function new(_key: DataKey, _value:DataValue)
+		this._key = _key
+		this._value = _value
+	end
+end

@@ -1,0 +1,12 @@
+function blubb_class_update()
+local self%=self%
+print("Hallo Welt")
+self->other->new()
+print((self->other)->feld)
+endfunction
+function blubb_class_new()
+return()
+endfunction
+function othertype_class_new()
+return()
+endfunction

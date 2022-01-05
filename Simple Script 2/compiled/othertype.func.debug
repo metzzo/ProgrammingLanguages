@@ -1,0 +1,5 @@
+0: %1!%=0
+1: %1!%=mapcreate($1$)
+2: mapadd (35575464,%1%,othertype)
+3: mapadd (%1%,"feld",0)
+4: return (%1%)

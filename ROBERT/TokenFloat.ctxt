@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=val
+comment0.target=TokenFloat(float)
+comment1.target=String\ toString()
+comment2.target=int\ getId()
+comment3.target=float\ getVal()
+numComments=4

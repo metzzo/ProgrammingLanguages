@@ -1,0 +1,38 @@
+Type TList
+	Field StartLink:TLink
+	
+	Function Add:Void(Obj: Unknown)
+		Local L:TLink = New TLink
+		L.Value = Obj
+		L.Prev = This.StartLink
+		If This.StartLink <> Null Then This.StartLink.Succ = L
+		This.StartLink=L
+	EndFunction
+	
+	Field Status:TLink
+	Function StartIterate:Void()
+		This.Status=This.StartLink
+	EndFunction
+	Function EndIterate:Void()
+		This.Status=Null
+	EndFunction
+	Function HasNext:Int()
+		If This.Status == Null
+			Return False
+		EndIf
+		Return True
+		
+	EndFunction
+	Function Next:Unknown()
+		Local Ret:Unknown = This.Status.Value
+		This.Status = This.Status.Succ
+		Return Ret
+	EndFunction
+EndType
+
+
+Type TLink
+	Field Prev: TLink
+	Field Succ: TLink
+	Field Value: Unknown
+EndType

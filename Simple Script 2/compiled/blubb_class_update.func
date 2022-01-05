@@ -1,0 +1,4 @@
+local self%=self%
+print("Hallo Welt")
+self->other->new()
+print((self->other)->feld)

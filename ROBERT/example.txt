@@ -1,0 +1,134 @@
+/* Variablen
+Es gibt 3 Variablen Typen: int, float, string
+ */
+definition begin
+	var int i=10
+	var string text="Hallo Welt"
+	var float test=0.8
+end
+
+print(toString(i)+" int, "+toString(test)+" float, "+text+" string")
+
+/* Fallunterscheidung */
+if (1) begin
+
+end
+else if (2) 
+begin
+	print("hi")
+end
+else
+begin
+	print("bub")
+end
+
+select (10) 
+begin
+	case (5)
+		print(5)
+	case (7)
+		print(7)
+	default
+		print("default")
+end
+
+/* Der -> Operator erzeugt einen Scope und schließt ihn direkt nach dem erst aufgerufenen Befehl */
+if (1=1) -> print("Hallo Welt")
+
+/* Schleifen: */
+i=0
+while(i<10) begin
+	print("i: "+i)
+	i=i+1
+end
+i=0
+do 
+begin
+	print("i: "+i)
+	i=i+1
+	if (i==5) begin break end
+end 
+while(i<10)
+
+for(var int i=0 to 10 step 1) begin
+	print("i: "+i)
+end
+
+/* Function */
+func int meineFunction
+	var int param
+begin
+	if (param<10) begin 
+		print("Ende "+param)
+		return(param)
+	end else begin
+		print("blub: "+param)
+		return (meineFunction(param+1)) /* Rekursion */
+	end
+end
+
+meineFunction(-5)
+
+/* VERSION 2.0 */
+
+/* OOP */
+class kutsche begin
+	definition begin
+		var int person
+	end
+	func int getPerson begin return this.person end
+	
+	func void setPerson 
+	var int param 
+	begin 
+		this.person=param 
+	end
+
+end
+
+class auto extends kutsche begin
+	definition begin
+		var int x,y,z
+		var string name
+		var static float nichts
+	end
+	
+	func void new
+	begin
+		print("Konstruktor!")
+	end
+	func void delete
+	begin
+		print("Löschen!")
+	end
+	
+	func static void brumm
+	begin
+		print("BRUMMMM")
+	end
+end
+
+
+var auto audi=new auto()
+auto.brumm()
+auto.x=10
+auto.y=100
+auto.z=-20
+auto=null
+
+/* Array */
+int blub array of 10
+blub[0]=10
+blub[1]=1200
+
+for (var int i=0 to 10)
+begin
+	
+end
+
+/* Referenzen */
+var int test=100
+ref int blub=&test
+test=999
+print(blub) /* 999 */
+

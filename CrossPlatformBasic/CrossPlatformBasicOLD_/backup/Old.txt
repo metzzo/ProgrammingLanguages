@@ -1,0 +1,236 @@
+Rem
+	Method Expression:TRecursive() 
+		Local Rec:TRecursive=LowerGreater()
+		Local Node:TxmlNode
+		Local nodeleft:TxmlNode
+		Local Type1:TDatatype=TDatatype.VoidDatatype, Type2:TDatatype=TDatatype.VoidDatatype
+		Type1=Rec.GetDatatype()
+		nodeLeft=Rec.GetNode()
+		Local ReturnNode:TxmlNode
+		While GetCurrent()="and" Or GetCurrent()="or"
+			If ReturnNode
+				nodeleft=ReturnNode
+			EndIf
+			Local Mode:Byte
+			If GetCurrent()="and" Then mode=1
+			GetNext()
+			Local Rec:TRecursive=LowerGreater()
+			Local noderight:TxmlNode=Rec.GetNode()
+			Type2=Rec.GetDatatype()
+			If mode
+				node=Node.AddChild("and")
+			Else
+				node=Node.AddChild("or")
+			EndIf
+			Local lleft:TxmlNode=TxmlNode.NewNode("left")
+			Local rright:TxmlNode=TxmlNode.NewNode("right")
+			AddChild(lleft,Type1.CastNode(Type2,NodeLeft))
+			AddChild(rright, NodeRight)
+			
+			
+			AddChild(node, lleft)
+			AddChild(node,rright)
+			ReturnNode=Node
+		Wend
+		If node=Null
+			node=nodeleft
+		EndIf
+		Return New TRecursive.Create(node, Type1)
+	EndMethod
+	
+	Method LowerGreater:TRecursive() 
+		Local Rec:TRecursive=AddSub()
+		Local Node:TxmlNode
+		Local nodeleft:TxmlNode
+		Local Type1:TDatatype=TDatatype.VoidDatatype, Type2:TDatatype=TDatatype.VoidDatatype
+		Type1=Rec.GetDatatype()
+		nodeLeft=Rec.GetNode()
+		Local ReturnNode:TxmlNode
+		While GetCurrent()="<" Or GetCurrent()=">" Or GetCurrent()="==" Or GetCurrent()="<>" Or GetCurrent()="<=" Or GetCurrent()=">="
+			If ReturnNode
+				nodeleft=ReturnNode
+			EndIf
+			Local Mode:Byte
+			If GetCurrent()="<" Then mode=0
+			If GetCurrent()=">" Then mode=1
+			If GetCurrent()="<=" Then mode=2
+			If GetCurrent()=">=" Then mode=3
+			If GetCurrent()="==" Then mode=4
+			If GetCurrent()="<>" Then mode=5
+			GetNext()
+			Local Rec:TRecursive=AddSub()
+			Local noderight:TxmlNode=Rec.GetNode()
+			Type2=Rec.GetDatatype()
+
+			Select Mode
+				Case 0
+					node=TxmlNode.newNode("less")
+				Case 1
+					node=TxmlNode.newNode("greater")
+				Case 2
+					node=TxmlNode.newNode("lessequal")
+				Case 3
+					node=TxmlNode.newNode("greaterequal")
+				Case 4
+					node=TxmlNode.newNode("equal")
+				Case 5
+					node=TxmlNode.newNode("notequal")
+			EndSelect
+			Local lleft:TxmlNode=TxmlNode.NewNode("left")
+			Local rright:TxmlNode=TxmlNode.NewNode("right")
+			'Local castnode:TxmlNode
+			
+			'AddChild(lleft,castnode)
+			'AddChild(castnode,nodeleft)
+			AddChild(lleft,Type1.CastNode(Type2,NodeLeft))
+			AddChild(rright, NodeRight)
+			
+			
+			AddChild(node, lleft)
+			AddChild(node,rright)
+			ReturnNode=Node
+		Wend
+		If node=Null
+			node=nodeleft
+		EndIf
+		Return New TRecursive.Create(node, Type1)
+	EndMethod
+	Method AddSub:TRecursive() 
+		'DebugStop
+		Local Rec:TRecursive=MulDiv()
+		Local Node:TxmlNode
+		Local nodeleft:TxmlNode
+		Local Type1:TDatatype=TDatatype.VoidDatatype, Type2:TDatatype=TDatatype.VoidDatatype
+		Type1=Rec.GetDatatype()
+		nodeLeft=Rec.GetNode()
+		Local ReturnNode:TxmlNode
+		While GetCurrent()="+" Or GetCurrent()="-"
+			If ReturnNode
+				nodeleft=ReturnNode
+			EndIf
+			Local Mode:Byte
+			If GetCurrent()="+" Then mode=1
+			GetNext()
+			Local Rec:TRecursive=MulDiv()
+			Local noderight:TxmlNode=Rec.GetNode()
+			Type2=Rec.GetDatatype()
+			If mode
+				node=TxmlNode.newNode("add")
+			Else
+				node=TxmlNode.newNode("sub")
+			EndIf
+			Local lleft:TxmlNode=TxmlNode.NewNode("left")
+			Local rright:TxmlNode=TxmlNode.NewNode("right")
+			AddChild(lleft,Type1.CastNode(Type2,NodeLeft))
+			AddChild(rright, NodeRight)
+			If Type1.Name="string" Or Type2.Name="string" Then node.setName("stringadd")
+			
+			AddChild(node, lleft)
+			AddChild(node,rright)
+			ReturnNode=Node
+		Wend
+		If returnnode=Null
+			returnnode=nodeleft
+		EndIf
+		Return New TRecursive.Create(returnnode, Type1)
+	EndMethod
+	Method MulDiv:TRecursive() 
+		Local Rec:TRecursive=Factor()
+		Local Node:TxmlNode
+		Local nodeleft:TxmlNode
+		Local Type1:TDatatype=TDatatype.VoidDatatype, Type2:TDatatype=TDatatype.VoidDatatype
+		Type1=Rec.GetDatatype()
+		nodeLeft=Rec.GetNode()
+		Local ReturnNode:TxmlNode
+		While GetCurrent()="*" Or GetCurrent()="/"
+			If ReturnNode
+				nodeleft=ReturnNode
+			EndIf
+			Local Mode:Byte
+			If GetCurrent()="*" Then mode=1
+			GetNext()
+			Local Rec:TRecursive=Factor()
+			Local noderight:TxmlNode=Rec.GetNode()
+			Type2=Rec.GetDatatype()
+			If mode
+				node=TxmlNode.newNode("mul")
+			Else
+				node=TxmlNode.newNode("div")
+			EndIf
+			Local lleft:TxmlNode=TxmlNode.NewNode("left")
+			Local rright:TxmlNode=TxmlNode.NewNode("right")
+			Local castnode:TxmlNode
+			castnode=Type1.Cast(Type2)
+			AddChild(lleft,castnode)
+			AddChild(castnode,nodeleft)
+			AddChild(rright, NodeRight)
+			
+			AddChild(node, lleft)
+			AddChild(node,rright)
+			ReturnNode=Node
+		Wend
+		If node=Null
+			node=nodeleft
+		EndIf
+		Return New TRecursive.Create(node, Type1)
+	EndMethod
+	EndRem
+
+Rem
+			For Local Func:TIdentifierFunction=EachIn FunctionIdentifier
+				If Func.name=GetCurrent()
+					
+					Func.use()
+					'If Func.UserFunc Then DebugStop
+					If getnext()="(" Then getnext()
+					Local Node:TxmlNode=TxmlNode.newNode("call")
+					Node.AddAttribute("name",Func.Name)
+					Local MustBeOptional:Byte=False
+					For Local Par:TParameter=EachIn Func.ParamList
+						'DebugStop
+						If Par.Node=Null And Par.Pre<>"" And (GetCurrent()=")" Or GetCurrent()="," Or GetCurrent()=";") 
+							'DebugStop 
+							MustBeOptional=False
+							Local Compiler:Tcompiler=New TCompiler
+							Compiler.Tokenizer(Func.Datatype+"("+Par.Pre+")")
+							Compiler.Parser()
+							'End
+							Local PreNode:TxmlNode
+							For Local Node:TxmlNode=EachIn Compiler.XMLFile.GetRootElement().GetChildren()
+								If Node.GetName()="code"
+									For Local Node2:TxmlNode=EachIn Node.GetChildren()
+										If Node2.GetName()="line"
+											PreNode=TxmlNode(Node2.getFirstChild())
+										EndIf
+									Next
+									Exit
+								EndIf
+							Next
+							AddChild(Node.AddChild("param"),PreNode)
+						Else
+							If MustBeOptional Then Error("Expecting ','")
+							Local Rec:TRecursive=Expression()
+							Local Node2:TxmlNode
+							If Rec.Datatype<>Par.Datatype
+								Node2=TxmlNode.NewNode("cast")
+								Node2.AddAttribute("from",Rec.Datatype)
+								Node2.AddAttribute("to",Par.Datatype)
+								AddChild(Node2,Rec.Node)
+							Else
+								Node2=Rec.Node
+							EndIf
+							AddChild(Node.AddChild("param"),Node2)
+						EndIf
+						If Par<>Func.ParamList.Last()
+							If IsToken(",")
+								Match(",")
+							Else
+								MustBeOptional=True
+							EndIf
+						EndIf
+					Next
+					If CurrentToken=")" Then GetNext()
+					Return New TRecursive.Create(Node, Func.Datatype)
+				EndIf
+			Next
+			EndRem

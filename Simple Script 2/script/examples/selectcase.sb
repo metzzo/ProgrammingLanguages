@@ -1,0 +1,10 @@
+select (4==)
+case (1)
+print("HALLO 1")
+case (2)
+print("HALLO 2")
+case (3)
+print("HALLO 3")
+default
+print("DEFAULT!")
+endselect

@@ -1,0 +1,16 @@
+function program()
+	try ex
+		var test = new string[40]
+		loop var i = 0 to 39
+			test[i] = "str: "+string(i)
+		end
+		
+		var lol = test[2..-4]
+		loop var i = 0 to 30
+			print "Positiion: "+string(lol[i])
+		end
+	end
+	catch InvalidSliceOperationException
+		print "Invalid Slice Operation :ooooo"
+	end
+end

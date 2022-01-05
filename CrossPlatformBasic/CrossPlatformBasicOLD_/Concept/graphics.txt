@@ -1,0 +1,27 @@
+graphicsInit("Hallo Welt",640,480)
+
+
+Global PlayerY:Int = 480/2 - 128/2
+Global GegnerY:Int = 480/2 - 128/2
+
+Global Image:TImage = New TImage
+Image.Load("gfx/paddle.bmp")
+
+
+While AppTerminate()==0 And  Key(keyEscape())==0
+	DoPlayer()
+	DoGegner()
+	UpdateEvent
+	ShowScreen
+Wend
+
+Function DoPlayer:Void()
+	PlayerY = PlayerY + (Key(KeyUp()) - Key(KeyDown()))
+	Image.Draw MouseX(), PlayerY
+EndFunction
+Function DoGegner:Void()
+	Image.Draw 640-40,GegnerY
+EndFunction
+
+
+graphicsDeInit()

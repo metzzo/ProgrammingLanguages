@@ -1,0 +1,121 @@
+<CPB Version="1.0"> //Version 1
+	<global>
+		<defvar name="TEST" type="int">
+	</global>
+	<function name="PRINT" datatype="void" userfunc="0">
+		<param name="text" type="string>
+	</function>
+	<function name="BLUB" type="int" userfunc="1">
+		<param name="X" type="int">
+		<param name="Y" type="int">
+		<code>
+			<call name="PRINT">
+				<stringadd>
+					<left>
+						<stringadd>
+							<left><string value="X: "></left>
+							<right><var name="X"></right>
+						</stringadd>
+					</left>
+					<right>
+						<stringadd>
+							<left><string value="Y: "></left>
+							<right><var name="Y"></right>
+						</stringadd>
+					</right>
+				<stringadd>
+			</call>
+		</code>
+	</function>
+	<Code>
+		<local>
+			<defvar name="HALLO" type="int" />
+		</local>
+		<line number="1">
+			<set = "HALLO">
+			<add>
+				<left>
+					<mul>
+					<left><int value="5"></left>
+					<right><int value="10"></right>
+					</mul>
+				</left>
+				<right><int value="100"></right>
+			</add>
+			</set>
+		</line>
+		<line number="2">
+			<call name="PRINT">
+				<stringadd>
+					<left><string value="Text: "></left>
+					<right><var name="HALLO"></right>
+				</stringadd>
+			</call>
+		</line>
+		<line number="3">
+			<if>
+				<condition>
+					<cmp>
+						<left><var name="HALLO"></left>
+						<right><int value="10"></right>
+					</cmp>
+				</condition>
+				<line number="4">
+					<call name="PRINT">
+						<param><string value="Hallo ist gleich 10"></param>
+					</call>
+				</line>
+				<else>
+					<if>
+						<condition>
+							<cmp>
+								<left><var name="HALLO"></left>
+								<right><int value="20"></right>
+							</cmp>
+						</condition>
+						<line number="5">
+							<call name="PRINT">
+								<param><string value="Hallo ist gleich 20"></param>
+							</call>
+						</line>
+						<else>
+							<line numer="6">
+								<call name="PRINT">
+									<param><string value="Hallo ist nicht gleich 10"></param>
+								</call>
+							</line>
+						</else>
+					</if>
+				</else>
+			</if>
+		</line>	
+		<local>
+			<vardef name="I" type="int">
+		</local>
+		<line number="8">
+			<set name="I">
+				<int value="0">
+			</set>
+		</line>
+		<line number="8">
+			<for>
+				<line number="9">
+					<call name="PRINT">
+						<param>
+							<stringadd>
+								<left><string value="Hallo ist nicht gleich 10"></left>
+								<right><var name="I"></right>
+							</stringadd>
+						</param>
+					</call>
+				</line>
+			</for>
+		</line>
+		<line number="11">
+			<call name="BLUB">
+				<param><int value="100"></param>
+				<param><int value="200"></param>
+			</call>
+		</line>
+	</code>
+</CPB>

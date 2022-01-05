@@ -1,0 +1,103 @@
+import lumpy
+
+class object
+	public function toString:string()
+		print "object"
+	end
+end
+
+class tier < object
+	private var eintier = 20
+	private var blob = 20
+	
+	public function toString:string(lol:int)
+		return "Ich bin ein Tier "+String(this.eintier)+"  "+String(this.blob)
+	end
+	
+	public function new(l:int)
+		print "loL"
+	end
+	
+	public function new()
+		print "lol"
+	end
+end
+
+class hund < tier
+	public var statisch:void()
+	private var x:int,y = 100
+	private var xyz:int[][][]
+	private var test = new tier[4][4]
+	
+	private function privatMethode:void()
+		//privat
+	end
+	
+	public function methode:void()
+		this.x = 100
+		this.eintier = 99
+		this.privatMethode()
+		this.privatmethode()
+	end
+	
+	public function toString:string(param:int)
+		return super.toString() + " Ich bin ein Hund. "+string(param)
+	end
+	
+	public function new()
+		print "ich bin im konstruktor"
+		this.xyz = new int[4][4][4]
+		this.test = new tier[10][10]
+		this.test[2][3] = new tier()
+		print "Mehrdim Array: " + string(this.test[2][3].toString())
+	end
+	
+	public function new(hallo:int)
+		super.new(2)
+		
+		print "ich bin im anderen konstruktor "+string(hallo)
+	end
+end
+
+
+function program:void()
+	var lol = function:void(test:int, lol:float)
+		print "hallo welt"
+	end
+	lol = function:void(test:int,lol:float)
+		print "nein tschuess welt"
+	end
+
+	lol(10,30.5)
+
+
+
+	print "hello world"
+	var h
+	h = new hund()
+	h.statisch = function:void()
+		print "Ich bin eine statische sache"
+	end
+	h.statisch()
+	
+	//var tmp = hund(h)
+	//print(hund(tmp).toString(3))
+	//print(tmp.toString(4))
+	
+	var array = new int[20]
+	array[10] = 200
+	
+	print "Hallo: " + string(array[10])
+	
+	arrayTest( array )
+end
+
+function arrayTest:int[](par:int[])
+	print par[10]
+	return par
+end
+
+function getNew:Tier()
+	return new Tier()
+end
+

@@ -1,0 +1,136 @@
+Das Speicherungsformat des Compilers:
+Im Grunde genommen werden die Op Codes nach deren ID gespeichert und danah den parameter
+
+Das heißt auf:
+TBAsic.Print("Hallo Welt")
+
+Wird:
+registerclass TBasic
+	size 2 //2 speicher Felder
+	registerfunc print
+		par 
+		str "" //1. Parameter ist ein String
+
+		file //Das weist sozusagen
+		str "" // Es ist eine Interne Funktion
+		type null
+		index 1 //Der Index mit dem die Function angesprochen
+		static //Ob die Funktion statisch ist 
+	registerfunc null
+	registerfield
+		type int
+		index 2
+	registerfield null
+registerclass null
+startscope
+	push //Pusht den nächsten Wert
+	str "Hallo Welt" //Registriert ihn
+	pointer 0 //0 ist die Position von der statischen Klasse
+	callfrompointer 1
+	pop //löscht den letzten Eintrag
+endscope
+aus:
+If (1==2*4+1)
+{
+	local blubb:int=10
+	TBasic.Print(blubb)
+}
+ Wird:
+scope 12 //in 12 Opcodes endet dieser Scope wo der Scope beendet
+registerclass TBasic
+	registerfunc print
+		par 
+		str "" //1. Parameter ist ein String
+
+		file //Das weist sozusagen
+		str "" // Es ist eine Interne Funktion
+
+		index 1 //Der Index mit dem die Function angesprochen
+		static //Ob die Funktion statisch ist 
+	registerfunc null
+	registerfunc end
+		return null //Gibt nichts zurück
+
+		file
+		str "" // Es ist eine Interne Funktion
+		
+		index 2 //Der Index mit dem die Function angesprochen wird ist 2
+	registerfunc null
+registerclass null
+	jump 2 'Überspringt die nächsten 2 OpCodes
+	call 2
+	push
+	int 2 //pushe ein Ibjekt vom Typ Int
+	push
+	int 4
+	operator * // Multiplizioert die letzten 2 Stacks
+	push
+	int 1
+	operator + // addiert die letzten 2 Stacks
+	push
+	int 1
+	operator ==
+				
+	check 0
+	exit // wenn das letzte Element == 0 ist, geh aus dem Scope
+	
+	scope 12
+		hold 1 //Reserviert einen Speicher an 1. Stelle
+		push 
+		int 10
+		move 1// Variable mit dem Index 1 bekommt den Inhalt vom letzten stack
+		pop //der letzte stack wird gelöscht
+		push //Fügt dem Stack die Variable mit dem Index 1 hinzu
+		var 1 //Gibt den Inhalt von der Variable an Index 1
+		call 1 //Die FUnktion an Position 1 wird aufgerufen
+		pop //den letzten Stack löschen
+	endscope 23
+endscope //1 ist die Zeile wo der Scope anfängt
+
+
+
+
+
+
+Local klasse:Ttest=new(Ttest)
+klasse.blubb()
+
+type TTest
+{
+	method blubb:int()
+	{
+		TBasic.Print("Blubb")
+	}
+}
+
+Wird zu:
+definescope 12 //Definiert einen Scope an Position 12
+
+scope 12
+	registerclass TTest
+		registerfunction blubb
+			file
+			str "method.byte"
+			index 1
+			return int
+		registerfunction null
+		holdfield 2
+		classindex 1
+	registerclass null //Es darf keine Klasse mehr fpr diesen Scope zugewisen werden
+	
+	hold 4 //mit dem index 4 wird sie angesprochen (3 weil ja die Klasse  3 Indexe für sich beansprucht)
+	
+	push
+	createclass 1//Erzeugt eine Klasse mit dem Index von 1
+	move 1 //Bewge den inhalt vom obersten Stack Eintrag in den 1. Speicher
+	push
+	pointer 1 /Von dieser Position aus, funktionieren alle Aufrufe
+	call 1 //rufe ab der Position vom Pointer 1 Eintrag weiter in Reihenfolge eine Funktion
+	pointer 0 
+	pop
+	pop
+endscope
+
+Alls ebnutzten Stack Einträge werden gelöscht
+Alle Parameter auf dem Stack zu lassen
+ARGPUSH-Funktion , die legt auf den Stack einen Wert aus dem Stack (ARGPUSH32 3 <- legt z.B. den drittletzten Wert als Integer auf den Stack)

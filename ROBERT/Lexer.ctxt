@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=str
+comment0.target=Lexer(String)
+comment1.target=void\ initSyntax()
+comment2.target=Function[]\ getFunction()
+comment3.target=ArrayList<Token>\ tokenize()
+comment4.params=val
+comment4.target=boolean\ isInt(String)
+comment4.text=\n\u00DCberpr\u00FCft\ ob\ ein\ String\ ein\ Int\ ist\n\n
+comment5.params=val
+comment5.target=boolean\ isFloat(String)
+comment5.text=\n\u00DCberpr\u00FCft\ ob\ ein\ String\ ein\ Float\ ist\n\n
+numComments=6

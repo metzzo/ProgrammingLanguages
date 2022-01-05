@@ -1,0 +1,44 @@
+<compiler>
+	<lang name="C">
+		<platform name="windows">
+			<module path="graphic.cpb" />
+			<module path="io.cpb" />
+			<module path="datatstructure.cpb" />
+			<compiler command="%COMPILERDIR%/Language/C/windows/bin/gcc.exe -c -O3 -Wall %COMPILERDIR%/%FILENAME% " />
+			<linker command="%COMPILERDIR%/Language/C/windows/bin/gcc.exe -o
+			compileexe.exe
+			
+			-lmingw32
+			%COMPILERDIR%/%PLATFORMPATH%/SDL.dll 
+			-lSDLmain
+			
+			-mwindows
+			-lopengl32 
+			
+			CCode.o
+			%COMPILERDIR%/Language/C/windows/lib/libopengl32.a 
+			
+			%COMPILERDIR%/%PLATFORMPATH%/cpb_core.o 
+			%COMPILERDIR%/%PLATFORMPATH%/cpbgraphics.o" />
+		</platform>
+		<platform name="windowsconsole">
+			<compiler command="%COMPILERDIR%/Language/C/windows/bin/gcc.exe -c -O3 -Wall %COMPILERDIR%/%FILENAME% " />
+			<linker command="%COMPILERDIR%/Language/C/windows/bin/gcc.exe -o
+			compileexe.exe
+			%COMPILERDIR%/%PLATFORMPATH%/cpb_core.o 
+			CCode.o
+			
+			
+			" />
+		</platform>
+
+		<platform name="linux">
+			<compiler command="Language/C/linux/bin/gcc.exe -o %FILENAME%" />
+		</platform>
+		<platform name="macosx">
+			<compiler command="Language/C/macosx/bin/gcc.exe -o %FILENAME%" />
+		</platform>
+	</lang>
+	
+	<current language="C" platform="windows" />
+</compiler>

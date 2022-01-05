@@ -1,0 +1,142 @@
+import lumpy
+
+
+function program()
+	print "da"
+	var m = new Map<String, String>()
+	
+	m.put("frage1","antwort1")
+	m.put("frage2","antwort2")
+	m.put("frage3","antwort3")
+	
+	m.getvalue "frage1"
+	
+	
+end
+
+class<DataKey, DataValue> MapValueIterator	
+	private var myMap:map<DataKey, DataValue>
+	
+	public generator:DataValue()
+		print mymap.size
+		loop var i = 0 to myMap.size - 1
+			var entry = myMap.getIndex(i)
+			if entry != null
+				yield return entry.value
+			end
+		end
+		yield break
+	end
+	
+	public function new(map)
+		this.myMap = map
+	end
+end
+
+class<DataKey, DataValue> Map
+	private var entries:MapEntry<DataKey, DataValue>[]
+	private var _size = 0
+	public property size
+		get
+			return this._size
+		end
+	end
+	
+	public function new()
+		this._size = 128
+		this.entries = new MapEntry<DataKey, DataValue>[this._size]
+	end
+	
+	private function hash2ArrayPos(hash:int)
+		return hash mod this.size
+	end
+	
+	
+	private function bigger()
+		var oldSize = this.size
+		var oldEntries = this.entries
+		
+		_size = this.size * 2
+		this.entries = new MapEntry<DataKey, DataValue>[this.size]
+		loop var i = 0 to this.size - 1
+			if oldentries[i] != null
+				this.put(oldentries[i].key, oldentries[i].value)
+			end
+		end
+	end
+	
+	public function put(key:datakey, value:datavalue)
+		var entry = new mapentry<datakey, datavalue>(key, value)
+		var pos = this.hash2ArrayPos(key.hash())
+		
+		//schauen ob bereits besetzt
+		if this.entries[pos] == null
+			this.entries[pos] = entry
+		end
+		else
+			//neue position suchen (linear)
+			var i = 0
+			loop this.entries[pos] != null and i < 20
+				pos = (pos + 1) mod this.size
+				increment i
+			end
+			if i == 20
+				this.bigger
+				this.put(key, value)
+			end
+			else
+				this.entries[pos] = entry
+			end
+		end
+	end
+	
+	public function getValue(key:datakey)
+		var pos = this.hash2ArrayPos(key.hash())
+		var val = this.entries[pos] 
+		if val.key == key
+			return val.value
+		end
+		else
+			print "blub"
+			loop val.key != key
+				pos = (pos + 1) mod this.size
+				val = this.entries[pos]
+			end
+			return val.key
+		end
+	end
+	
+	public function getIndex(pos)
+		return this.entries[pos mod this.size]
+	end
+	
+	public function values()
+		return new MapValueIterator<DataKey, DataValue>(this)
+	end
+end
+
+class<DataKey, DataValue> MapEntry
+	private var _key:DataKey
+	private var _value:DataValue
+	public property Value
+		get
+			return this._value
+		end
+	end
+	public property Key
+		get
+			return this._Key
+		end
+	end
+	public property Hash
+		get
+			return _key.hash()
+		end
+	end
+	
+	
+	public function new(_key: DataKey, _value:DataValue)
+		this._key = _key
+		this._value = _value
+	end
+end

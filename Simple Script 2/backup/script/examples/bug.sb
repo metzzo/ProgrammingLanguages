@@ -1,0 +1,5 @@
+hallo(4,"hallo")
+
+function hallo(sa%,lol$)
+print (lol$)
+endfunction

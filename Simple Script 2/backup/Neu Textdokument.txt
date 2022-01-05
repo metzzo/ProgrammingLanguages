@@ -1,0 +1,298 @@
+Function add_typevar(typhndl,typ$,name$,wert$)
+	obj.obj=Object.obj(typhndl)
+	Select typ$
+		Case "INT"
+			obj\varintc=obj\varintc+1
+			obj\varint[obj\varintc]=wert
+			obj\varintn[obj\varintc]=name$+"%"
+		Case "FLOAT"
+			obj\varfloatc=obj\varfloatc+1
+			obj\varfloat[obj\varfloatc]=wert
+			obj\varfloatn[obj\varfloatc]=name$+"#"
+		Case "STRING"
+			obj\varstringc=obj\varstringc+1
+			obj\varstring[obj\varstringc]=wert
+			obj\varstringn[obj\varstringc]=name$+"$"
+	End Select
+End Function
+
+Function get_typeid(typethndl,typ$,name$,strict=1)
+	obj.tType=Object.obj(typehndl)
+	Select typ$
+		Case "INT"
+			For i=0 To obj\varintc
+				If obj\varintn[i]=name$ Then 
+					Return i
+				EndIf
+			Next
+		Case "FLOAT"
+			For i=0 To obj\varfloatc
+				If obj\varfloatn[i]=name$ Then 
+					Return i
+				EndIf
+			Next
+		Case "STRING"
+			For i=0 To obj\varintc
+				If obj\varstringn[i]=name$ Then 
+					Return i
+				EndIf
+			Next
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+
+Function get_typevar$(typehndl,typ$,name$,strict=1)
+	obj.tType=Object.obj(typehndl)
+	Select typ$
+		Case "INT"
+			For i=0 To obj\varintc
+				If obj\varintn[i]=name$ Then 
+					Return obj\varint[i]
+				EndIf
+			Next
+		Case "FLOAT"
+			For i=0 To obj\varfloatc
+				If obj\varfloatn[i]=name$ Then 
+					Return obj\varfloat[i]
+				EndIf
+			Next
+		Case "STRING"
+			For i=0 To obj\varintc
+				If obj\varstringn[i]=name$ Then 
+					Return obj\varstring[i]
+				EndIf
+			Next
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+Function get_typevarfast(typehndl,typ$,id,wert$,strict=1)
+	obj.tType=Object.obj(typehndl)
+	Select typ$
+		Case "INT"
+			obj\varint[id]=Int(wert)
+			Return 1
+		Case "FLOAT"
+			
+			obj\varfloat[id]=Float(wert)
+			Return 1
+			
+		Case "STRING"
+			
+			obj\varstring[id]=wert
+			Return 1
+			
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+
+Function set_objvarfast(typehndl,typ$,id,wert$,strict=1)
+	obj.tType=Object.obj(typehndl)
+	Select typ$
+		Case "INT"
+			obj\varint[id]=Int(wert)
+			Return 1
+		Case "FLOAT"
+			obj\varfloat[id]=Float(wert)
+			Return 1
+		Case "STRING"
+			obj\varstring[id]=wert
+			Return 1
+			
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+Function set_objvar(typehndl,typ$,name$,wert$,strict=1)
+Function create_object(typhndl)
+	obj.tType=Object.obj(typhndl)
+	obj.tobject=New tobject
+	obj\obj=typhndl
+	For i=1 To tType\methodc
+		obj\funcc=obj\funcc+1
+		obj\func[obj\funcc]=tType\method[i]
+	Next
+	Return Handle(obj)
+End Function
+
+
+
+Function add_typefunc(typhndl,name$
+	tType.Ttype=Object.Ttype(typhndl)
+	tType\methodc=tType\methodc+1
+	tType\method[tType\methodc]=name$
+	
+End Function
+
+Function add_typevar(typhndl,typ$,name$,wert$)
+	tType.Ttype=Object.Ttype(typhndl)
+	Select typ$
+		Case "INT"
+			tType\varintc=tType\varintc+1
+			tType\varint[tType\varintc]=wert
+			tType\varintn[tType\varintc]=name$+"%"
+		Case "FLOAT"
+			tType\varfloatc=tType\varfloatc+1
+			tType\varfloat[tType\varfloatc]=wert
+			tType\varfloatn[tType\varfloatc]=name$+"#"
+		Case "STRING"
+			tType\varstringc=tType\varstringc+1
+			tType\varstring[tType\varstringc]=wert
+			tType\varstringn[tType\varstringc]=name$+"$"
+	End Select
+End Function
+
+Function add_type(name$,pars=0)
+	tType.Ttype=New Ttype
+	tType\name=name$
+	tType\construct=add_func(name$,pars)
+	tType\destruct=add_func("-"+name$,0)
+	Return Handle(tType)
+End Function
+
+Function get_typeid(typethndl,typ$,name$,strict=1)
+	tType.Ttype=Object.Ttype(typehndl)
+	Select typ$
+		Case "INT"
+			For i=0 To tType\varintc
+				If tType\varintn[i]=name$ Then 
+					Return i
+				EndIf
+			Next
+		Case "FLOAT"
+			For i=0 To tType\varfloatc
+				If tType\varfloatn[i]=name$ Then 
+					Return i
+				EndIf
+			Next
+		Case "STRING"
+			For i=0 To tType\varintc
+				If tType\varstringn[i]=name$ Then 
+					Return i
+				EndIf
+			Next
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+
+Function get_typevar$(typehndl,typ$,name$,strict=1)
+	tType.Ttype=Object.Ttype(typehndl)
+	Select typ$
+		Case "INT"
+			For i=0 To tType\varintc
+				If tType\varintn[i]=name$ Then 
+					Return tType\varint[i]
+				EndIf
+			Next
+		Case "FLOAT"
+			For i=0 To tType\varfloatc
+				If tType\varfloatn[i]=name$ Then 
+					Return tType\varfloat[i]
+				EndIf
+			Next
+		Case "STRING"
+			For i=0 To tType\varintc
+				If tType\varstringn[i]=name$ Then 
+					Return tType\varstring[i]
+				EndIf
+			Next
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+Function get_typevarfast(typehndl,typ$,id,wert$,strict=1)
+	tType.Ttype=Object.Ttype(typehndl)
+	Select typ$
+		Case "INT"
+			tType\varint[id]=Int(wert)
+			Return 1
+		Case "FLOAT"
+			
+			tType\varfloat[id]=Float(wert)
+			Return 1
+			
+		Case "STRING"
+			
+			tType\varstring[id]=wert
+			Return 1
+			
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+
+Function set_typevarfast(typehndl,typ$,id,wert$,strict=1)
+	tType.Ttype=Object.Ttype(typehndl)
+	Select typ$
+		Case "INT"
+			tType\varint[id]=Int(wert)
+			Return 1
+		Case "FLOAT"
+			tType\varfloat[id]=Float(wert)
+			Return 1
+		Case "STRING"
+			tType\varstring[id]=wert
+			Return 1
+			
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function
+Function set_typevar(typehndl,typ$,name$,wert$,strict=1)
+	tType.Ttype=Object.Ttype(typehndl)
+	Select typ$
+		Case "INT"
+			For i=0 To tType\varintc
+				If tType\varintn[i]=name$ Then 
+					tType\varint[i]=Int(wert)
+					Return 1
+				EndIf
+			Next
+		Case "FLOAT"
+			For i=0 To tType\varfloatc
+				If tType\varfloatn[i]=name$ Then 
+					tType\varfloat[i]=Float(wert)
+					Return 1
+				EndIf
+			Next
+		Case "STRING"
+			For i=0 To tType\varintc
+				If tType\varstringn[i]=name$ Then 
+					tType\varstring[i]=wert
+					Return 1
+				EndIf
+			Next
+	End Select
+	If strict
+		RuntimeError "Variable nicht gefunden."
+	Else
+		Return 0
+	EndIf
+End Function

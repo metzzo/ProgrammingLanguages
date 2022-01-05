@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=vm
+comment0.target=Frame(VM)
+comment1.target=void\ use()
+comment2.params=count
+comment2.target=void\ moveSC(int)
+numComments=3

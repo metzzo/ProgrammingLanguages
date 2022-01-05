@@ -1,0 +1,7 @@
+(17:42:33) Max: coolo: Die Instanz ist ja nichts anderes als ein Pointer auf irgendwelche Daten
+(17:42:52) Max: Nehmen wir mal und du hast eine Klasse A und eine Klasse B die von A erbt
+(17:43:09) Max: Und du erzeugst eine Instanz vom Typ B
+(17:44:03) Max: Der Konstruktor allokiert nun einen Speicherbereich mit 4 Zellen, und zwar so: "TypA, DatenPointer, TypB, DatenPointer" und liefert die Addresse dieses Blocks + 2 zurück
+(17:44:26) Max: d.h. die Instanzvariable zeigt auf den Typen und eine Zelle weiter auf die eigentlichen Daten
+(17:44:30) Jo0oker: Portal ist ja mal echt geil >:O
+(17:45:00) Max: Wenn du jetzt castest: "dings = TypA(altes_dings)" ist das nichts anderes als eine Pointersubtraktion: "dings = altes_dings - 2"

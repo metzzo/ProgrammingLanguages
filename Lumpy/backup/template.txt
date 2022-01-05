@@ -1,0 +1,37 @@
+class<Datatype> Test
+	private var:Datatype lol
+	private var xd = 100
+	
+	public function get()
+		return lol
+	end
+	
+	public function set(v:datatype)
+		this.xd = 10
+		this.lol = v
+	end
+	
+	public function new()
+	end
+end
+
+class blub
+	public function abc()
+	end
+	
+	public function new()
+	end
+end
+
+
+class<datatype> list
+	private var head:node
+	
+	
+	public function new()
+	end
+	
+	public function add(v:datatype)
+		this.head = new node(this.head, value)
+	end
+end

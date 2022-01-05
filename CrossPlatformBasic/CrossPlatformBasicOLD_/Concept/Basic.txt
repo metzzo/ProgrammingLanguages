@@ -1,0 +1,21 @@
+Local Hallo:Int ;Es gibt Int(%),Float(#),String($),Nichts(int)
+Hallo=100+5*10
+Print "Text: "+Hallo
+
+If Hallo=10
+	Print "Hallo ist gleich 10"
+ElseIf Hallo=20
+	Print "Hallo ist gleich 20)
+Else
+	Print "Hallo ist nicht gleich 10"
+EndIf
+
+Local i
+For i=0 to 10
+	Print "Zahl: "+i
+Next
+Blub(100,200)
+
+Function Blub(X,Y)
+	Print "X: "+X+" Y: "+Y
+EndFunction

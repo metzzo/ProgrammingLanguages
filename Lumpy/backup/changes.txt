@@ -1,0 +1,16 @@
+Whoa!
+
+* constant variables via "const"
+* static class members (properties, attributes, generators, methods)
+* operator overloading
+* Auto array generattion
+* Array slicing
+* struct: to interact with C structs.
+* extension can now work with int/float/...
+* Identifier name checking.
+* this indexer
+* Every object inherits from class "object"
+* Defaultparameter
+* Call By Reference parameter
+* Automatic function templates.
+* a lot of bugs were also fixed

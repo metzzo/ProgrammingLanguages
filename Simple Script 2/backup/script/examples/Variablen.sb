@@ -1,0 +1,13 @@
+local int%=7
+local muh%=9
+local string$="Hallo"
+local float#=5.78
+muh%=9
+print(int%)
+int%=10
+print(int%)
+int%=5
+print(int%)
+print(muh%)
+print(string$)
+print(float#)

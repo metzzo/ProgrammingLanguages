@@ -1,0 +1,10 @@
+TBAsic.print("Hallo Welt")
+global meinefloat:Float=10.2
+if (meinefloat==10.2) //So kann man auch auf MeineFloat zugreifen
+{
+	local meineint:int=20 //Definiere eine Variable Namens meineint vom Typ in mit dem Wert 20
+	TBasic.print(meineint)
+
+}
+
+

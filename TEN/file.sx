@@ -1,0 +1,135 @@
+
+array = {[4 + 8] =300,[3] = 100, [8]=999}
+func.print(array[3])
+
+
+test = func()
+	func.print("ich")
+	return func()
+		func.print("bin da")
+		return func(param)
+			return param
+func.print("test: "+test()()(200))
+
+
+paramTest2 = func(p1, p2, p3)
+	func.print("param1: "+p1+(p2+p3))
+	return 100
+func.print("test: "+ paramTest2("wtf",10,10))
+
+func.tier = {
+	laut = func(count)
+		func.print("Tierlaut")
+}
+
+func.sabbern = {
+	sabber = func()
+		func.print("sabbbbber")
+}
+
+
+newHund = func()
+	return {
+		implements func.tier
+		implements func.sabbern
+		
+		x=0,y=0
+		
+		
+		laufe = func(x,y)
+			self.x = self.x + x
+			self.y = self.y + y
+			
+		zeichnePosition = func()
+			func.print("Position: "+self.x+", "+self.y)
+		
+		laut = func(count)
+			if count == null
+				count = 1
+			loop i=0,count,1
+				func.print("WUFF")
+	}
+
+	
+
+hund1 = newHund()
+hund1.sabber()
+hund1.laut()
+hund1.laufe(10,1)
+hund1.laufe(9,1)
+hund1.zeichnePosition()
+
+
+
+-- scoping
+scope = func()
+	hallo = 100
+	func.print("Lokales: "+hallo)
+scope()
+func.print("Globales(muss null sein): "+hallo)
+
+
+--parameter test
+testFunc = func(param,mehrereParameter)
+	func.print("Ja dies ist ein test "+param)
+	func.print(mehrereParameter)
+lol = func()
+	return 100
+func.print("lol: "+lol())
+
+testFunc("susi","lololo")
+
+
+--table test
+testTable = {
+	x = 100
+	y = 200
+	test = {
+		muh = "Hallo"
+	}
+	wtf hallo
+	test = func()
+		func.print("yey")
+	haha = 200
+}
+--variablen test
+func.print("Testable: "+testTable.x)
+testTable.test()
+func.print("verschachteltes "+testTable.test.muh)
+testTable.wtf = 200
+func.print("untypsiert: "+testTable.wtf)
+func.print("wtf")
+tmp = 250
+func.print("Hallo: " + tmp)
+tmp = 350
+func.print("Hallo: " + tmp)
+
+
+--schleifen
+i = 0
+loop 1
+	func.print("w " + i)
+	i = i + 1
+	if i == 10
+		break
+
+loop i = 0, 10, 1
+	func.print("in for: "+i)
+
+tmp = tmp * 2
+func.print("Hallo: " + tmp)
+
+func.print("hallo welt")
+
+func.print("i ist "+i)
+--if
+if i == i
+	func.print("yeah if 1")
+	
+	loop i=0,20,2
+		func.print("nein "+i)
+		
+else if 2
+	func.print("yeah if 2 ")
+else
+	func.print("yeah fuck you")

@@ -1,0 +1,60 @@
+<root>
+	<platform name="windows">
+		<driver name="gfx" use="dx.xml">
+		<driver name="sound" use="openal.xml">
+		<driver name="network" use="winnet.xml">
+		<driver name="input" use="directinput.xml">
+	</platform>
+	<platform name="linux">
+		<driver name="gfx" use="ogl.xml">
+		<driver name="sound" use="openal.xml">
+		<driver name="network" use="unknown.xml">
+		<driver name="input" use="unknown.xml">
+	</platform>
+	<platform name="macos">
+		<driver name="gfx" use="ogl.xml">
+		<driver name="sound" use="openal.xml">
+		<driver name="network" use="unknown.xml">
+		<driver name="input" use="unknown.xml">
+	</platform>
+	<generator name="C Generator">
+		<exe path="generator/cgenerator.exe">
+		<platforms>
+			<platform name="windows">
+			<platform name="linux">
+			<platform name="macos">
+			<platform name="pandora">
+			<platform name="nds">
+			<platform name="wii">
+			<platform name="wiz">
+			<platform name="psp">
+			<platform name="iphone">
+		</platforms>
+	</generator>
+	<generator name="BlitzMax(c) Generator">
+		<exe path="generator/bmxgenerator.exe">
+		<platforms>
+			<platform name="windows">
+			<platform name="linux">
+			<platform name="macos">
+		</platforms>
+	</generator>
+	<generator name="Java Generator">
+		<exe path="generator/javagenerator.exe">
+		<platforms>
+			<platform name="windows">
+			<platform name="linux">
+			<platform name="macos">
+			<platform name="mobilephone">
+			<platform name="android">
+		</platforms>
+	</generator>
+	<generator name="C# Generator">
+		<exe path="generator/csharpgenerator.exe">
+		<platforms>
+			<platform name="windows">
+			<platform name="xbox360">
+		</platforms>
+	</generator>
+	
+</root>

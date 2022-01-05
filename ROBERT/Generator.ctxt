@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=c\ token
+comment0.target=Generator(Compiler,\ ArrayList<Token>)
+comment1.target=String\ generate()
+comment2.target=void\ optimize()
+comment3.target=void\ proccessToken()
+comment4.params=txt
+comment4.target=void\ add(String)
+comment5.params=pos
+comment5.target=void\ pushBreak(int)
+comment6.target=int\ popBreak()
+comment7.target=int\ get()
+numComments=8

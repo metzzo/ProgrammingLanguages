@@ -1,0 +1,137 @@
+OptionalTest(10,40)
+STDOUT "Rekursiv: "+rekursiv(-2)
+
+LOCAL str$
+str$="Hallo Welt"
+STDOUT str$
+
+
+
+
+LOCAL Array[] //array 0 -- definiert ein array mit 0 dimensionen
+DIM Array[5]
+
+STDOUT "-----------start"
+
+funk(70,"Hallo",Array[]) //STDOUT "Aus Funktion: "+
+
+STDOUT "-----------end"
+
+
+
+Array[-1]=100
+DIMPUSH Array[], 29
+STDOUT "Arr: "+Array[-1]
+LOCAL Array2[]
+
+DIM Array2[10][55] //pushnum 10; pusharray 0; dim 0
+
+Array2[-1][5]=99
+STDOUT "Array: "+Array2[-1][5]
+
+GLOBAL gg=991
+
+STDOUT " Hallo "+5
+
+IF 5*9-99
+	STDOUT 1*4 + " Hallo Welt"
+ELSEIF TRUE
+	STDOUT "GAGA" 
+ELSEIF FALSE
+	STDOUT "DABA" 
+ELSE
+	STDOUT 73
+ENDIF
+
+IF TRUE
+	GLOBAL k=200
+	STDOUT "-- "+k
+	GOSUB sub1
+	
+ENDIF
+
+LOCAL i
+
+LOCAL j
+
+j=800
+STDOUT j
+
+i=100
+
+STDOUT "Variable var: "+i
+
+i=0
+WHILE i<5
+	STDOUT "i: "+i
+	STDOUT "j: "+j
+	j=j-1
+	i=i+1
+	GOSUB sub1
+WEND
+
+FOR i=0 TO 10 STEP 3
+	STDOUT "- "+gg
+	GOSUB sub1
+NEXT
+
+
+
+k=1
+SELECT k
+	CASE 5 TO 10
+		STDOUT "Case1"
+	CASE -1
+		STDOUT "Case2"
+	CASE k
+		STDOUT "Case3"
+	DEFAULT 
+		STDOUT "HHH"
+ENDSELECT
+
+
+SUB sub1: 
+	
+	LOCAL Hallo=10
+	STDOUT "In Sub1 "+Hallo+" "+gg
+	
+	GOSUB sub2
+	RETURN
+ENDSUB
+
+SUB sub2:
+	STDOUT "zzz"+gg
+	RETURN
+ENDSUB
+
+FUNCTION OptionalTest: Hallo, Bum=100, Text$="Hallo Welt"
+	STDOUT "Hallo: "+Hallo+" Bum: "+Bum+" -"+Text$
+ENDFUNCTION
+
+
+FUNCTION rekursiv: Pum
+	IF Pum>10
+		STDOUT "Aus "+Pum
+		RETURN Pum
+	ELSE
+		STDOUT "Rek: "+Pum
+		RETURN rekursiv(Pum+1)
+	ENDIF
+ENDFUNCTION
+
+FUNCTION funk: Param, Test$, Arr[]
+	Param=Param+5
+	STACKINFO
+	
+	STDOUT "In Funktion!! "+Param+ "    "+Test$+" -- "+Arr[0]
+	KEYWAIT
+	GOSUB sub1
+	RETURN 100
+ENDFUNCTION
+
+FUNCTION CallMe:
+	STDOUT "Jaaahaa ich werde gerufen"
+	RETURN 42
+ENDFUNCTION
+
+

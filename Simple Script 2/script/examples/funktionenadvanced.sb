@@ -1,0 +1,22 @@
+import("key")
+print("Muh")
+print (hallo(5,"hallo"))
+print("MAH")
+
+function hallo(say%,lol$)
+local sappa%=9999
+local i%=0
+print("hallo1")
+print("hallo2")
+print("hallo3")
+print (say%)
+print (lol$)
+print (sappa%)
+
+hallo2()
+return("Hallo")
+endfunction
+
+function hallo2()
+print("Hallo4")
+endfunction

@@ -1,0 +1,20 @@
+import lumpy
+
+function program()
+	new extend
+	
+end
+
+class base
+	
+	public function new()
+	end
+	
+	public function abstract blub()
+end
+
+class extend < base
+	public function blub()
+		print "jahaaa"
+	end
+end

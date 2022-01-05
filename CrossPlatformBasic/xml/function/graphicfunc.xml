@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<root>
+	<function name="graphicsInit" type="int" stringptr="1">
+		<param name="Title" type="string" />
+		<param name="Width" type="int" />
+		<param name="Height" type="int" />
+		<param name="Fullscreen" type="int" pre="0" />
+	</function>
+	<function name="graphicsDeInit" type="void">
+	</function>
+	<function name="loadImage" type="int" stringptr="1">
+		<param name="path" type="string" />
+	</function>
+	<function name="loadAnim" type="int" stringptr="1">
+		<param name="path" type="string" />
+		<param name="width" type="int" />
+		<param name="height" type="int" />
+	</function>
+	<function name="drawImage" type="void">
+		<param name="image" type="int" />
+		<param name="posx" type="int" />
+		<param name="posy" type="int" />
+		<param name="frame" type="int" pre="0" />
+	</function>
+	<function name="showScreen" type="void">
+	</function>
+	<function name="freeImage" type="void">
+		<param name="image" type="int" />
+	</function>
+	<function name="setTransparentColor" type="void">
+		<param name="Color" type="int" />
+	</function>
+	<function name="rgb" type="int">
+		<param name="r" type="int" />
+		<param name="g" type="int" />
+		<param name="b" type="int" />
+	</function>
+	<function name="rotate" type="void">
+		<param name="Rot" type="float" />
+	</function>
+	<function name="rotate" type="void">
+		<param name="Rot" type="float" />
+	</function>
+	<function name="alpha" type="void">
+		<param name="Alpha" type="float" />
+	</function>
+	<function name="scale" type="void">
+		<param name="ScaleX" type="float" />
+		<param name="ScaleY" type="float" />
+	</function>
+	
+	<function name="appTerminate" type="int">
+	</function>
+	<function name="updateEvent" type="void">
+	</function>
+	<function name="key" type="int">
+		<param name="keyCode" type="int" />
+	</function>
+	<function name="mouse" type="int">
+		<param name="mouseCode" type="int" />
+	</function>
+	<function name="mouseX" type="int">
+	</function>
+	<function name="mouseY" type="int">
+	</function>
+	
+	
+	<function name="keyEscape" type="int">
+	</function>
+	<function name="keyUp" type="int">
+	</function>
+	<function name="keyDown" type="int">
+	</function>
+	<function name="keyLeft" type="int">
+	</function>
+	<function name="keyRight" type="int">
+	</function>
+</root>

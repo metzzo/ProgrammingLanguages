@@ -1,0 +1,45 @@
+import lumpy
+
+class quadrat
+	public generator:int()
+		var i = 2
+		loop true
+			i = i * 2
+			
+			if i < 4000
+				yield return i
+			end else
+				yield break
+			end
+		end
+	end
+	
+	public function new()
+	end
+end
+
+function program()
+	var test = new quadrat()
+	test.start()
+	
+	select 3
+		case 5
+			print "select 5"
+		case 4
+			print "select 4"
+		case 3
+			print "select 3"
+		default
+			print "default"
+	end
+	
+	loop var j in test
+		print "in: "+string(j)
+	end
+	
+	
+	test.start
+	loop var i = 0 to 15
+		print test.invoke()
+	end
+end

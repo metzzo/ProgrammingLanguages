@@ -1,0 +1,67 @@
+Type Hallo
+	Field X:Int, Y:int
+	Field Anderes:AndereHallo
+EndType
+Type AnderesHallo
+	Field Tmp:Float
+EndType
+
+Local Blub:Hallo=New Hallo
+Blub.X=100
+Print Blub.X
+Blub.Anderes=New AndereHallo
+Blub.Anderes.Tmp=100
+
+XML:
+<... all der bla davor ...>
+<typedef name="Hallo">
+	<field name="X" type="int">
+	<field name="Y" type="int">
+</typedef>
+
+<local>
+	<vardef name="Blub" type="hallo">
+</local>
+<set name="__type__">
+	<type>
+		<var name="Blub">
+	</type>
+	<new type="hallo">
+</set>
+<set name="__type__">
+	<type>
+		<var name="Blub">
+		<next>
+		<member name="X" from="Hallo">
+	</type>
+	<new type="hallo">
+</set>
+<call name="print">
+	<param>
+		<type>
+			<var name="Blub">
+			<next>
+			<member name="X" from="Hallo">
+		</type>
+	<param>
+</call>
+
+<set name="__type__">
+	<type>
+		<var name="Blub">
+		<next>
+		<member name="Anderes" from="Hallo">
+	</type>
+	<new type="AndereHallo">
+</set>
+<set name="__type__">
+	<type>
+		<var name="Blub">
+		<next>
+		<member name="Anderes" from="Hallo">
+		<next>
+		<member name="Tmp" from="AnderesHallo">
+	</type>
+	<int value="100">
+</set>
+

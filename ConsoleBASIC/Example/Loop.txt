@@ -1,0 +1,28 @@
+//Zählschleife
+i:INT=0
+FOR i TO 10
+	PRINT i + ": Hallo"
+END
+
+///ForEach
+List:TLinkedList=NEW TLinkedList()
+List.Add("Hallo")
+List.Add("Welt")
+List.Add("!!111")
+
+Text:STRING=""
+FOR Text IN List
+	PRINT Text
+END
+
+//Kopfgesteuert
+i=0
+WHILE i<11
+	PRINT i
+END
+
+//Fußgesteuert
+i=0
+DO
+	PRINT i
+WHILE i<10

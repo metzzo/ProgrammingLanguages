@@ -1,0 +1,20 @@
+Dynamic VM - DVM
+
+DVM ist eine dynamische VM, welche in C geschrieben wurde, welche das Ziel hat möglichst schnell und möglichst effizient für dynamische zu sein.
+Die Sprache ist Registerbasiert und kann beliebig viele allokieren.
+
+
+
+register id -- registriert einen neuen register mit der gegebenen id
+
+movnumber 	id, number 	-- transfieriert das float "number" nach id
+movinteger 	id, integer -- transfieriert das integer "integer" nach id
+movstring 	id, string 	-- transfieriert das string "string" nach id
+movbool 	id, bool 	-- transfieriert das bool "bool" nach id
+movobj	 	id, obj 	-- transfieriert das obj "obj" nach id
+movfunction	id, func	-- transferiert  die funktion "funct" nach id
+
+
+mov 		from, to	--inhalt von from nach to
+set 		var, from 	--Variable "var" bekommt den Wert von Register "from"
+get			var,id		-- transferiert den inhalt der variable var nach register id
